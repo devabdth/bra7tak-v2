@@ -1,0 +1,484 @@
+@media screen and (max-width: 1024px) {
+  header {
+    height: 10vh;
+  }
+
+  #progress {
+    margin: 15vh 0;
+    position: relative;
+    width: 100%;
+    min-height: 15vh;
+    max-height: 25vh;
+    padding: 0 10%;
+  } 
+
+  #progress-bar {
+    width: 80%;
+    height: 2.5vh;
+    border-radius: 12px;
+    position: absolute;
+    left: 10%;
+    top:  40%;
+    background: linear-gradient(90deg, var(--main-color) 25%, var(--bg-color) 25%);
+    transition: 500ms ease;
+  }
+
+  #progress > #icons {
+    width: 80%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    display: flex;
+    position: absolute;
+    left: 10%;
+  }
+
+  .progress-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 50%;
+    padding: 4px 8px;
+    border: 2px var(--main-color) solid;
+    background-color: var(--bg-color);
+    transition: 500ms ease;
+  }
+
+  .active.progress-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 50%;
+    padding: 4px 8px;
+    border: 2px var(--main-color) solid;
+    background-color: var(--main-color);
+  }
+
+  .progress-icon > .icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    margin: 4px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    transition: 500ms ease;
+  }
+
+  .progress-icon > h6 {
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.45em;
+  }
+
+  .active.progress-icon > h6 {
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.45em;
+    color: var(--bg-color);
+  }
+
+    #personal-information-icon > .icon{
+      background-image: url(./icons/personal-information.png);
+    }
+    #shipping-information-icon > .icon{
+      background-image: url(./icons/shipping-information.png);
+    }
+    #payment-information-icon > .icon{
+      background-image: url(./icons/payment-information.png);
+    }
+    #complete-order-icon > .icon{
+      background-image: url(./icons/complete-order.png);
+    }
+
+    .active#personal-information-icon > .icon{
+      background-image: url(./icons/personal-information-white.png);
+    }
+    .active#shipping-information-icon > .icon{
+      background-image: url(./icons/shipping-information-white.png);
+    }
+    .active#payment-information-icon > .icon{
+      background-image: url(./icons/payment-information-white.png);
+    }
+    .active#complete-order-icon > .icon{
+      background-image: url(./icons/complete-order-white.png);
+    }
+
+
+    .cities-dropbtn, .genders-dropbtn {
+      background-color: var(--body-bg-color);
+      padding: 32px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0px 0px 30px 1px #999;
+      border-radius: 12px;
+      width:  100%;
+      height:  8vh;
+      justify-content: start;
+      align-items: center;
+      display: flex;
+      transition: 500ms ease;
+      margin: 4vh 0;
+    }
+
+
+  #city-search, #gender-search {
+      width:  100%;
+      height:  7vh;
+      display:  flex;
+      padding:  4px 8px;
+      outline: none;
+      border: none;
+      transition: 500ms ease;
+      font-size: 1.25em;
+      font-weight: 500;
+      font-family: 'Cairo';
+      color:  var(--main-color);
+      background-color: transparent;
+  }
+
+  .cities-dropdown, .genders-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .genders-dropdown-content, .cities-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--body-bg-color);
+    width: 95%;
+    min-height: 10vh;
+    max-height: 22.5vh;
+    overflow: auto;
+    border: 1px solid var(--main-color);
+    z-index: 1;
+    box-shadow: 0 0 30px 1px #999;
+    border-radius: 4px;
+  }
+  .genders-dropdown-content {
+    top: 80%;
+  }
+
+  .cities-dropdown-content {
+    bottom: 0%;
+  }
+
+  .genders-dropdown-content button, .cities-dropdown-content button {
+    color: var(--main-color);
+    font-weight: 300;
+    padding: 12px 16px;
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    align-items: center;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .genders-dropdown-content button:hover, .cities-dropdown-content button:hover {
+    background-color: var(--main-color-variant);
+  }
+
+  .show {
+    display: block;
+  }
+
+  .single-line-field {
+    width: 100%;
+  }
+
+  section.form-section {
+    margin-top: 10vh;
+    width: 100%;
+    min-height: 20vh;
+    max-height: 200vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    flex-direction: column;
+  }
+
+  section.form-section > h3 {
+    width: 100%;
+    height: 5vh;
+    font-size: 1.5em;
+    font-weight: 900;
+
+    text-align: start;
+  }
+
+  section#payment-information > #methods {
+    min-height: 10vh;
+    width: 100%;
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+  }
+
+  section#payment-information > #cart {
+    width: 100%;
+    min-height: 10vh;
+    max-height: 25vh;
+    display: flex;
+    background-color: var(--bg-color);
+    padding: 8px 16px;
+    border-radius: 15px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
+  }
+
+  section#payment-information > #cart > h4 {
+    font-size: 2em;
+    font-weight: 900;
+    color: var(--main-color);
+  }
+
+  section#payment-information > #cart > #specs {
+    width: 100%;
+    max-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 5vh;
+  }
+
+  section#payment-information > #cart > #specs > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  section#payment-information > #cart > #specs > div > p {
+    font-weight: 500;
+    font-size: 0.5em;
+  }
+  section#payment-information > #cart > #specs > div > p > span {
+    font-weight: 700;
+    font-size: 1em;
+  }
+
+  section#payment-information > #cart > #specs > div > .icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    margin: 0 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .icon#price {
+    background: url(./icons/price.png);
+  }
+
+  .icon#vat {
+    background: url(./icons/vat.png);
+  }
+
+  .icon#shipping {
+    background: url(./icons/shipping.png);
+  }
+
+  .pm-unsupported {
+    margin: 16px 0;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--secondary-color);
+  }
+
+  .pm-unsupported > span {
+    margin: 16px 0;
+    font-size: 1.25em;
+    font-weight: 500;
+    color: red;
+  }
+
+  .pm-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 8px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+
+  .pm-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 72px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 16px 0;
+    font-size: 1.25em;
+    font-weight: 500;
+    color: var(--secondary-color);
+  }
+
+  .pm-checkbox > .pm-icon {
+    width: 32px;
+    height: 32px;
+    margin: 0 8px;
+    position: absolute;
+    top: -4px;
+    left: 20px;
+  }
+
+  #pm-icon-0{
+    background-image: url(./icons/pms/0.png);
+  }
+
+  #pm-icon-1{
+    background-image: url(./icons/pms/1.png);
+  }
+
+  #pm-icon-2{
+    background-image: url(./icons/pms/2.png);
+  }
+
+  #pm-icon-3{
+    background-image: url(./icons/pms/3.png);
+  }
+
+  #pm-icon-4{
+    background-image: url(./icons/pms/4.png);
+  }
+
+  #pm-icon-0{
+    background-image: url(./icons/pms/0.png);
+  }
+
+  /* Hide the browser's default checkbox */
+  .pm-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: var(--bg-color);
+    border: 1px var(--main-color) solid;
+    border-radius: 2px;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .pm-checkbox:hover input ~ .checkmark {
+    background-color: #999;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .pm-checkbox input:checked ~ .checkmark {
+    background-color: var(--main-color);
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .pm-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .pm-checkbox .checkmark:after {
+    left: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  #methods {
+    width: 100%;
+    min-height: 20vh;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 2.5vh;
+    display: flex;
+    flex-direction: column;
+    margin: 5vh 0;
+  }
+
+  #methods > div{
+    width: 100%;
+    background-color: var(--bg-color);
+    transition: 500ms ease;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    display: flex;
+    padding: 0 8px;
+  }
+
+  #methods > div:hover {
+    transform: scale(1.05);
+  }
+
+  #complete-order > #icon {
+    width: 15vh;
+    height: 15vh;
+    display: flex;
+    margin: 5vh 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(./icons/completed.png);
+  }
+
+  #complete-order > p {
+    font-weight: 800;
+    font-size: 0.75em;
+    color: var(--main-color);
+    padding: 0 16px;
+    text-align-last: center;
+  }
+
+  #complete-order > a {
+    margin: 5vh 0;
+  }
+
+  
+  footer {
+    margin-top: 5vh;
+  }
+
+}
+

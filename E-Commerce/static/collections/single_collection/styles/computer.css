@@ -1,0 +1,77 @@
+@media screen and (min-width: 1024px) {
+  div#msg {
+    width: 100%;
+    height: 5vh;
+    position: fixed;
+    top: 10vh;
+    background-color: var(--body-bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 0 10%;
+    z-index: 100;
+    color: var(--main-color);
+    font-weight: 500;
+    font-size: 1em;
+  }
+
+  div#msg > button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  section#entry {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  section#entry > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.75) 20%,
+      transparent 100%
+    );
+    padding-left: 10%;
+    padding-right: 50%;
+  }
+
+  section#entry > div > h2 {
+    color: var(--bg-color);
+    font-weight: 800;
+    font-size: 4em;
+  }
+
+  section#entry > div > p {
+    color: var(--bg-color);
+    font-weight: 400;
+    font-size: 0.75em;
+    opacity: 0.75;
+  }
+
+  section#products {
+    width: 100%;
+    min-height: 100vh;
+    max-height: 10000vh;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 5vh 10%;
+    align-items: center;
+    justify-content: center;
+    grid-row-gap: 5vh;
+  }
+
+}

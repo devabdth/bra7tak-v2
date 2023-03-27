@@ -1,0 +1,235 @@
+@media screen and (min-width: 1024px) {
+
+  section#products {
+    margin-top: 20vh;;
+    margin-bottom: 10vh;
+    width: 100%;
+    min-height: 100vh;
+    max-height: 30000vh;
+    display: flex;
+    padding: 0 10%;
+    align-items: start;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  section#products > #side-panel {
+    width: 25%;
+    max-height: 1500vh;
+    min-height: 50vh;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background-color: var(--bg-color);
+  }
+
+  .category-card {
+    width: 100%;
+    height: 10vh;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    background-color: var(--body-bg-color);
+    border-radius: 12px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .category-icon {
+    min-height: 48px;
+    max-height: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    margin-right: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .category-card > h3 {
+    font-weight: 800;
+    font-size: 1em;
+    color: var(--secondary-color);
+  }
+
+  .category-card > h3 > span {
+    font-weight: 300;
+    font-size: 0.75em;
+    color: var(--secondary-color);
+  }
+
+  section#products > #side-panel > h3 {
+    font-weight: 800;
+    font-size: 1.5em;
+    color: var(--main-color);
+  }
+
+  section#products > #side-panel > h4 {
+    font-weight: 500;
+    font-size: 1em;
+    color: var(--secondary-color);
+  }
+
+  section#products > #side-panel > p {
+    font-size: 0.75em;
+    font-weight: 300;
+    color: var(--secondary-color);
+    opacity: 0.75;
+    margin: 8px 0;
+  }
+
+  section#products > #side-panel > .divider {
+    height: 2.5vh;
+  }
+
+  .subcat-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default checkbox */
+  .subcat-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: var(--bg-color);
+    border: 1px var(--main-color) solid;
+    border-radius: 2px;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .subcat-checkbox:hover input ~ .checkmark {
+    background-color: #999;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .subcat-checkbox input:checked ~ .checkmark {
+    background-color: var(--main-color);
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .subcat-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .subcat-checkbox .checkmark:after {
+    left: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  section#products > #side-panel > #search-container {
+    width: 100%;
+    height: 6vh;
+    display: flex;
+    border-radius: 12px;
+    background-color: var(--body-bg-color);
+    padding: 8px 16px;
+  }
+
+  section#products > #side-panel > #search-container > input {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    font-weight: 500;
+    font-size: 0.85em;
+    background-color: transparent;
+    color: var(--secondary-color);
+  }
+
+  section#products > #side-panel > #price {
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  section#products > #side-panel > #price > input {
+    width: 40%;
+    height: 100%;
+    border: none;
+    background-color: var(--body-bg-color);
+    font-family: "Poppins";
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 12px;
+    padding: 8px 16px;
+  }
+
+  section#products > #side-panel > #price > input:active,
+  section#products > #side-panel > #price > input:focus-within,
+  section#products > #side-panel > #price > input:focus-visible,
+  section#products > #side-panel > #price > input:focus {
+    border: none;
+    outline: none;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  section#products > #side-panel > #price > input::-webkit-outer-spin-button,
+  section#products > #side-panel > #price > input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  section#products > #side-panel > #price > input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  section#products > #side-panel > #options {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+  }
+
+  
+  section#products > #products {
+    width: 70%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-row-gap: 5vh;
+  }
+
+}

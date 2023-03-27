@@ -1,0 +1,31 @@
+@media screen and (min-width:  1024px) {
+	#entry {
+		margin-top: 10vh;
+		height: 80vh;
+		width: 100%;
+		padding: 5% 10%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	#entry > #icon {
+		width: 50%;
+		height: 50%;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		background-image: url(./icons/icon.png);
+		margin: 5vh 0;
+	}
+
+
+	#entry > h3 {
+		text-align: center;
+		font-size: 1.5em;
+		font-weight: 500;
+		color: var(--main-color);
+		padding: 0 30%;
+	}
+}
