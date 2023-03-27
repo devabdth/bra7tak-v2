@@ -1,0 +1,150 @@
+@media screen and (min-width: 1024px) {
+  #users {
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 20vh;;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    padding: 16px 5%;
+    flex-direction: column;
+  }
+
+  #users > #header {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+  }
+
+  #users > #header > h3 {
+    font-weight: 800;
+    font-family: "Raleway";
+    font-size: 2em;
+    color: var(--main-color);
+  }
+
+  #search-options {
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5vw;
+  }
+
+  #options > * {
+    cursor: pointer;
+  }
+
+  #options {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: row;
+  }
+
+  #header > #options {
+    z-index: 2;
+  }
+
+  #options > * {
+    font-family: "Raleway";
+  }
+
+  #users-section-content {
+    width: 100%;
+    min-height: 50vh;
+    display: flex;
+  }
+
+  table#users {
+    display: table;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+	min-height: 8vh;
+  }
+
+  table#users th {
+    background-color: var(--main-color);
+    color: var(--body-bg-color);
+    font-weight: 900;
+    font-family: "Raleway";
+    text-align: start;
+    padding: 8px 16px;
+	max-height: 4vh;
+}
+
+table#users td {
+	color: var(--secondary-color);
+    font-weight: 500;
+    font-family: "Raleway";
+    text-align: start;
+    padding: 4px 8px;
+	max-height: 4vh;
+  }
+
+  .orders tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .orders tr:hover {
+    background-color: #ddd;
+  }
+
+  #overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  #delete-dialog {
+    width: 40%;
+    height: 40%;
+    background-color: var(--body-bg-color);
+    display: none;
+    align-items: start;
+    justify-content: space-between;
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    z-index: 1001;
+    flex-direction: column;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-family: "Raleway";
+  }
+
+  #delete-dialog > #header {
+    font-family: "Raleway";
+    font-size: 1em;
+    font-weight: 300;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+  }
+
+  #delete-dialog > #header > div {
+    cursor: pointer;
+  }
+
+  #delete-dialog-status-msg {
+    font-weight: 500;
+    font-family: "Raleway";
+    font-size: 1em;
+    margin-left: 8px;
+  }
+}

@@ -1,0 +1,38 @@
+@media screen and (min-width: 1024px) {
+	section {
+		width: 100%;
+		height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	section > #form {
+		width: 30vw;
+		height: 60vh;
+		box-shadow: 0 0 30px 1px #555;
+		border-radius: 12px;
+		background-color: var(--body-bg-color);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: column;
+		padding: 8vh 16px;
+		font-family: 'Raleway';
+	}
+	#form h3 {
+		font-weight: 900;
+		font-size: 1.5em;
+		color: var(--main-color);
+	}
+
+	#form .field-container {
+		min-height: 8vh;
+	}
+
+	#status {
+		font-weight: 700;
+		font-size: 0.75em;
+		color: red;
+	}
+}

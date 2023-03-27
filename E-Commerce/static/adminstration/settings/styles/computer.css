@@ -1,0 +1,241 @@
+@media screen and (min-width: 1024px) {
+	#admin-details {
+		width: 90%;
+		min-height: 30vh;
+		margin-left: 5%;
+		margin-top: 20vh;;
+		border-radius: 12px;
+		background-color: var(--bg-color);
+		display: flex;
+		padding: 8px 16px;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	#admin-information {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		justify-content: start;
+		font-family: 'Raleway';
+	}
+
+	#admin-information > h3 {
+		font-size: 2em;
+		font-weight: 900;
+		color: var(--main-color);
+	}
+
+	#admin-information .admin-data-row {
+		display: flex;
+		align-items: start;
+		justify-content: start;
+		flex-direction: row;
+		width: 50%;
+		margin: 16px 0;
+	}
+
+	.admin-data-row label {
+		font-weight: 800;
+		color: var(--main-color);
+	}
+
+	#admin-information .divider {
+		width: 50%;
+		height: 1px;
+		background: linear-gradient(90deg, transparent 30%, #111 70%, transparent 100%);
+	}
+
+	section#admins {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		padding: 16px 5%;
+		margin-top: 5vh;
+	}
+
+	section#admins #header, div#delete-admin-dialog #header, div#create-admin-dialog #header {
+		width: 100%;
+		height: 8vh;
+		margin-bottom: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
+	}
+
+	section#admins h3 {
+		font-weight: 700;
+		font-family: 'Raleway';
+		font-size: 2em;
+		color: var(--main-color);
+	}
+
+
+	table#admins {
+		width: 100%;
+		display: table;
+		align-items: center;
+		justify-content: center;
+	}
+
+	table#admins th{
+		background-color: var(--main-color);
+		color: var(--body-bg-color);
+		font-weight: 900;
+		font-family: 'Raleway';
+		text-align: start;
+		padding: 8px 16px;
+	}
+
+	table#admins td  {
+		color: var(--secondary-color);
+		font-weight: 500;
+		font-family: 'Raleway';
+		text-align: start;
+		padding: 4px 8px;
+	}
+
+	#admins tr:nth-child(even){background-color: #f2f2f2;}
+
+	#admins tr:hover {background-color: #ddd;}
+
+	#overlay {
+		width: 100%;
+		height: 100%;
+		display: none;
+		align-items: center;
+		justify-content: center;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+
+	#delete-admin-dialog {
+		width: 40%;
+		height: 40%;
+		display: none;
+		border-radius: 12px;
+		background-color: var(--body-bg-color);
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: space-between;
+		position: fixed;
+		top: 30%;
+		left: 30%;
+		z-index: 1001;
+		padding: 8px 16px;
+		font-family: 'Raleway';
+	}
+
+
+  .access-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default checkbox */
+  .access-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: var(--bg-color);
+    border: 1px var(--main-color) solid;
+    border-radius: 2px;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .access-checkbox:hover input ~ .checkmark {
+    background-color: #999;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .access-checkbox input:checked ~ .checkmark {
+    background-color: var(--main-color);
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .access-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .access-checkbox .checkmark:after {
+    left: 4px;
+    width: 3px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  #create-admin-dialog {
+  	width: 80%;
+  	height: 80%;
+  	display: none;
+  	align-items: center;
+  	justify-content: center;
+  	flex-direction: column;
+  	position: fixed;
+  	top: 10%;
+  	left: 10%;
+  	z-index: 1001;
+  	background-color: var(--body-bg-color);
+  	padding: 8px 16px;
+  	border-radius: 12px;
+  	font-family: 'Raleway';
+  }
+
+  #create-admin-dialog #content {
+  	width: 100%;
+  	height: 100%;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: start;
+  	justify-content: start;
+  }
+
+  #create-admin-dialog #accesses {
+  	display: grid;
+  	align-items: center;
+  	justify-content: center;
+  	grid-template-columns: repeat(4, 1fr);
+  }
+
+}
