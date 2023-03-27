@@ -1,0 +1,16 @@
+*.pem
+venv
+*/venv
+.env
+.flaskenv
+*/flask_session
+*/.env
+__pycache__
+*/*.pyc
+E-Commerce/*/__pycache__
+E-Commerce/jsons/*
+E-Commerce/routers/assets/products
+E-Commerce/routers/assets/categories
+E-Commerce/routers/assets/collections
+E-Commerce/routers/assets/banners
+E-Commerce/routers/assets/invoices
