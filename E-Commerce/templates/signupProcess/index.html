@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{content.global_[lang]['name']}} - {{content.global_[lang]['completeProfile']}}</title>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='global/styles/smallDevices.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='signupProcess/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='signupProcess/styles/smallDevices.css')}}"
+    />
+    <script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+    <script src="{{url_for('static', filename='signupProcess/scripts/main.js')}}"></script>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='./global/styles/images/logo-accent.ico')}}"
+    />
+    <meta name="description" content="{{header_desc}}" />
+    <meta name="keywords" content="{{keywords}}" />
+  </head>
+  <body>
+    <header style="justify-content: space-between;">
+    <a href='/' id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+    <nav style="width: 24px">
+      <div id="header-user-nav-item">
+      <button onclick="toggleLang('{{lang}}');" id="lang-button">
+        {% if lang == 'en' %}
+          <p style='font-family: "Cairo";'>العربية</p>
+        {% else %}
+          <p style='font-family: "Raleway";'>en</p>
+        {% endif %}
+      </button>
+    </nav>
+  </header>
+    <div style="height: 15vh; display: flex;"></div>
+    <section id="confirm-email">
+      <div id ="form">
+            <h3 style="font-family: '{{primary_font_family}}">{{content.auth[lang]["confirmEmail"]}}</h3>
+            <p style="font-family: '{{primary_font_family}}">{{content.auth[lang]["confirmEmailMsg"]}}</p>
+            <button id="change-email" onclick="changeEmail({{content.toast_content}}, '{{lang}}');" style="font-family: '{{primary_font_family}}';">{{content.auth[lang]["changeEmail"]}} ({{email}})</button>
+          <div id="inputs" dir="ltr">
+            <input name='code' id="digit-one" class='code-input'/>
+            <input name='code' id="digit-two" class='code-input'/>
+            <input name='code' id="digit-three" class='code-input'/>
+            <input name='code' id="digit-four" class='code-input'/>
+          </div>
+          <button style="font-family: '{{primary_font_family}}';" onclick="StageOneSubmit({{content.toast_content}}, '{{lang}}');" class="main-button">{{content.actions[lang]["submit"]}}</button>
+          <button id="send-code-again" onclick="sendCodeAgain({{content.toast_content}}, '{{lang}}');" style="font-family: '{{primary_font_family}}';">{{content.auth[lang]["sendCodeAgain"]}}</button>
+      </div>
+    </section>
+    <section id="complete-profile">
+      <input type="name" name="Name" placeholder="{{content.global_[lang]['userName']}}" id="name" class="single-line-field">
+      <input type="tel" name="Phone" placeholder="{{content.global_[lang]['phoneNumber']}}" id="phone" class="single-line-field">
+      <input type="address" name="Address" placeholder="{{content.global_[lang]['addressOne']}}" id="addressOne" class="single-line-field">
+      <input type="address" name="Address" placeholder="{{content.global_[lang]['addressTwo']}}" id="addressTwo" class="single-line-field">
+      <input type="date" name="Address" placeholder="{{content.global_[lang]['bithDate']}}" max="2004-12-31" min="1979-01-01" id="birth" class="single-line-field">
+      <button onclick="toggleCitiesDropdown()" id="cities-dropbtn" class="cities-dropbtn">{{content.actions[lang]["pickCity"]}}</button>
+      <div id="cities-dropdown" class="cities-dropdown-content">
+        <input type="text" placeholder="{{content.global_[lang]['search']}}..." id="city-search" onkeyup="filter()">
+        {% for city in content.cities[lang].keys() %}
+          <button style="font-family: '{{primary_font_family}}';" onclick="chooseCity('{{content.cities[lang][city]}}', '{{city}}', '{{lang}}');">{{content.cities[lang][city]}}</button>
+        {% endfor %}
+      </div>
+      <button onclick="toggleGendersDropdown()" id="genders-dropbtn" class="genders-dropbtn">{{content.actions[lang]["pickGender"]}}</button>
+      <div id="genders-dropdown" class="genders-dropdown-content">
+        <input type="text" placeholder="{{content.global_[lang]['search']}}..." id="gender-search" onkeyup="gendersFilter()">
+        {% for gender in content.genders[lang].keys() %}
+          <button style="font-family: '{{primary_font_family}}';" onclick="chooseGender('{{content.genders[lang][gender]}}', '{{gender}}', '{{lang}}');">{{content.genders[lang][gender]}}</button>
+        {% endfor %}
+      </div>
+      <button class="main-button" style="font-family: '{{primary_font_family}}';" onclick="compleProfileSubmit({{content.toast_content}}, '{{lang}}', '{{cfg.base_url}}', '{{email}}');">{{content.actions[lang]["submit"]}}</button>
+    </section>
+
+    <div id="toast">
+      <p id="toast-text">This is a Toast</p>
+    </div>
+
+  <footer>
+    <div id="content">
+      <div id="meta-info">
+        <div id="logo"></div>
+        <h1 style="font-family: '{{primary_font_family}}'">{{content.global_[lang]['name']}}</h1>
+        <p style="font-family: '{{primary_font_family}}'">{{content.global_[lang]["bio"]}}</p>
+        <div id="links">
+          {% if cfg.facebook %}
+            <a href="{{cfg.facebook}}" id="footer-facebook-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.instagram %}
+            <a href="{{cfg.instagram}}" id="footer-instagram-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.twitter %}
+            <a href="{{cfg.twitter}}" id="footer-twitter-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.tiktok %}
+            <a href="{{cfg.tiktok}}" id="footer-tiktok-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.linkedin %}
+            <a href="{{cfg.linkedin}}" id="footer-linkedin-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          
+        </div>
+      </div>
+      <div id="tabs">
+        <div class="tabs-column">
+          {% for cat in database.categories.all_categories[:9] %}
+            <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+          {% endfor %}
+        </div>
+        <div class="tabs-column">
+          {% for cat in database.categories.all_categories[10:19] %}
+            <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div id="copyright" style="font-family: '{{primary_font_family}}'">lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r</div>
+  </footer>
+
+  </body>
+</html>
+
+
+        
+        

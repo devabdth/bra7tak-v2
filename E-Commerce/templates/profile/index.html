@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{content.global_[lang]['name']}} - {{content.tabs[lang]['account']}}</title>
+	<meta name="description" content="{{cfg.meta_description}}">
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='global/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='global/styles/smallDevices.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='profile/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='profile/styles/smallDevices.css')}}">
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+
+	<script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+</head>
+<body>
+    <header>
+        <div id="title">
+          <div id="drawer-icon"></div>
+              
+          <a
+            href="/"
+            id="header-title"
+            style="font-family: '{{primary_font_family}}';"
+            >{{content.global_[lang]['name']}}</a
+          >
+        </div>
+      <div id="header-search-container">
+        <input
+          type="name"
+          name="search"
+          id="header-search"
+          placeholder="{{content.global_[lang]['searchHint']}}"
+        />
+      </div>
+      <nav>
+        <a href="{{cfg.base_url}}/favourites/" id="header-favourites-nav-item">
+          <div id="header-favourites-icon" class="header-nav-icon"></div>
+          <div id="header-favourites-badge">
+            {% if user_data %}
+              {{len(user_data.favourites)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="header-cart-nav-item">
+          <div id="header-cart-icon" class="header-nav-icon"></div>
+          <div id="header-cart-badge">
+            {% if user_data %}
+              {{len(user_data.cart)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+      </nav>
+    </header>
+  <section id="entry">
+    <div id="user-badge">
+      <div id="user-icon">
+        <div></div>
+      </div>
+    </div>
+    <div id="user-data">
+      <div class="user-data-row">
+        <p class="user-data-row-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['userId']}}:</p>
+        <p class="user-data-row-value" style="font-family: '{{primary_font_family}}';">{{user_data.id}}</p>
+      </div>
+      <div class="user-data-row-divider"></div>
+      <div class="user-data-row">
+        <p class="user-data-row-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['userName']}}:</p>
+        <p class="user-data-row-value" style="font-family: '{{primary_font_family}}';">{{user_data.name}}</p>
+      </div>
+      <div class="user-data-row-divider"></div>
+      <div class="user-data-row">
+        <p class="user-data-row-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['joinedIn']}}:</p>
+        <p class="user-data-row-value" style="font-family: 'Poppins';">{{utils.format_date(user_data.joined_in)}}</p>
+      </div>
+      <div class="user-data-row-divider"></div>
+      <div class="user-data-row">
+        <p class="user-data-row-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['address']}}:</p>
+        <p class="user-data-row-value" style="font-family: '{{primary_font_family}}';">{{user_data.address}}</p>
+      </div>
+      <div class="user-data-row-divider"></div>
+      <div class="user-data-row">
+        <p class="user-data-row-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['city']}}:</p>
+        <p class="user-data-row-value" style="font-family: '{{primary_font_family}}';">{{content.get_city_name_by_id(user_data.city_code, lang)}}</p>
+      </div>
+      <div class="user-data-row-divider"></div>
+      <div class="user-data-row">
+        <p class="user-data-row-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['gender']}}:</p>
+        <p class="user-data-row-value" style="font-family: '{{primary_font_family}}';">{{content.get_gender_by_id(user_data.gender, lang)}}</p>
+      </div>
+      <div id="options">
+        <button class="shadow-button" style="font-family: '{{primary_font_family}}'; color: red" onclick="window.open('{{cfg.base_url}}/users/logout/', '_self');">{{content.actions[lang]['logout']}}</button>
+      </div>
+    </div>
+  </section>
+
+  {% if len(orders) == 0 %}
+  <section id="empty">
+    <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['userHasNoOrders']}}</h3>
+    <a href="{{cfg.base_url}}/search/" style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['getStarted']}}</a>
+  </section>
+  {% else %}
+    <section id="orders">
+      <div id="header">
+        <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['orders']}}</h3>
+      </div>
+      {% for order in orders %}
+        {% if order.status == -3 %}
+        <div class="order-card" style="border-color: grey;">
+        {% elif order.status == -2 %}
+        <div class="order-card" style="border-color: red;">
+        {% elif order.status == -1 %}
+          <div class="order-card" style="border-color: red;">
+        {% elif order.status == 0 %}
+          <div class="order-card" style="border-color: green;">
+        {% elif order.status == 1 %}
+          <div class="order-card" style="border-color: var(--main-color);">
+        {% elif order.status == 2 %}
+          <div class="order-card" style="border-color: var(--secondary-color);">
+        {% endif %}
+            <div>
+              <div class="order-bar-code" style="background-image: url('{{cfg.base_url}}/assets/orders/barcode/{{order.id}}');"></div>
+            </div>
+            <div class="order-data-entry products">
+              <div></div>
+              <p class="order-products">{{len(order.products)}} {{content.tabs[lang]['products']}}</p>
+            </div>
+            <div class="order-data-entry address">
+              <div></div>
+              <p class="order-address">{{order.address[:75]}}...</p>
+            </div>
+            <div class="order-data-entry placed-in">
+              <div></div>
+              <p class="order-date">{{utils.format_date(order.placed_in, show_hour= True).split('-')[0]}}<br><span>{{utils.format_date(order.placed_in, show_hour= True).split('-')[1]}}</span></p>
+            </div>
+            <div class="order-data-entry status" style="font-family: '{{primary_font_family}}';">
+              {% if order.status == -1 %}
+                <div id="canceled"></div>
+                <p class="order-status" id="canceled">
+                  {{content.global_[lang]['canceled']}}
+                </p>
+              {% elif order.status == 0 %}
+                <div id="stocked"></div>
+                <p class="order-status" id="stocked">
+                  {{content.global_[lang]['stocked']}}
+                </p>
+              {% elif order.status == 1 %}
+                <div id="delivering"></div>
+                <p class="order-status" id="delivering">
+                  {{content.global_[lang]['delivering']}}
+                </p>
+              {% elif order.status == 2 %}
+                <div id="delivered"></div>
+                <p class="order-status" id="delivered">
+                  {{content.global_[lang]['delivered']}}
+                </p>
+              {% endif %}
+            </div>
+            <div class="order-data-entry vat">
+              <div></div>
+              <p class="order-date">{{utils.format_price(order.price)}}</span></p>
+            </div>
+            <div class="order-data-entry price">
+              <div></div>
+              <p class="order-date">{{utils.format_price(order.price * order.vat)}}</span></p>
+            </div>
+            <button class="shadow-button" style="font-size: 1em">{{content.actions[lang]['downlowdInvoice']}}</button>
+
+        </div>
+      {% endfor %}
+    </section>
+  {% endif %}
+  {% if len(user_data.cart) == 0 %}
+    <section id="empty">
+      <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['userHasNoProductsInCart']}}</h3>
+      <a href="{{cfg.base_url}}/search/" style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['getStarted']}}</a>
+    </section>
+  {% else %}
+    <section id="cart">
+      <div id="header">
+        <h3 style="font-family: '{{primary_font_family}}';">{{content.tabs[lang]['cart']}}</h3>
+        <a href="{{cfg.base_url}}/cart/" style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['seeAll']}}</a>
+      </div>
+      <div id="products">
+        {% for prod in database.products.get_multiple_products_by_id(user_data.cart)[0:4] %}
+         <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
+              <div
+                id="product-asset"
+                style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+              ></div>
+              <div id="product-content">
+                <div id="content">
+                <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
+                <h3 style="font-family: '{{primary_font_family}}'">
+                  {{prod.name[lang][:15]}}...
+                </h3>
+                <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:15]}}...</p>
+                <h4 style="font-family: 'Poppins'">
+                  {{utils.format_price(prod.pricing['currentPrice'], show_curr= False)}} {% if
+                  prod.pricing['perviousPrice'] %}
+                  <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
+                  {% endif %}
+                </h4>
+                </div>
+              </div>
+            </a>
+          {% endfor%}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if len(user_data.favourites) == 0 %}
+    <section id="empty">
+      <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['userHasNoProductsInFavourites']}}</h3>
+      <a href="{{cfg.base_url}}/search/" style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['getStarted']}}</a>
+    </section>
+  {% else %}
+    <section id="favourites">
+      <div id="header">
+        <h3 style="font-family: '{{primary_font_family}}';">{{content.tabs[lang]['favourites']}}</h3>
+        <a href="{{cfg.base_url}}/favourites/" style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['seeAll']}}</a>
+      </div>
+      <div id="products">
+        {% for prod in database.products.get_multiple_products_by_id(user_data.favourites)[0:4] %}
+         <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
+              <div
+                id="product-asset"
+                style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+              ></div>
+              <div id="product-content">
+                <div id="content">
+                <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
+                <h3 style="font-family: '{{primary_font_family}}'">
+                  {{prod.name[lang][:15]}}...
+                </h3>
+                <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:15]}}...</p>
+                <h4 style="font-family: 'Poppins'">
+                  {{utils.format_price(prod.pricing['currentPrice'], show_curr= False)}} {% if
+                  prod.pricing['perviousPrice'] %}
+                  <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
+                  {% endif %}
+                </h4>
+                </div>
+              </div>
+            </a>
+          {% endfor%}
+      </div>
+    </section>
+  {% endif %}
+
+
+  <footer>
+    <div id="content">
+      <div id="meta-info">
+        <div id="logo"></div>
+        <h1 style="font-family: '{{primary_font_family}}'">{{content.global_[lang]['name']}}</h1>
+        <p style="font-family: '{{primary_font_family}}'">{{content.global_[lang]["bio"]}}</p>
+        <div id="links">
+          {% if cfg.facebook %}
+            <a href="{{cfg.facebook}}" id="footer-facebook-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.instagram %}
+            <a href="{{cfg.instagram}}" id="footer-instagram-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.twitter %}
+            <a href="{{cfg.twitter}}" id="footer-twitter-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.tiktok %}
+            <a href="{{cfg.tiktok}}" id="footer-tiktok-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.linkedin %}
+            <a href="{{cfg.linkedin}}" id="footer-linkedin-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          
+        </div>
+      </div>
+      <div id="tabs">
+        <div class="tabs-column">
+          {% for cat in database.categories.all_categories[:9] %}
+            <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+          {% endfor %}
+        </div>
+        <div class="tabs-column">
+          {% for cat in database.categories.all_categories[10:19] %}
+            <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div id="copyright" style="font-family: '{{primary_font_family}}'">lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r</div>
+  </footer>
+	<div id="drawer-overlay"></div>
+	<div id="drawer">
+		<div id="drawer-header">
+			<div id="drawer-close">x</div>
+		</div>
+		 <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+		<div id="options">
+      {% if uid %}
+			<a href="{{cfg.base_url}}/profile/" id="drawer-user-nav-item">
+      {% else %}
+				<a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+      {% endif %}
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+          	{% if uid %}
+          		{{content.tabs[lang]['account']}}
+          	{% else %}
+            	{{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          	<div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+	          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+        <a href="{{cfg.base_url}}/favourites/" id="drawer-favourites-nav-item">
+          <div id="drawer-favourites-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['favourites']}}</p>
+          <div id="drawer-favourites-badge">
+          	{% if uid %}
+          		{{len(user_data.favourites)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="drawer-cart-nav-item">
+          <div id="drawer-cart-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['cart']}}</p>
+          <div id="drawer-cart-badge">
+          	{% if uid %}
+          		{{len(user_data.cart)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+		</div>
+		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
+		<div id="categories">
+			{% for cat in database.categories.all_categories %}
+				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
+					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+				</div>
+			{% endfor %}
+		</div>
+		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['socialMedia']}}</h5>
+
+		<div id="links">
+					{% if cfg.facebook %}
+						<a href="{{cfg.facebook}}" id="drawer-facebook-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.instagram %}
+						<a href="{{cfg.instagram}}" id="drawer-instagram-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.twitter %}
+						<a href="{{cfg.twitter}}" id="drawer-twitter-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.tiktok %}
+						<a href="{{cfg.tiktok}}" id="drawer-tiktok-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.linkedin %}
+						<a href="{{cfg.linkedin}}" id="drawer-linkedin-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					
+				</div>
+	</div>
+
+
+</body>
+</html>

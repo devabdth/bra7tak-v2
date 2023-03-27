@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{content.global_[lang]['name']}} - {{content.tabs[lang]['login']}}</title>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='global/styles/smallDevices.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='login/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='login/styles/smallDevices.css')}}"
+    />
+    <script src="{{url_for('static', filename='login/scripts/main.js')}}"></script>
+    <script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='./website/global/styles/images/logo-accent.ico')}}"
+    />
+    <meta name="description" content="{{cfg.meta_description}}" />
+    <meta name="keywords" content="{{cfg.keywords}}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+      <header>
+        <div id="title">
+          <div id="drawer-icon"></div>
+              
+          <a
+            href="/"
+            id="header-title"
+            style="font-family: '{{primary_font_family}}';"
+            >{{content.global_[lang]['name']}}</a
+          >
+        </div>
+      <nav>
+        
+        <a href="{{cfg.base_url}}/favourites/" id="header-favourites-nav-item">
+          <div id="header-favourites-icon" class="header-nav-icon"></div>
+          <div id="header-favourites-badge">
+            {% if uid %}
+              {{len(user_data.favourites)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="header-cart-nav-item">
+          <div id="header-cart-icon" class="header-nav-icon"></div>
+          <div id="header-cart-badge">
+            {% if uid %}
+              {{len(user_data.cart)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+      </nav>
+    </header>
+
+    <section id="login">
+      <div id="form-container">
+        <h3 style="font-family: '{{primary_font_family}}'">{{content.auth[lang]["login"]}}</h3>
+        <div id="form">
+          <input
+            placeholder="{{content.auth[lang]['email']}}"
+            type="email"
+            class="single-line-field"
+            id="username"
+            value="{{custom_email}}"
+            style="font-family: '{{primary_font_family}}'; text-align: left"
+          />
+          <input
+            placeholder="{{content.auth[lang]['password']}}"
+            class="single-line-field"
+            id="password"
+            type="password"
+            style="font-family: '{{primary_font_family}}'; text-align: left"
+          />
+          <div>
+            <div>
+              <input type="checkbox" id="rememberMe" />
+              <label style="font-family: '{{primary_font_family}}';"
+                >{{content.auth[lang]["rememberMe"]}}</label
+              >
+            </div>
+            <a
+              style="font-family: '{{primary_font_family}}'; text-decoration: underline"
+              href="/forgetPassword"
+              >{{content.auth[lang]["forgetPassword"]}}</a
+            >
+          </div>
+        </div>
+        <div id="post-form">
+          <button
+          {% if custom_recall %}
+          onclick="formValidation(toastContent, '{{cfg.base_url}}', '{{lang}}', '{{custom_recall}}');"
+          {% else %}
+          onclick="formValidation(toastContent, '{{cfg.base_url}}', '{{lang}}', null);"
+          {% endif %}
+          class="main-button"
+            style="width: 60%; border-radius: 50px; font-family: '{{primary_font_family}}'"
+          >
+            {{content.auth[lang]["login"]}}
+          </button>
+          <a href="/signup" style="font-family: '{{primary_font_family}}'"
+            >{{content.auth[lang]["newUserMessage"]}}</a
+          >
+        </div>
+      </div>
+    </section>
+		<div id="toast">
+			<p id="toast-text">This is a Toast</p>
+		</div>
+
+  <footer>
+    <div id="content">
+      <div id="meta-info">
+        <div id="logo"></div>
+        <h1 style="font-family: '{{primary_font_family}}'">{{content.global_[lang]['name']}}</h1>
+        <p style="font-family: '{{primary_font_family}}'">{{content.global_[lang]["bio"]}}</p>
+        <div id="links">
+          {% if cfg.facebook %}
+            <a href="{{cfg.facebook}}" id="footer-facebook-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.instagram %}
+            <a href="{{cfg.instagram}}" id="footer-instagram-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.twitter %}
+            <a href="{{cfg.twitter}}" id="footer-twitter-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.tiktok %}
+            <a href="{{cfg.tiktok}}" id="footer-tiktok-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.linkedin %}
+            <a href="{{cfg.linkedin}}" id="footer-linkedin-icon" class="footer-social-media-icon"></a>
+          {% endif %}
+          
+        </div>
+      </div>
+      <div id="tabs">
+        <div class="tabs-column">
+          {% for cat in database.categories.all_categories[:9] %}
+            <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+          {% endfor %}
+        </div>
+        <div class="tabs-column">
+          {% for cat in database.categories.all_categories[10:19] %}
+            <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div id="copyright" style="font-family: '{{primary_font_family}}'">lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r</div>
+  </footer>
+  <div id="drawer-overlay"></div>
+  <div id="drawer">
+    <div id="drawer-header">
+      <div id="drawer-close">x</div>
+    </div>
+     <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+    <div id="options">
+      {% if uid %}
+      <a href="{{cfg.base_url}}/profile/" id="drawer-user-nav-item">
+      {% else %}
+        <a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+      {% endif %}
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+            {% if uid %}
+              {{content.tabs[lang]['account']}}
+            {% else %}
+              {{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+        <a href="{{cfg.base_url}}/favourites/" id="drawer-favourites-nav-item">
+          <div id="drawer-favourites-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['favourites']}}</p>
+          <div id="drawer-favourites-badge">
+            {% if uid %}
+              {{len(user_data.favourites)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="drawer-cart-nav-item">
+          <div id="drawer-cart-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['cart']}}</p>
+          <div id="drawer-cart-badge">
+            {% if uid %}
+              {{len(user_data.cart)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+    </div>
+    <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
+    <div id="categories">
+      {% for cat in database.categories.all_categories %}
+        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
+          <h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+        </div>
+      {% endfor %}
+    </div>
+    <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['socialMedia']}}</h5>
+
+    <div id="links">
+          {% if cfg.facebook %}
+            <a href="{{cfg.facebook}}" id="drawer-facebook-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.instagram %}
+            <a href="{{cfg.instagram}}" id="drawer-instagram-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.twitter %}
+            <a href="{{cfg.twitter}}" id="drawer-twitter-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.tiktok %}
+            <a href="{{cfg.tiktok}}" id="drawer-tiktok-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.linkedin %}
+            <a href="{{cfg.linkedin}}" id="drawer-linkedin-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          
+        </div>
+  </div>
+
+
+  </body>
+</html>

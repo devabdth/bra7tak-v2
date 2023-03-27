@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {{content.global_[lang]['name']}} - {{product.name[lang][:50]}}...
+    </title>
+    <meta name="description" content="{{cfg.meta_description}}">
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='global/styles/smallDevices.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='products/single_product/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='products/single_product/styles/smallDevices.css')}}"
+    />
+    <script src="{{url_for('static', filename='products/single_product/scripts/main.js')}}"></script>
+    <script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+  </head>
+  <body>
+      <header>
+        <div id="title">
+          <div id="drawer-icon" onclick="openDrawer();"></div>
+              
+          <a
+            href="/"
+            id="header-title"
+            style="font-family: '{{primary_font_family}}';"
+            >{{content.global_[lang]['name']}}</a
+          >
+        </div>
+      <div id="header-search-container">
+        <input
+          type="name"
+          name="search"
+          id="header-search"
+          placeholder="{{content.global_[lang]['searchHint']}}"
+        />
+      </div>
+      <nav>
+        {%if user_data %}
+          <a href="{{cfg.base_url}}/profile/" id="header-user-nav-item">
+        {% else %}
+          <a href="{{cfg.base_url}}/login/" id="header-user-nav-item">
+        {% endif %}
+          <div id="header-user-icon" class="header-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+            {% if user_data %}
+              {{content.global_[lang]['welcomeBack']}},<br><span>
+                {{user_data.name}}
+              </span>
+            {% else %}
+              {{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        <a href="{{cfg.base_url}}/favourites/" id="header-favourites-nav-item">
+          <div id="header-favourites-icon" class="header-nav-icon"></div>
+          <div id="header-favourites-badge">
+            {% if user_data %}
+              {{len(user_data.favourites)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="header-cart-nav-item">
+          <div id="header-cart-icon" class="header-nav-icon"></div>
+          <div id="header-cart-badge">
+            {% if user_data %}
+              {{len(user_data.cart)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+      </nav>
+    </header>
+    <section id="entry">
+      <div id="content">
+        <h4 style="font-family: '{{primary_font_family}}'">
+          {{category.name[lang]}}
+        </h4>
+        <h1 style="font-family: '{{primary_font_family}}'">
+          {{product.name[lang]}}
+        </h1>
+        <p style="font-family: '{{primary_font_family}}'">
+          {{product.bio[lang]}}
+        </p>
+        <div id="sizes">
+          {%for size in product.sizes%}
+            <div onclick="pickSize('{{size|lower}}');" style="font-family: '{{primary_font_family}}';background-color: var(--bg-color);" id="{{size|lower}}-btn">{{size | upper}}</div>
+          {%endfor%}
+        </div>
+        <div id="colors">
+          {%for color in product.colors%}
+            <div onclick="pickColor('{{color}}');" id="{{color}}-btn" style="background-color: {{color}}"></div>
+          {%endfor%}
+        </div>
+        <div id="count-options">
+          {%if product.pricing and product.pricing['twoPiecesPrice'] != product.pricing['currentPrice'] %}
+            <p onclick="amountCustom(2);" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['buy']}} <span style="font-family: 'Poppins';">2</span>, {{content.actions[lang]['save']}}: <span style="font-family: 'Poppins'">{{utils.format_price((product.pricing['currentPrice'] - product.pricing['twoPiecesPrice'])*2)}}</span></p>
+          {%endif%}
+          {%if product.pricing and product.pricing['fourPiecesPrice'] != product.pricing['currentPrice'] %}
+            <p onclick="amountCustom(4);" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['buy']}} <span style="font-family: 'Poppins';">4</span>, {{content.actions[lang]['save']}}: <span style="font-family: 'Poppins'">{{utils.format_price((product.pricing['currentPrice'] - product.pricing['fourPiecesPrice'])*4)}}</span></p>
+          {%endif%}
+          {%if product.pricing and product.pricing['sixPiecesPrice'] != product.pricing['currentPrice'] %}
+            <p onclick="amountCustom(6);" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['buy']}} <span style="font-family: 'Poppins';">6</span>, {{content.actions[lang]['save']}}: <span style="font-family: 'Poppins'">{{utils.format_price((product.pricing['currentPrice'] - product.pricing['sixPiecesPrice'])*6)}}</span></p>
+          {%endif%}
+          {%if product.pricing and product.pricing['dozinPiecesPrice'] != product.pricing['currentPrice'] %}
+            <p onclick="amountCustom(12);" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['buy']}} <span style="font-family: 'Poppins';">12</span>, {{content.actions[lang]['save']}}: <span style="font-family: 'Poppins'">{{utils.format_price((product.pricing['currentPrice'] - product.pricing['dozinPiecesPrice'])*12)}}</span></p>
+          {%endif%}
+        </div>
+
+        <div style="width: 100%; height: 8vh; align-items: end; justify-content: end; display: flex;">
+          <h5 style="font-family: 'Poppins'"  id="price-tag">
+          </h5>
+        </div>
+        <div>
+          <div id="amount">
+            <button id="increase-amount" onclick="increaseAmount();"></button>
+            <input
+              max="10"
+              min="0"
+              value="1"
+              type="number"
+              name="amount"
+              id="amount-field"
+              placeholder="{{content.global_[lang]['amount']}}"
+            />
+            <button id="decrease-amount" onclick="decreaseAmount();"></button>
+          </div>
+          <button class="main-button" onclick="addToCartListener('{{lang}}');">
+            {{content.actions[lang]['addToCart']}}
+          </button>
+        </div>
+        <button
+          class="main-button"
+          style=" background-color: var(--secondary-color); width: 100%; color: var(--bg-color);" 
+          {% if user_data %}
+          onclick="orderNowListener( '{{user_data.id | string}}', '{{cfg.base_url}}', '{{product.id}}', '{{lang}}')">
+          {% else %}
+          onclick="orderNowListener(undefined, '{{cfg.base_url}}', '{{product.id}}')">
+          {% endif%}
+          {{content.actions[lang]['orderNow']}}
+        </button>
+        <p id="status-msg"></p>
+      </div>
+      <div id="product-slide-show">
+        <div
+          id="current-slide"
+          style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{product.assets[0]}}/');"
+        ></div>
+        <div class="all-slides" id="left">
+          <div
+            class="side-slide active-slide"
+            id="{{product['id']}}-{{product.assets[0]}}"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{product.assets[0]}}/');"
+          ></div>
+          {% for asset in product.assets[1:4] %}
+          <div
+            class="side-slide"
+            id="{{product['id']}}-{{asset}}"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{asset}}/');"
+          ></div>
+          {% endfor %}
+        </div>
+        <div class="all-slides" id="right">
+          {% for asset in product.assets[4:] %}
+          <div
+            class="side-slide"
+            id="{{product['id']}}-{{asset}}"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{asset}}/');"
+          ></div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <div class="section-divider"></div>
+      <h3 style="font-family: '{{primary_font_family}}'; padding: 5vh 10%; font-size: 2em; font-weight: 800;">{{content.global_[lang]['productInformation']}}</h3>
+    <section id="specs">
+      <div id="content">
+        <div class="specs-row">
+          <div id="title">
+            <div id="code-icon" class="specs-icon"></div>
+            <p style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['code']}}</p>
+          </div>
+          <div id="content">
+            <p style="font-family: '{{primary_font_family}}'">{{product.code}}</p>
+          </div>
+        </div>
+        <div class="specs-divider"></div>
+        {% if product.pricing['perviousPrice'] %}
+        <div class="specs-row">
+          <div id="title">
+            <div id="discount-icon" class="specs-icon"></div>
+            <p style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['discount']}}</p>
+          </div>
+          <div id="content">
+            <p style="font-family: '{{primary_font_family}}'">{{(((product.pricing['perviousPrice']  - product.pricing['currentPrice'])/product.pricing['perviousPrice'])*100) | int}} % {{content.global_[lang]['discountPercentOff']}}</p>
+          </div>
+        </div>
+        <div class="specs-divider"></div>
+        {% endif %}
+        {% if product.specs %}
+        <div class="specs-row">
+          <div id="title">
+            <div id="specs-icon" class="specs-icon"></div>
+            <p style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['productInformation']}}</p>
+          </div>
+          <div id="content">
+            <div style="flex-direction: column;">
+              {% for spec in (product.specs[lang]).split('\n') %}
+              <p style="font-family: '{{primary_font_family}}'">- {{spec}}<br></p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="specs-divider"></div>
+        {% endif %}
+        <div class="specs-row">
+          <div id="title">
+            <div id="delivery-icon" class="specs-icon"></div>
+            <p style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['delivery']}}</p>
+          </div>
+          <div id="content">
+            {% if user_data %}
+              {% if product.avg_del_days[user_data.city_code] != 0 %}
+                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[user_data.city_code | string]}} {{content.global_[lang]['avg_del_days']}}</p>
+              {% else %}
+                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[5 | string]}} {{content.global_[lang]['avg_del_days']}}</p>
+              {% endif %}
+            {% else %}
+                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[5 | string]}} {{content.global_[lang]['avg_del_days']}}</p>
+            {% endif %}
+      
+          </div>
+        </div>
+      </div>
+      <div
+          id="current-slide"
+          style="height: 40vh; width: 100%; background-image: url('{{cfg.base_url}}/assets/products/name/{{product.id}}-{{product.assets[0]}}/');"
+        ></div>
+    </section>
+    <section class="category-products-section">
+      <div id="header">
+        <h3 style="font-family: '{{primary_font_family}}'">{{category.name[lang]}}</h3>
+        <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories//{{category.id}}" class="main-button">{{content.actions[lang]["seeMore"]}}</a>
+      </div>
+      {% if category.ad_banner %}
+        <div id="banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}', '_self');">
+          <div id="content">
+            {% if category.ad_banner.subtitle[lang] %}
+            <p style="font-family:'{{primary_font_family}}'; color: {{category.ad_banner.subtitle_color}}">{{category.ad_banner.subtitle[lang]}}</p>
+            {% endif %}
+            <h2 style="font-family: '{{primary_font_family}}'; color: {{category.ad_banner.title_color}}">{{category.ad_banner.title[lang]}}</h2>
+            {% if category.ad_banner.action_link %}
+            <a class="main-button" href="'{{category.ad_banner.card_action_link}}'" style="border: none; font-family: '{{primary_font_family}}'; color: {{category.ad_banner.action_text_color}}; background-color: {{category.ad_banner.action_background_color}}">{{category.ad_banner.action_text[lang]}}</a>
+            {% endif %}
+          </div>
+          <div id="asset" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{layout.main_banner.asset}}');"></div>
+        </div>
+      {% endif %}
+      <div id="products">
+        {% for prod in database.products.get_all_products_by_category(category.id)[:8] %}
+         <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
+              <div
+                id="product-asset"
+                style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+              ></div>
+              <div id="product-content">
+                <div id="content">
+                <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
+                <h3 style="font-family: '{{primary_font_family}}'">
+                  {{prod.name[lang][:15]}}...
+                </h3>
+                <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:15]}}...</p>
+                <h4 style="font-family: 'Poppins'">
+                  {{utils.format_price(prod.pricing['currentPrice'], show_curr= False)}} {% if
+                  prod.pricing['perviousPrice'] %}
+                  <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
+                  {% endif %}
+                </h4>
+                </div>
+              </div>
+            </a>
+        {% endfor %}
+      </div>
+    </section>
+    <div class="section-divider"></div>
+
+    <footer>
+      <div id="content">
+        <div id="meta-info">
+          <div id="logo"></div>
+          <h1 style="font-family: '{{primary_font_family}}'">
+            {{content.global_[lang]['name']}}
+          </h1>
+          <p style="font-family: '{{primary_font_family}}'">
+            {{content.global_[lang]["bio"]}}
+          </p>
+          <div id="links">
+            {% if cfg.facebook %}
+            <a
+              href="{{cfg.facebook}}"
+              id="footer-facebook-icon"
+              class="footer-social-media-icon"
+            ></a>
+            {% endif %} {% if cfg.instagram %}
+            <a
+              href="{{cfg.instagram}}"
+              id="footer-instagram-icon"
+              class="footer-social-media-icon"
+            ></a>
+            {% endif %} {% if cfg.twitter %}
+            <a
+              href="{{cfg.twitter}}"
+              id="footer-twitter-icon"
+              class="footer-social-media-icon"
+            ></a>
+            {% endif %} {% if cfg.tiktok %}
+            <a
+              href="{{cfg.tiktok}}"
+              id="footer-tiktok-icon"
+              class="footer-social-media-icon"
+            ></a>
+            {% endif %} {% if cfg.linkedin %}
+            <a
+              href="{{cfg.linkedin}}"
+              id="footer-linkedin-icon"
+              class="footer-social-media-icon"
+            ></a>
+            {% endif %}
+          </div>
+        </div>
+        <div id="tabs">
+          <div class="tabs-column">
+            {% for cat in database.categories.all_categories[:9] %}
+            <a
+              style="font-family: '{{primary_font_family}}';"
+              href="{{cfg.base_url}}/categories/{{cat.id}}"
+              >{{cat.name[lang]}}</a
+            >
+            {% endfor %}
+          </div>
+          <div class="tabs-column">
+            {% for cat in database.categories.all_categories[10:19] %}
+            <a
+              style="font-family: '{{primary_font_family}}';"
+              href="{{cfg.base_url}}/categories/{{cat.id}}"
+              >{{cat.name[lang]}}</a
+            >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div id="copyright" style="font-family: '{{primary_font_family}}'">
+        lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r
+      </div>
+    </footer>
+      <div id="drawer-overlay" onclick="closeDrawer();"></div>
+  <div id="drawer">
+    <div id="drawer-header">
+      <div id="drawer-close" onclick="closeDrawer();">x</div>
+    </div>
+     <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+    <div id="options">
+      <a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+            {% if uid %}
+              {{content.tabs[lang]['account']}}
+            {% else %}
+              {{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+        <a href="{{cfg.base_url}}/favourites/" id="drawer-favourites-nav-item">
+          <div id="drawer-favourites-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['favourites']}}</p>
+          <div id="drawer-favourites-badge">
+            {% if uid %}
+              {{len(user_data.favourites)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="drawer-cart-nav-item">
+          <div id="drawer-cart-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['cart']}}</p>
+          <div id="drawer-cart-badge">
+            {% if uid %}
+              {{len(user_data.cart)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+    </div>
+    <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
+    <div id="categories">
+      {% for cat in database.categories.all_categories %}
+        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
+          <h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+        </div>
+      {% endfor %}
+    </div>
+    <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['socialMedia']}}</h5>
+
+    <div id="links">
+          {% if cfg.facebook %}
+            <a href="{{cfg.facebook}}" id="drawer-facebook-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.instagram %}
+            <a href="{{cfg.instagram}}" id="drawer-instagram-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.twitter %}
+            <a href="{{cfg.twitter}}" id="drawer-twitter-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.tiktok %}
+            <a href="{{cfg.tiktok}}" id="drawer-tiktok-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.linkedin %}
+            <a href="{{cfg.linkedin}}" id="drawer-linkedin-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          
+        </div>
+  </div>
+
+    <script>
+      initializeProduct({{product.to_dict()|safe}});
+      initializeSlideShow('{{product["id"]}}', {{product.assets | safe}}, '{{cfg.base_url}}');
+      window.onload=()=>{
+        document.getElementById('price-tag').innerHTML= `${formatPrice({{product.pricing['currentPrice']}})}`
+      }
+    </script>
+  </body>
+</html>
