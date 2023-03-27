@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - Banners</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/banners/styles/computer.css')}}"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/banners/scripts/main.js')}}"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <nav>
+        {% if "0" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/products/">Products</a>
+        {% endif %} {% if "1" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/orders/">Orders</a>
+        {% endif %} {% if "2" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/categories/"
+          >Categories</a
+        >
+        {% endif %} {% if "4" in admin_data["accesses"] %}
+        <a
+          href="{{cfg.base_url}}/webapp/adminstration/banners/"
+          class="active-tab"
+          >Banners</a
+        >
+        {% endif %} {% if "5" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/users/">Users</a>
+        {% endif %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/settings/">Settings</a>
+      </nav>
+    </header>
+    <section>
+      <div id="header">
+        <h3><span style="font-family: 'Poppins'">3</span> Banners</h3>
+        <button class="main-button">Create (Coming soon)</button>
+      </div>
+      <div class="section-divider"></div>
+      <h4>Main Banners</h4>
+      <div
+        id="entry-banner"
+        style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;"
+        onclick="openBannerEditDialog(0, {{layout.main_banner.to_dict() | safe}});"
+      >
+        <div id="content">
+          {% if layout.main_banner.subtitle[lang] %}
+          <p
+            style="font-family:'Raleway'; color: {{layout.main_banner.subtitle_color}}"
+          >
+            {{layout.main_banner.subtitle[lang]}}
+          </p>
+          {% endif %}
+          <h2
+            style="font-family: 'Raleway'; color: {{layout.main_banner.title_color}}"
+          >
+            {{layout.main_banner.title[lang]}}
+          </h2>
+          {% if layout.main_banner.action_link %}
+          <button
+            class="main-button"
+            onclick="window.open('{{layout.main_banner.card_action_link}}', '_self');"
+            style="border: none; font-family: 'Raleway'; color: {{layout.main_banner.action_text_color}}; background-color: {{layout.main_banner.action_background_color}}"
+          >
+            {{layout.main_banner.action_text[lang]}}
+          </button>
+          {% endif %}
+        </div>
+        <div
+          id="asset"
+          style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.main_banner.id}}');"
+        ></div>
+      </div>
+      <div id="banners">
+        <div
+          id="entry-sup-banner"
+          style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_one.background_color}} 100%);cursor: pointer;"
+          onclick="openBannerEditDialog(0, {{layout.sup_banner_one.to_dict() | safe}});"
+        >
+          <div id="content">
+            {% if layout.sup_banner_one.subtitle[lang] %}
+            <p
+              style="font-family:'Raleway'; color: {{layout.sup_banner_one.subtitle_color}}"
+            >
+              {{layout.sup_banner_one.subtitle[lang]}}
+            </p>
+            {% endif %}
+            <h2
+              style="font-family: 'Raleway'; color: {{layout.sup_banner_one.title_color}}"
+            >
+              {{layout.sup_banner_one.title[lang]}}
+            </h2>
+            {% if layout.sup_banner_one.pricing %}
+            <h4 style="font-family: 'Poppins'">
+              {{layout.sup_banner_one.pricing['currentPrice']}} {% if
+              layout.sup_banner_one.pricing['perviousPrice'] %}
+              <span>{{layout.sup_banner_one.pricing['perviousPrice']}}</span>
+              {% endif %}
+            </h4>
+            {% endif %} {% if layout.sup_banner_one.action_link %}
+            <a
+              class="main-button"
+              style="font-family: 'Raleway'; color: {{layout.sup_banner_one.action_text_color}}; background-color: {{layout.sup_banner_one.action_background_color}}"
+              >{{layout.sup_banner_one.action_text[lang]}}</a
+            >
+            {% endif %}
+          </div>
+          <div
+            id="asset"
+            style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.sup_banner_one.id}}');"
+          ></div>
+        </div>
+        <div
+          id="entry-sup-banner"
+          style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_two.background_color}} 100%);cursor: pointer;"
+          onclick="openBannerEditDialog(0, {{layout.sup_banner_two.to_dict() | safe}});"
+        >
+          <div id="content">
+            {% if layout.sup_banner_two.subtitle[lang] %}
+            <p
+              style="font-family:'Raleway'; color: {{layout.sup_banner_two.subtitle_color}}"
+            >
+              {{layout.sup_banner_two.subtitle[lang]}}
+            </p>
+            {% endif %}
+            <h2
+              style="font-family: 'Raleway'; color: {{layout.sup_banner_two.title_color}}"
+            >
+              {{layout.sup_banner_two.title[lang]}}
+            </h2>
+            {% if layout.sup_banner_two.pricing %}
+            <h4 style="font-family: 'Poppins'">
+              {{layout.sup_banner_two.pricing['currentPrice']}} {% if
+              layout.sup_banner_two.pricing['perviousPrice'] %}
+              <span>{{layout.sup_banner_two.pricing['perviousPrice']}}</span>
+              {% endif %}
+            </h4>
+            {% endif %} {% if layout.sup_banner_two.action_link %}
+            <a
+              class="main-button"
+              style="font-family: 'Raleway'; color: {{layout.sup_banner_two.action_text_color}}; background-color: {{layout.sup_banner_two.action_background_color}}"
+              >{{layout.sup_banner_two.action_text[lang]}}</a
+            >
+            {% endif %}
+          </div>
+          <div
+            id="asset"
+            style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.sup_banner_two.id}}');"
+          ></div>
+        </div>
+      </div>
+
+      <div id="overlay"></div>
+      <div id="banner-edit-dialog">
+        <div id="header">
+          <h3>Edit Banner</h3>
+          <div onclick="closeBannerEditDialog();" style="cursor: pointer">
+            x
+          </div>
+        </div>
+        <div id="form">
+          <label
+            >English Subtitle<span style="color: red; font-size: 2em"
+              >*</span
+            ></label
+          >
+          <div class="field-container" id="en-subtitle-field-container">
+            <input
+              type="name"
+              name="en-subtitle"
+              id="en-subtitle-field"
+              placeholder="Subtitle"
+            />
+          </div>
+          <label
+            >Arabic Subtitle<span style="color: red; font-size: 2em"
+              >*</span
+            ></label
+          >
+          <div class="field-container" id="ar-subtitle-field-container">
+            <input
+              type="name"
+              name="ar-subtitle"
+              id="ar-subtitle-field"
+              placeholder="Subtitle"
+            />
+          </div>
+          <label
+            >English Title<span style="color: red; font-size: 2em"
+              >*</span
+            ></label
+          >
+          <div class="field-container" id="en-title-field-container">
+            <input
+              type="name"
+              name="en-title"
+              id="en-title-field"
+              placeholder="Title"
+            />
+          </div>
+          <label
+            >Arabic Title<span style="color: red; font-size: 2em"
+              >*</span
+            ></label
+          >
+          <div class="field-container" id="ar-title-field-container">
+            <input
+              type="name"
+              name="ar-title"
+              id="ar-title-field"
+              placeholder="Title"
+            />
+          </div>
+          <label>Pricing</label>
+          <div style="flex-direction: row; display: flex; gap: 5%; width: 100%">
+            <div class="field-container" id="old-field-container">
+              <input
+                type="name"
+                name="old"
+                id="old-field"
+                placeholder="Old Price"
+              />
+            </div>
+            <div class="field-container" id="new-field-container">
+              <input
+                type="name"
+                name="new"
+                id="new-field"
+                placeholder="New Price"
+              />
+            </div>
+          </div>
+          <label
+            >English Action Text
+            <span style="color: red; font-size: 1em">(Relation)</span></label
+          >
+          <div class="field-container" id="en-action-text-field-container">
+            <input
+              type="name"
+              name="en-action-text"
+              id="en-action-text-field"
+              placeholder="Action Text"
+            />
+          </div>
+          <label
+            >Arabic Action Text
+            <span style="color: red; font-size: 1em">(Relation)</span></label
+          >
+          <div class="field-container" id="ar-action-text-field-container">
+            <input
+              type="name"
+              name="ar-action-text"
+              id="ar-action-text-field"
+              placeholder="Action Text"
+            />
+          </div>
+          <label
+            >Action Link
+            <span style="color: red; font-size: 1em">(Relation)</span></label
+          >
+          <div class="field-container" id="action-link-field-container">
+            <input
+              type="name"
+              name="action-link"
+              id="action-link-field"
+              placeholder="Action Link"
+            />
+          </div>
+          <label
+            >Card Action Link<span style="color: red; font-size: 2em"
+              >*</span
+            ></label
+          >
+          <div class="field-container" id="card-action-link-field-container">
+            <input
+              type="name"
+              name="card-action-link"
+              id="card-action-link-field"
+              placeholder="Action Link"
+            />
+          </div>
+          <label>Asset</label>
+          <div id="asset-container"></div>
+          <label>Colors</label>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 5%;
+              width: 100%;
+            "
+          >
+            <div
+              class="field-container"
+              id="background-color-field-container"
+              style="
+                height: 12.5vh;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+              "
+            >
+              <label
+                >Background Color<span style="color: red; font-size: 2em"
+                  >*</span
+                ></label
+              >
+              <input
+                type="color"
+                name="background-color"
+                id="background-color-field"
+                placeholder="Background Color"
+              />
+            </div>
+            <div
+              class="field-container"
+              id="subtitle-color-field-container"
+              style="
+                height: 12.5vh;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+              "
+            >
+              <label
+                >Subtitle Color<span style="color: red; font-size: 2em"
+                  >*</span
+                ></label
+              >
+              <input
+                type="color"
+                name="subtitle-color"
+                id="subtitle-color-field"
+                placeholder="Subtitle Color"
+              />
+            </div>
+            <div
+              class="field-container"
+              id="title-color-field-container"
+              style="
+                height: 12.5vh;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+              "
+            >
+              <label
+                >Title Color<span style="color: red; font-size: 2em"
+                  >*</span
+                ></label
+              >
+              <input
+                type="color"
+                name="title"
+                id="title-color-field"
+                placeholder="Title Color"
+              />
+            </div>
+            <div
+              class="field-container"
+              id="action-background-color-field-container"
+              style="
+                height: 12.5vh;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+              "
+            >
+              <label
+                >Action Background Color<span style="color: red; font-size: 2em"
+                  >*</span
+                ></label
+              >
+              <input
+                type="color"
+                name="action-background-color"
+                id="action-background-color-field"
+                placeholder="Action Background Color"
+              />
+            </div>
+            <div
+              class="field-container"
+              id="action-text-color-field-container"
+              style="
+                height: 12.5vh;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+              "
+            >
+              <label
+                >Action Text Background Color<span
+                  style="color: red; font-size: 2em"
+                  >*</span
+                ></label
+              >
+              <input
+                type="color"
+                name="action-text-color"
+                id="action-text-color-field"
+                placeholder="Action Text Background Color"
+              />
+            </div>
+          </div>
+        </div>
+        <div id="options">
+          <div id="delete-banner" class="shadow-button" style="color: red">
+            Delete
+          </div>
+          <div id="cancel-edit-banner" class="shadow-button">Cancel</div>
+          <div
+            id="confirm-edit-banner"
+            class="main-button"
+            onclick="openBannerEditDialog();"
+          >
+            Submit
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

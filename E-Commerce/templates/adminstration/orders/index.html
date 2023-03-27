@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - Orders</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/orders/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='checkout/styles/computer.css')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/orders/scripts/main.js')}}"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <nav>
+        {% if "0" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/products/">Products</a>
+        {% endif %} {% if "1" in admin_data["accesses"] %}
+        <a
+          href="{{cfg.base_url}}/webapp/adminstration/orders/"
+          class="active-tab"
+          >Orders</a
+        >
+        {% endif %} {% if "2" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/categories/"
+          >Categories</a
+        >
+        {% endif %} {% if "4" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/banners/">Banners</a>
+        {% endif %} {% if "5" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/users/">Users</a>
+        {% endif %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/settings/">Settings</a>
+      </nav>
+    </header>
+    <section id="orders">
+      <div id="header">
+        <div id="title">
+          <h3>
+            <span style="font-family: 'Poppins'">{{orders | length}}</span>
+            Orders
+          </h3>
+          <button
+            class="main-button"
+            id="place-order"
+            onclick="openPlaceOrderDialog();"
+          >
+            Place Order
+          </button>
+        </div>
+        <div id="search-options">
+          <div class="field-container" id="email-field-container">
+            <input
+              value="{{search_params['phone']}}"
+              type="email"
+              name="email"
+              id="email-field"
+              placeholder="User Phone"
+            />
+          </div>
+          <div class="field-container" id="police-number-field-container">
+            <input
+              value="{{search_params['policeNumber']}}"
+              type="number"
+              name="id"
+              id="police-number-field"
+              placeholder="Police Number"
+            />
+          </div>
+        </div>
+        <div id="search-options">
+          <form action="">
+            <input type="radio" id="pending" name="status" value="-3" />
+            <label for="pending">Pending</label>
+            <input type="radio" id="returned" name="status" value="-2" />
+            <label for="returned">Returned</label>
+            <input type="radio" id="canceled" name="status" value="-1" />
+            <label for="canceled">Canceled</label>
+            <input type="radio" id="stocked" name="status" value="0" />
+            <label for="stocked">Stocked</label>
+            <input type="radio" id="in-delivery" name="status" value="1" />
+            <label for="in-delivery">In Delivery</label>
+            <input type="radio" id="delivered" name="status" value="2" />
+            <label for="delivered">Delivered</label>
+          </form>
+        </div>
+        <div id="options">
+          <div class="shadow-button" onclick="ordersFiltrationClear();">
+            Clear
+          </div>
+          <div class="main-button" onclick="ordersFiltrationSubmit();">
+            Filter
+          </div>
+        </div>
+      </div>
+      <div class="fragment active-fragment" id="pending-fragment">
+        <div id="converting-options">
+          <h4 style="font-family: 'Poppins'" id="converting-orders-count">
+            0 Orders
+          </h4>
+
+          <button
+            class="shadow-button"
+            onclick="stockOrders();"
+            id="print-all-orders-submission"
+          >
+            Stock
+          </button>
+          <button
+            class="shadow-button"
+            onclick="printOrders();"
+            id="print-all-orders-submission"
+          >
+            Print
+          </button>
+          <button
+            class="shadow-button"
+            onclick="selectAll();"
+            id="print-all-orders-submission"
+          >
+            Select All
+          </button>
+        </div>
+        <table class="orders" id="pending">
+          <tr>
+            <th></th>
+            <th>Police Number</th>
+            <th>User Name</th>
+            <th>User Phone</th>
+            <th>Products</th>
+            <th>City</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Options</th>
+          </tr>
+          {% for order in orders %}
+          <tr id="{{order.id}}" class="order{{order.status}}">
+            <td>
+              <input type="checkbox" id="{{order.id}}" />
+            </td>
+            <td>{{order.police_number}}</td>
+            <td>{{order.username}}</td>
+            <td>{{order.user_phone}}</td>
+            <td>
+              {{tr_display(order_products= order.products, products= products) |
+              safe}}
+            </td>
+            <td>{{content.cities['en'][order.city_code]}}</td>
+            <td>{{order.price}}</td>
+            <td>{{utils.status_names[order.status | string]['en']}}</td>
+            <td>
+              <button
+                class="shadow-button"
+                style="text-decoration: underline"
+                onclick="openPlaceOrderDialog(1, {{dumps(order.to_dict())}})"
+              >
+                Edit
+              </button>
+              <button
+                class="shadow-button"
+                style="text-decoration: underline"
+                onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
+              >
+                View
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+
+    <div class="overlay" id="overlay">
+      <div id="order-dialog" style="z-index: 1001">
+        <div id="header">
+          <h3>Order Details</h3>
+          <div id="close-order-dialog" onclick="closeOrderDialog();">x</div>
+        </div>
+        <div id="content">
+          <div id="info">
+            <label>Order ID</label>
+            <p id="order-id"></p>
+            <label>User Name/ID</label>
+            <p id="order-user-id"></p>
+            <label>Address</label>
+            <p id="order-user-address"></p>
+          </div>
+          <div id="info">
+            <label>City</label>
+            <p id="order-user-city"></p>
+            <label>Price & VAT</label>
+            <p id="order-price"></p>
+            <label>Time</label>
+            <p id="order-time"></p>
+          </div>
+        </div>
+        <table class="products">
+          <table class="orders" id="products-table">
+            <tr>
+              <th>Product</th>
+              <th>Size</th>
+              <th>Color</th>
+            </tr>
+          </table>
+        </table>
+        <br />
+        <label style="font-weight: 900">Comments</label>
+        <p id="order-user-comment"></p>
+        <button
+          onclick="toggleStatusDropdown()"
+          id="status-dropbtn"
+          class="status-dropbtn"
+        >
+          Status
+        </button>
+        <div id="status-dropdown" class="status-dropdown-content">
+          <input
+            type="text"
+            placeholder="{{content.global_[lang]['search']}}..."
+            id="city-search"
+            onkeyup="filter()"
+          />
+          <button onclick="chooseStatus('Returned', -2, '{{lang}}');">
+            Returned
+          </button>
+          <button onclick="chooseStatus('Canceled', -1, '{{lang}}');">
+            Canceled
+          </button>
+          <button onclick="chooseStatus('Stocked', 0, '{{lang}}');">
+            Stocked
+          </button>
+          <button onclick="chooseStatus('In Delivery', 1, '{{lang}}');">
+            In Delivery
+          </button>
+          <button onclick="chooseStatus('Delivered', 2, '{{lang}}');">
+            Delivered
+          </button>
+        </div>
+        <div id="options">
+          <div class="shadow-button" onclick="closeOrderDialog();">Close</div>
+          <div class="main-button" id="downlowd-recipet">Download Reciept</div>
+          <div class="main-button" id="update">Update</div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="overlay"
+      id="place-order-dialog-overlay"
+      onclick="closePlaceOrderDialog();"
+    ></div>
+    <div id="place-order-dialog">
+      <div id="header">
+        <h3>Place Order</h3>
+        <div onclick="closePlaceOrderDialog();">x</div>
+      </div>
+      <div id="content">
+        <h4>Personal Information</h4>
+        <div class="field-container" id="name-field-container">
+          <input
+            type="name"
+            name="name"
+            id="name-field"
+            placeholder="Customer Name"
+          />
+        </div>
+        <div class="field-container" id="dialog-email-field-container">
+          <input
+            type="email"
+            name="email"
+            id="dialog-email-field"
+            placeholder="Email"
+          />
+        </div>
+        <div class="field-container" id="dialog-phone-field-container">
+          <input
+            type="tel"
+            name="phone"
+            id="dialog-phone-field"
+            placeholder="Phone"
+          />
+        </div>
+        <button
+          onclick="toggleGendersDropdown()"
+          id="genders-dropbtn"
+          class="genders-dropbtn"
+        >
+          {{content.actions[lang]["pickGender"]}}
+        </button>
+        <div id="genders-dropdown" class="genders-dropdown-content">
+          <input
+            type="text"
+            placeholder="{{content.global_[lang]['search']}}..."
+            id="gender-search"
+            onkeyup="gendersFilter()"
+          />
+          {% for gender in content.genders[lang].keys() %}
+          <button
+            style="font-family: 'Raleway'"
+            onclick="chooseGender('{{content.genders[lang][gender]}}', '{{gender}}', '{{lang}}');"
+          >
+            {{content.genders[lang][gender]}}
+          </button>
+          {% endfor %}
+        </div>
+        <div class="divider"></div>
+        <h4>Shipping Information</h4>
+        <div class="field-container" id="address-line-one-field-container">
+          <input
+            type="address"
+            name="addressOne"
+            placeholder="Adress Line One"
+            id="address-line-one-field"
+          />
+        </div>
+        <div class="field-container" id="address-line-two-field-container">
+          <input
+            type="address"
+            name="addressTwo"
+            placeholder="Adress Line Two"
+            id="address-line-two-field"
+          />
+        </div>
+        <button
+          onclick="toggleCitiesDropdown()"
+          id="cities-dropbtn"
+          class="cities-dropbtn"
+        >
+          Pick City
+        </button>
+        <div id="cities-dropdown" class="cities-dropdown-content">
+          <input
+            type="text"
+            placeholder="{{content.global_[lang]['search']}}..."
+            id="city-search"
+            onkeyup="citiesFilter()"
+          />
+          {% for city in content.cities[lang].keys() %}
+          <button
+            style="font-family: 'Raleway'"
+            onclick="chooseCity('{{content.cities[lang][city]}}', '{{city}}', '{{lang}}');"
+          >
+            {{content.cities[lang][city]}}
+          </button>
+          {% endfor %}
+        </div>
+        <div class="divider"></div>
+        <h4>Products Information</h4>
+        <div id="cart">
+          <h4 id="products-length">0 Products</h4>
+          <div id="specs">
+            <div>
+              <p id="price">
+                Price<br /><span style="font-family: 'Poppins'">0</span> L.E.
+              </p>
+            </div>
+            <div>
+              <br />
+              <p id="vat">
+                Vat<br /><span style="font-family: 'Poppins'">0</span> L.E.
+              </p>
+            </div>
+            <div>
+              <p id="shipping-fees">
+                Shipping Fees<br /><span style="font-family: 'Poppins'">0</span>
+                L.E.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div id="picked-products"></div>
+        <button
+          onclick="toggleProductsDropdown()"
+          id="products-dropbtn"
+          class="products-dropbtn"
+        >
+          Pick Product
+        </button>
+        <div id="products-dropdown" class="products-dropdown-content">
+          <input
+            type="text"
+            placeholder="{{content.global_[lang]['search']}}..."
+            id="product-search"
+            onkeyup="productsFilter()"
+          />
+          {% for product in products %}
+          <button
+            style="font-family: 'Raleway'"
+            onclick="chooseProduct(`{{product.name['en']}}`, {{product.to_dict() | safe}}, '{{lang}}');"
+          >
+            {{product.name['en']}}
+          </button>
+          {% endfor %}
+        </div>
+        <div id="product-add-options">
+          <div id="form-colors">
+            <p>Pick Color</p>
+            <div id="form-colors-pick"></div>
+          </div>
+          <div id="form-sizes">
+            <p>Pick Sizes</p>
+            <div id="form-sizes-pick"></div>
+          </div>
+          <div id="options">
+            <div class="field-container">
+              <input
+                value="1"
+                id="form-product-amount"
+                placeholder="Amount"
+                type="number"
+                min="1"
+                max="15"
+              />
+            </div>
+            <button class="main-button" id="form-add-to-cart">Add</button>
+          </div>
+          <p id="product-add-status"></p>
+        </div>
+        <div class="divider"></div>
+      </div>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          width: 100%;
+          flex-direction: row;
+          min-height: 8vh;
+        "
+      >
+        <button class="shadow-button" onclick="closePlaceOrderDialog();">
+          Cancel
+        </button>
+        <button
+          class="main-button"
+          id="place-order-confirmation"
+          onclick="placeOrderConfirmation();"
+        >
+          Place
+        </button>
+      </div>
+    </div>
+    <script type="text/javascript">
+      initializeProductsData({{all_products | safe}});
+      initializeCitiesData({{content.cities['en'] | safe}});
+      let pendingOrders= [];
+      {% for o in orders["PENDING"]%}
+        pendingOrders.push({{o.to_dict() |safe}});
+      {%endfor%}
+      let productsList= [];
+      {% for product in products %}
+      	productsList.push({{product.to_dict() | safe}});
+      {%endfor%}
+    </script>
+  </body>
+</html>

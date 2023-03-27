@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - Products</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/products/styles/computer.css')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/products/scripts/main.js')}}"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <nav>
+        {% if "0" in admin_data["accesses"] %}
+        <a
+          href="{{cfg.base_url}}/webapp/adminstration/products/"
+          class="active-tab"
+          >Products</a
+        >
+        {% endif %} {% if "1" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/orders/">Orders</a>
+        {% endif %} {% if "2" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/categories/"
+          >Categories</a
+        >
+        {% endif %} {% if "4" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/banners/">Banners</a>
+        {% endif %} {% if "5" in admin_data["accesses"] %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/users/">Users</a>
+        {% endif %}
+        <a href="{{cfg.base_url}}/webapp/adminstration/settings/">Settings</a>
+      </nav>
+    </header>
+    <section id="products">
+      <div id="side-panel">
+        <h3>Options</h3>
+        <div
+          style="
+            color: var(--main-color);
+            text-decoration: underline;
+            margin: 8px;
+            cursor: pointer;
+          "
+          onclick="openProductEdit({{{} | safe}}, 1, '{{cfg.base_url}}');"
+        >
+          Create Product
+        </div>
+        <div
+          style="
+            color: var(--main-color);
+            text-decoration: underline;
+            margin: 8px;
+            cursor: pointer;
+          "
+          onclick="openShippingOptionsDialog({{shipping_options}});"
+        >
+          Edit Shipping Options
+        </div>
+        <div style="height: 10vh"></div>
+        <h3>Filter</h3>
+        <p>Find the exact products you're searching for!</p>
+        <div class="divider"></div>
+        <h4>Search</h4>
+        <p>Find the product you're searching for by name or code!</p>
+        <div id="search-container">
+          <input
+            name="search"
+            id="token-field"
+            type="name"
+            placeholder="Search by name, code, etc..."
+          />
+        </div>
+        <div class="divider"></div>
+        <h4>Category</h4>
+        <p>Find the product you're searching for by its category</p>
+        {% for cat in database.categories.all_categories %}
+        <label class="cat-checkbox">
+          {{cat.name['en']}}
+          <input type="checkbox" id="{{cat.id}}-checkbox" />
+          <span class="checkmark"></span>
+        </label>
+        {% endfor %}
+        <div class="divider"></div>
+        <h4>Price</h4>
+        <p>Find the product you're searching for by adjusted price range!</p>
+        <div id="price">
+          <input
+            name="min-price"
+            id="min-price-field"
+            value="0"
+            min="1"
+            max="30000"
+            placeholder="Minimum Price"
+          />
+          ~
+          <input
+            name="max-price"
+            id="max-price-field"
+            value="30000"
+            min="1"
+            max="30000"
+            placeholder="Maximum Price"
+          />
+        </div>
+        <div class="divider"></div>
+        <div id="options">
+          <button onclick="filterClear();" class="shadow-button">Clear</button>
+          <button onclick="filterApply();" class="main-button">Apply</button>
+        </div>
+      </div>
+      <div id="products">
+        {% for prod in products %} {% set cat=
+        database.categories.get_category_by_id(prod.category) %} {% set scat=
+        database.categories.get_sub_category_by_id(prod.category,
+        prod.sub_category) %}
+        <div
+          onclick="chooseCategory(`{{cat.name['en']}} - {{scat.name['en']}}`, '{{prod.category}}', {{prod.sub_category}}, 'en', false); openProductEdit({{prod.to_dict() | safe}}, 0, '{{cfg.base_url}}');"
+          class="product-card"
+          href="{{cfg.base_url}}/products/{{prod.id}}"
+        >
+          <div
+            id="product-asset"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+          ></div>
+          <div id="product-content">
+            <div id="content">
+              <p style="font-family: 'Raleway'">
+                {{database.categories.get_category_by_id(prod.category)['name'][lang]}}
+              </p>
+              <h3 style="font-family: 'Raleway'">{{prod.name[lang]}}</h3>
+              <p style="font-family: 'Raleway'">{{prod.bio[lang][:25]}}...</p>
+              <h4 style="font-family: 'Poppins'">
+                {{utils.format_price(prod.pricing['currentPrice'], show_curr=
+                False)}} {% if prod.pricing['perviousPrice'] %}
+                <span
+                  >{{utils.format_price(prod.pricing['perviousPrice'],
+                  show_curr= False)}}</span
+                >
+                {% endif %}
+              </h4>
+            </div>
+          </div>
+        </div>
+        {% endfor%}
+      </div>
+    </section>
+    <div id="overlay" onclick="closeProductEdit();"></div>
+    <div id="product-edit-dialog">
+      <div id="header">
+        <h3>Edit Product</h3>
+        <div onclick="closeProductEdit();">x</div>
+      </div>
+      <div id="form">
+        <label>Code</label>
+        <div class="field-container">
+          <input type="name" name="name" id="code" placeholder="Code" />
+        </div>
+        <label>English Name</label>
+        <div class="field-container">
+          <input
+            type="name"
+            name="name"
+            id="en-name"
+            placeholder="English Name"
+          />
+        </div>
+        <label>Arabic Name</label>
+        <div class="field-container">
+          <input
+            type="name"
+            name="name"
+            id="ar-name"
+            placeholder="Arabic Name"
+          />
+        </div>
+        <label>English Bio</label>
+        <div class="multi-line-field-container">
+          <textarea id="en-bio" placeholder="English Bio"></textarea>
+        </div>
+        <label>Arabic Bio</label>
+        <div class="multi-line-field-container">
+          <textarea id="ar-bio" placeholder="Arabic Bio"></textarea>
+        </div>
+        <label>English Specs</label>
+        <div class="multi-line-field-container">
+          <textarea id="en-specs" placeholder="English Specs"></textarea>
+        </div>
+        <label>Arabic Specs</label>
+        <div class="multi-line-field-container">
+          <textarea id="ar-specs" placeholder="Arabic Specs"></textarea>
+        </div>
+        <legend>
+          <label>Categorization</label>
+          <button
+            onclick="toggleCategoriesDropdown()"
+            id="categories-dropbtn"
+            class="categories-dropbtn"
+          >
+            Pick Category
+          </button>
+          <div id="categories-dropdown" class="categories-dropdown-content">
+            <input
+              type="text"
+              placeholder="{{content.global_[lang]['search']}}..."
+              id="category-search"
+              onkeyup="categoriesFilter()"
+            />
+            {% for category in categories %} {% for subcat in category.subcats
+            %}
+            <button
+              style="font-family: 'Raleway'"
+              onclick="chooseCategory(`{{category.name['en']}} - {{subcat.name['en']}}`, '{{category.id}}', {{subcat.id}}, 'en');"
+            >
+              {{category.name['en']}} - {{subcat.name['en']}}
+            </button>
+            {% endfor %} {% endfor %}
+          </div>
+        </legend>
+        <legend>
+          <label>Colors</label>
+          <div id="colors"></div>
+        </legend>
+        <legend>
+          <label>Sizes</label>
+          <div id="sizes">
+            {% set sizes= ['s', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl']%} {%for
+            size in sizes%}
+            <label class="cat-checkbox">
+              {{size | upper}}
+              <input type="checkbox" id="sizes-{{size}}-checkbox" />
+              <span class="checkmark"></span>
+            </label>
+            {% endfor %}
+          </div>
+        </legend>
+
+        <div style="height: 10vh"></div>
+        <legend>
+          <label>Pricing</label>
+          <div
+            style="flex-direction: row; display: flex; width: 100%; gap: 16px"
+          >
+            <div class="field-container">
+              <input
+                type="number"
+                placeholder="Piece Price"
+                name="Piece Price"
+                id="peice-price"
+              />
+            </div>
+            <div class="field-container">
+              <input
+                type="number"
+                placeholder="Two Pieces Price"
+                name="Two Pieces Price"
+                id="2-peices-price"
+              />
+            </div>
+          </div>
+          <div
+            style="flex-direction: row; display: flex; width: 100%; gap: 16px"
+          >
+            <div class="field-container">
+              <input
+                type="number"
+                placeholder="Four Pieces Price"
+                name="Four Pieces Price"
+                id="4-peices-price"
+              />
+            </div>
+            <div class="field-container">
+              <input
+                type="number"
+                placeholder="Six Pieces Price"
+                name="Six Pieces Price"
+                id="6-peices-price"
+              />
+            </div>
+          </div>
+          <div class="field-container">
+            <input
+              type="number"
+              placeholder="Dozin Price"
+              name="Dozin Price"
+              id="dozin-peices-price"
+            />
+          </div>
+        </legend>
+        <label>Vat</label>
+        <div class="field-container">
+          <input
+            type="number"
+            name="Vat"
+            placeholder="Vat"
+            min="0"
+            max="1"
+            id="vat"
+          />
+        </div>
+        <div style="height: 10vh"></div>
+        {% for city_code in content.cities['en'].keys() %}
+        <legend>
+          <label>{{content.cities['en'][city_code]}}</label>
+          <div
+            style="flex-direction: row; display: flex; width: 100%; gap: 16px"
+          >
+            <div class="field-container">
+              <input
+                type="quantity"
+                name="Delivery Days"
+                placeholder="Delivery Days"
+                id="{{city_code}}-del-days"
+              />
+            </div>
+            <div class="field-container">
+              <input
+                type="number"
+                name="Shipping Fees"
+                placeholder="Shipping Fees"
+                id="{{city_code}}-shipping-fees"
+              />
+            </div>
+          </div>
+        </legend>
+        {% endfor %}
+        <div style="height: 10vh"></div>
+        <legend>
+          <label
+            >Assets
+            <span style="color: #999; font-size: 0.75em"
+              >(At least add 3 icons)</span
+            ></label
+          >
+          <div id="assets">
+            <div class="asset-card" id="add-asset-btn">+</div>
+          </div>
+        </legend>
+      </div>
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+        "
+      >
+        <div style="color: red" class="shadow-button" id="delete-product">
+          Delete
+        </div>
+        |
+        <div onclick="clearForm();" class="shadow-button" id="form-cancel">
+          Clear
+        </div>
+        |
+        <div
+          onclick="closeProductEdit();"
+          class="shadow-button"
+          id="form-cancel"
+        >
+          Cancel
+        </div>
+        <div class="main-button" id="form-submit">Submit</div>
+        <p
+          id="submit-status"
+          style="
+            margin: 0 8px;
+            font-family: 'Raleway';
+            font-weight: 500;
+            color: var(--main-color);
+          "
+        ></p>
+      </div>
+    </div>
+    <div
+      id="shipping-options-dialog-overlay"
+      onclick="closeEditShippingOptionsDialog()"
+    ></div>
+    <div id="shipping-options-dialog">
+      <div id="header">
+        <h3>Edit Shipping Options</h3>
+        <div id="close" onclick="closeEditShippingOptionsDialog()">x</div>
+      </div>
+      {% for i in content.cities['en'].keys() %}
+      <label>{{content.cities['en'][i]}}</label>
+      <div style="flex-direction: row; display: flex; width: 100%; gap: 16px">
+        <div class="field-container">
+          <input
+            type="quantity"
+            value="{{shipping_options[i|string]['durations']}}"
+            name="Delivery Days"
+            placeholder="Delivery Days"
+            id="{{i}}-options-del-days"
+          />
+        </div>
+        <div class="field-container">
+          <input
+            type="number"
+            value="{{shipping_options[i|string]['fees']}}"
+            name="Shipping Fees"
+            placeholder="Shipping Fees"
+            id="{{i}}-options-shipping-fees"
+          />
+        </div>
+      </div>
+      {% endfor %}
+      <div id="options">
+        <div
+          class="shadow-button"
+          id="submit"
+          onclick="closeEditShippingOptionsDialog();"
+        >
+          Close
+        </div>
+        <div
+          class="main-button"
+          id="options-submit"
+          onclick="submitEditShippingOptions({{content.cities['en'].keys()|list}});"
+        >
+          Submit
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+             window.onload= ()=> {
+      initShippingOptions({{shipping_options | safe}});
+               initCategoriesCheckboxes({{cats_ids | safe}})
+               initWithParams({{search_params | safe}});
+             }
+    </script>
+  </body>
+</html>

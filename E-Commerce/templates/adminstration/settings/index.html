@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bra7tak Admin - Settings</title>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/settings/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='checkout/styles/computer.css')}}">
+
+	<script type="text/javascript" src="{{url_for('static', filename='adminstration/settings/scripts/main.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='adminstration/global/scripts/main.js')}}"></script>
+</head>
+<body>
+	<header>
+		<h3>Bra7tak Admin</h3>
+		<nav>
+			{% if "0" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/products/">Products</a>
+			{% endif %}
+			{% if "1" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/orders/">Orders</a>
+			{% endif %}
+			{% if "2" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/categories/">Categories</a>
+			{% endif %}
+			{% if "4" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/banners/">Banners</a>
+			{% endif %}
+			{% if "5" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/users/">Users</a>
+			{% endif %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/settings/" class="active-tab">Settings</a>
+		</nav>
+	</header>
+	<section id="admin-details">
+		<div id="admin-information">
+			<h3>Admin Information</h3>
+			<div class="admin-data-row">
+				<label>Admin Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<p>{{admin_data['name']}}</p>
+			</div>
+			<div class="divider"></div>
+			<div class="admin-data-row">
+				<label>Admin Id: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<p>{{admin_data['aid']}}</p>
+			</div>
+			<div class="divider"></div>
+			<div class="admin-data-row">
+				<label>Username:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<p>{{admin_data['username']}}</p>
+			</div>
+			<div class="divider"></div>
+			{% set accesses= ['Products', 'Orders', 'Categories', 'Collections', 'Banners', 'Users', 'Manage Admins'] %}
+			<div class="admin-data-row">
+				<label>Access:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<p>
+					{% for access in 
+					admin_data['accesses'] %}
+						{% if accesses[access | int] == accesses[-1]%}
+							<a href="#admins"><span style="cursor: pointer; color: var(--secondary-color); text-decoration: underline; margin: 4px 0;">- {{accesses[access | int]}}<br></span></a>
+						{%else%}
+							<a href="{{cfg.base_url}}/webapp/adminstration/{{accesses[access | int] | lower}}/"><span style="cursor: pointer; color: var(--secondary-color); text-decoration: underline; margin: 4px 0;">- {{accesses[access | int]}}<br></span></a>
+						{% endif %}
+					{% endfor %}
+				</p>
+			</div>
+			<div class="divider"></div>
+			<div class="admin-data-row">
+				<label>Access Key:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+				<p>{{admin_data['accessKey']}}</p>
+			</div>
+			<div id="options" style="display: flex; justify-content: end; width: 100%">
+				<button style="color: red; text-decoration: underline;" class="shadow-button" onclick="logout('{{cfg.base_url}}');">Logout</button>
+			</div>
+
+		</div>
+	</section>
+
+	{% if '6' in admin_data['accesses'] %}
+		{% set accesses= ['Products', 'Orders', 'Categories', 'Collections', 'Banners', 'Users', 'Manage Admins'] %}
+		<section id="admins">
+			<div id="header">
+				<h3>Admins</h3>
+				<button onclick="openCreateAdminDialog();" class="main-button">Create</button>
+			</div>
+			<table id="admins">
+				<tr>
+					<th>Admin ID</th>
+					<th>Admin Name</th>
+					<th>Admin Username</th>
+					<th>Admin Access Key</th>
+					<th>Admin Access</th>
+					<th>Options</th>
+				</tr>
+				{% for admin in database.admins.admins_data.values() %}
+					<tr>
+						<td>{{admin['aid']}}</td>
+						<td>{{admin['name']}}</td>
+						<td>{{admin['username']}}</td>
+						<td>{{admin['accessKey']}}</td>
+						<td>
+							{% for access in admin["accesses"] %}
+								{{accesses[access | int]}}<br>
+							{%endfor%}
+						</td>
+						<td>
+							{% if admin['aid'] != "MetaAdmin" %}
+								<button class="shadow-button" style="color: red;" onclick="openDeleteAdminDialog({{admin | safe}});">Delete</button>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</section>
+		<div id="overlay"></div>
+		<div id="delete-admin-dialog">
+			<div id="header">
+				<h3>Delete Admin</h3>
+				<div style="cursor: pointer;" onclick="closeDeleteAdminDialog();">x</div>
+			</div>
+			<p id="del-dialog-msg"></p>
+			<div class="field-container" id="key-container">
+				<input type="password" name="key" placeholder="Meta Key" id="key">
+			</div>
+			<div id="options" style="display: flex; justify-content: end; width: 100%">
+				<button class="shadow-button" id="delete-admin-cancelation">Cancel</button>
+				<button class="main-button" id="delete-admin-confirmation">Confrim</button>
+			</div>
+		</div>
+		<div id="create-admin-dialog">
+			<div id="header">
+				<h3>Delete Admin</h3>
+				<div style="cursor: pointer;" onclick="closeCreateAdminDialog();">x</div>
+			</div>
+			<div id="content">
+				<div class="field-container" id="name-field-container">
+					<input type="name" name="name" id="name-field" placeholder="Admin Name">
+				</div>
+				<div class="field-container" id="username-field-container">
+					<input type="username" name="username" id="username-field" placeholder="Admin Username">
+				</div>
+				<div class="field-container" id="access-key-field-container">
+					<input type="password" name="access-key" id="access-key-field" placeholder="Admin Access Key">
+				</div>
+				<legend style="font-weight: 900; margin-bottom: 8px;">Access</legend>
+				<div id="accesses">
+					{% for access in accesses %}
+						<label class="access-checkbox" >
+	        				{{access}}
+	          				<input type="checkbox" id="{{accesses.index(access)}}-checkbox" />
+	          				<span class="checkmark"></span>
+	        			</label>
+
+					{% endfor%}
+				</div>
+			</div>
+			<div id="options" style="display: flex; justify-content: end; width: 100%">
+				<button class="shadow-button" id="create-admin-canelation" onclick="closeCreateAdminDialog();">Cancel</button>
+				<button class="main-button" id="create-admin-confirmation" onclick="createAdminConfirmation();">Confirm</button>
+			</div>
+		</div>
+	{% endif %}
+</body>
+</html>
