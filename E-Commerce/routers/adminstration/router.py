@@ -32,5 +32,5 @@ class AdminstrationRouter:
         BannersSubRouter(app=self.app).setup()
         CategoriesSubRouter(app=self.app).setup()
         AuthSubRouter(app=self.app).setup()
-        InventorySubRouter(app=self.app).setup()
-        POSSubRouter(app=self.app).setup()
+        # InventorySubRouter(app=self.app).setup()
+        # POSSubRouter(app=self.app).setup()
