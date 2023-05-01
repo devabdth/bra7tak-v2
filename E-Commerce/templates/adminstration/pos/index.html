@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - POS</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/pos/styles/computer.css')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/pos/scripts/main.js')}}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/global/scripts/main.js')}}"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <div class="navbar">
+        <div class="dropdown">
+          <button class="dropbtn">Analyticas</button>
+          <div class="dropdown-content">
+            <label>Analyticas</label>
+            <a href="/webapp/adminstration/overview/">Overview</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Resources Planning</button>
+          <div class="dropdown-content">
+            <label>Resources Planning</label>
+            <a href="#">Shipping Information</a>
+            <a href="/webapp/adminstration/inventory/">Inventory</a>
+            <a href="/webapp/adminstration/orders/">Orders</a>
+            <a href="/webapp/adminstration/pos/" class="active">POS</a>
+            <a href="/webapp/adminstration/hr/">HR</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Website Content</button>
+          <div class="dropdown-content">
+            <label>Website Content</label>
+            <a href="/webapp/adminstration/categories/">Categories</a>
+            <a href="/webapp/adminstration/products">Products</a>
+            <a href="/webapp/adminstration/banners/">Banners</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Users Management</button>
+          <div class="dropdown-content">
+            <label>Users Management</label>
+            <a href="/webapp/adminstration/users/">Users</a>
+            <a href="/webapp/adminstration/settings/">Admins</a>
+          </div>
+        </div>
+        |
+        <button onclick="logout()" class="shadow-button" style="color: red">
+          Logout
+        </button>
+      </div>
+    </header>
+    {% set report= calcs.report() %}
+    <div id="header">
+      <h3>Point of Sale</h3>
+      <button class="main-button">Add Entry</button>
+    </div>
+    <section id="entry">
+      <div id="cards">
+        <div class="card blue">
+          <h3 class="title">Orders Revenues</h3>
+          <p class="bio">
+            The amount of money that enters the company from orders.
+          </p>
+          <p class="value">
+            {{utils.format_price((report['OVERVIEW']['INPUTS']['ORDERS'] |
+            int))}}
+          </p>
+        </div>
+        <div class="card blue">
+          <h3 class="title">Deals Revenues</h3>
+          <p class="bio">
+            The amount of money that enters the company from deals.
+          </p>
+          <p class="value">
+            {{utils.format_price((report['OVERVIEW']['INPUTS']['DEALS'] |
+            int))}}
+          </p>
+        </div>
+        <div class="card red">
+          <h3 class="title">Stock Expenses</h3>
+          <p class="bio">The amount of money that spent on stock.</p>
+          <p class="value">
+            {{utils.format_price((report['OVERVIEW']['OUTPUTS']['STOCK'] |
+            int))}}
+          </p>
+        </div>
+        <div class="card red">
+          <h3 class="title">Salaries Expenses</h3>
+          <p class="bio">The amount of money that spent on salaries.</p>
+          <p class="value">
+            {{utils.format_price((report['OVERVIEW']['OUTPUTS']['SALARIES'] |
+            int)) or '0'}}
+          </p>
+        </div>
+        <div class="card red">
+          <h3 class="title">Bills Expenses</h3>
+          <p class="bio">The amount of money that spent on monthly bills.</p>
+          <p class="value">
+            {{utils.format_price((report['OVERVIEW']['OUTPUTS']['BILLS'] | int))
+            or '0'}}
+          </p>
+        </div>
+        <div class="card red">
+          <h3 class="title">Investments Expenses</h3>
+          <p class="bio">
+            The amount of money that spent on investments (like marketing).
+          </p>
+          <p class="value">
+            {{utils.format_price((report['OVERVIEW']['OUTPUTS']['INVESTMENTS'] |
+            int)) or '0'}}
+          </p>
+        </div>
+        <div class="card green">
+          <h3 class="title">Total Revenues</h3>
+          <p class="bio">The total amount of money that enters the comapny.</p>
+          <p class="value">
+            {{utils.format_price((report['CONVERSION_RATE']['TOTAL_INPUTS'] |
+            int))}}
+          </p>
+        </div>
+        <div class="card green">
+          <h3 class="title">Total Expenses</h3>
+          <p class="bio">The total amount of money that spent from comapny.</p>
+          <p class="value">
+            {{utils.format_price((report['CONVERSION_RATE']['TOTAL_OUTPUTS'] |
+            int))}}
+          </p>
+        </div>
+        <div class="card green">
+          <h3 class="title">Profit Margin</h3>
+          <p class="bio">The difference between inputs and outputs.</p>
+          <p class="value">
+            {{utils.format_price((report['CONVERSION_RATE']['PROFIT_MARGIN'] |
+            int ))}}
+            <span
+              >({{(report['CONVERSION_RATE']['PROFIT_MARGIN_PRECENTAGE']|string)[:5]}}%)</span
+            >
+          </p>
+        </div>
+        <div class="card yellow">
+          <h3 class="title">ROI</h3>
+          <p class="bio">Return on Investment.</p>
+          <p class="value">{{(report['ROI'] | string)[:5]}}%</p>
+        </div>
+      </div>
+    </section>
+    <div id="fragments-controllers">
+      <div onclick="pickFragment(this)" class="fragment-controller active" id="inputs">Revenue</div>
+      <div onclick="pickFragment(this)" class="fragment-controller" id="outputs">Expenses</div>
+    </div>
+    <section class="table-container active" id="inputs">
+      <table id="inputs">
+        <tr>
+          <th>Direction</th>
+          <th>Amount</th>
+          <th>Recorded By</th>
+          <th>Date</th>
+        </tr>
+        {% for _, entry in db.pos.inputs.iterrows() %}
+        <tr>
+          <td>{{entry['direction']}}</td>
+          <td>{{entry['amount']}}</td>
+          <td>{{entry['recordedBy']}}</td>
+          <td>{{utils.format_date_from_timestamp(entry['date']) | safe}}</td>
+        </tr>
+        {%endfor%}
+      </table>
+    </section>
+    <section class="table-container" id="outputs">
+      <table id="outputs">
+        <tr>
+          <th>Direction</th>
+          <th>Amount</th>
+          <th>Recorded By</th>
+          <th>Date</th>
+        </tr>
+        {% for _, entry in db.pos.outputs.iterrows() %}
+        <tr>
+          <td>{{entry['direction']}}</td>
+          <td>{{entry['amount']}}</td>
+          <td>{{entry['recordedBy']}}</td>
+          <td>{{utils.format_date_from_timestamp(entry['date']) | safe}}</td>
+        </tr>
+        {%endfor%}
+      </table>
+    </section>
+
+    <script></script>
+  </body>
+</html>

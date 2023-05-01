@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{content.global_[lang]['name']}} - {{content.global_[lang]['privacyPolicy']}}</title>
+	<meta name="description" content="{{cfg.meta_description}}">
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='global/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='global/styles/smallDevices.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='documentations/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='documentations/styles/smallDevices.css')}}">
+
+	<script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+</head>
+<body>
+	    <header>
+	    	<div id="title">
+	    		<div id="drawer-icon"></div>
+			    		
+		      <a
+		        href="/"
+		        id="header-title"
+		        style="font-family: '{{primary_font_family}}';"
+		        >{{content.global_[lang]['name']}}</a
+		      >
+	    	</div>
+      <div id="header-search-container">
+        <input
+          type="name"
+          name="search"
+          id="header-search"
+          placeholder="{{content.global_[lang]['searchHint']}}"
+        />
+      </div>
+      <nav>
+      	{%if user_data %}
+        	<a href="{{cfg.base_url}}/profile/" id="header-user-nav-item">
+        {% else %}
+        	<a href="{{cfg.base_url}}/login/" id="header-user-nav-item">
+        {% endif %}
+          <div id="header-user-icon" class="header-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+          	{% if user_data %}
+          		{{content.global_[lang]['welcomeBack']}},<br><span>
+          			{{user_data.name}}
+          		</span>
+          	{% else %}
+            	{{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        <a href="{{cfg.base_url}}/favourites/" id="header-favourites-nav-item">
+          <div id="header-favourites-icon" class="header-nav-icon"></div>
+          <div id="header-favourites-badge">
+          	{% if user_data %}
+          		{{utils.cart_calculations(user_data.favourites)['PRODUCTS_LENGTH']}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="header-cart-nav-item">
+          <div id="header-cart-icon" class="header-nav-icon"></div>
+          <div id="header-cart-badge">
+          	{% if user_data %}
+          		{{len(user_data.cart)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+      </nav>
+    </header>
+    <section id="entry" class="privacy">
+        <div id="overlay">
+            <h1 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['privacyPolicy']}}</h1>
+        </div>
+    </section>
+
+    <section id="content" style="font-family: '{{primary_font_family}}';">
+        {% if lang == 'en' %}
+        <p>This Privacy Policy describes how we  and   use information  to us at bra7tak.com and the steps we take to protect it.</p>
+        <p><strong>Information we collect online</strong></p>
+        <p>To make a   bra7tak.com, we require  information such as  name, address, phone number, and email address. For billing purposes, you may also need to provide your credit card type, number, expiration date, and billing address. Your credit card information is securely submitted on the payment gateway of Paymob,  they do not   with bra7tak.com. If your order is to be shipped, we also require the name, address, and phone number of the recipient(s).</p>
+        <p>&nbsp;</p>
+        <p>You may create an account on our  using your email address and a unique access password.  an account is not required to visit our site, it allows you to save billing information   your orders. For your security, we do not store credit card numbers in your account. You may change your saved account  at any time.</p>
+        <p>&nbsp;</p>
+        <p> you access bra7tak.com,  text files known as &quot;cookies&quot;  be stored on your computer&apos;s hard drive. These cookies allow us to  and personalize your shopping experience and improve  design of our site. Cookies store information  your visits, shopping cart contents, and preferences. You can adjust your web browser settings  notify  when you receive a cookie, and you can also erase cookies from your browser after shopping. However,   may limit  ability to personalize bra7tak.com for your next visit.</p>
+        <p>&nbsp;</p>
+        <p>We also collect certain technical information from  computer, such as your IP address, operating system, browser type, and the address of any referring website. This information  be used to identify  except  the case of IP addresses, which we may use to identify unauthorized activities and take legal action.</p>
+        <p><strong>Text Marketing and notifications:</strong></p>
+        <p>When you  your phone number while making a purchase, subscribing through opt-in forms, or texting a keyword phrase,    permission to send  text messages. These  may include information  our products, services,  promotions,  well  abandoned cart reminders. Please   consent to receive text messages is not required for making a purchase, and message and data rates may apply.    messages may vary.</p>
+        <p>&nbsp;</p>
+        <p>You  unsubscribe from receiving text messages at any time by replying STOP to any  sent from us or  clicking an unsubscribe link provided in  of our messages.  note that manual requests to unsubscribe will  be considered reasonable means of  from our text messages, and alternative   opting out are available. For more information or any questions regarding  policy  unsubscribing, you can contact us at the provided email address.</p>
+        <p>&nbsp;</p>
+        <p> follow the listed procedures to opt-out of receiving  messages  us.</p>
+        <p><strong>Accessing and updating my information</strong></p>
+        <p>It is important  protect your   and account credentials. If you    access  use of your account, please contact   to take necessary steps to  your account. We recommend that you change your password periodically to ensure  security.</p>
+        <p>&nbsp;</p>
+        <p>If you do not have an  with bra7tak.com, you may still request to access and correct your personal information by  our customer  team. We  do our best to respond to your request  a timely manner.</p>
+        <p>&nbsp;</p>
+        <p>Please note  we  need to retain  information for record-keeping purposes or to complete transactions  you  prior to  a change or deletion of your information. In addition, we  not be able to remove all  your information from our backup systems or historical data. However, we will  reasonable steps to accommodate your request  the extent possible under applicable laws and regulations.</p>
+        <p><strong>Privacy protection</strong></p>
+        <p>We  our databases with various physical,  and procedural measures and we restrict access to your information by unauthorized persons.</p>
+        <p>We use Secure Sockets Layer (SSL) technology, which is the electronic commerce standard for securing  as it travels over the Internet. SSL technology is designed to encrypt your information, preventing an unauthorized party from viewing and   information. Your web browser should display a web address  an &ldquo;https&rdquo; prefix, indicating that the SSL technology is operating  using certain portions of our website, such  Register &amp; Check Out features.</p>
+        <p><strong>Proprietary Rights</strong></p>
+        <p>The content on bra7tak.com, which includes various types of material such as data, software, photographs, videos, music, and more, is protected by copyright, trademark, patent, and other  rights. These  are  and will continue to be protected  all   media, both current  future.</p>
+        <p><strong>Security</strong></p>
+        <p>As a user of this website, it is your responsibility  keep your account and  secure and  access to your device. You also agree to take responsibility for any  taken under your account. Furthermore, the use of bra7tak. is only allowed for  purposes.</p>
+        {% elif lang == 'ar' %}
+        <p dir="RTL">تصف سياسة الخصوصية هذه كيف نستخدم ولا نستخدم المعلومات المقدمة لنا في bra7tak.com والخطوات التي نتخذها لحمايتها.</p>
+        <p dir="RTL"><strong>المعلومات التي نجمعها عبر الإنترنت</strong></p>
+        <p dir="RTL">المعلومات اللازمة لإجراء عملية شراء: عند إجراء عملية شراء ، نطلب اسمك وعنوانك ورقم هاتفك وعنوان بريدك الإلكتروني وغيرها من المعلومات اللازمة لإكمال طلبك وتتبعه. لأغراض الفوترة، قد تحتاج إلى تقديم نوع بطاقة الائتمان ورقمها وتاريخ انتهاء صلاحيتها وعنوان إرسال الفواتير للبطاقة. يتم إرسال معلومات بطاقة الائتمان هذه على بوابة الدفع الخاصة بشركة Paymob. لا تشارك شركة Paymob أيا من معلوماتك أو معلومات بطاقتك الائتمانية مع bra7tak.com. إذا كان سيتم شحن طلبك ، فنحن بحاجة أيضا إلى اسم وعنوان ورقم هاتف المستلم (المستلمين) المقصود.</p>
+        <p dir="RTL">المعلومات اللازمة لإنشاء حساب: يمكنك إنشاء حساب من خلال bra7tak.com في أي وقت عن طريق تقديم عنوان بريدك الإلكتروني وتعيين كلمة مرور وصول فريدة. لا تحتاج إلى إنشاء حساب من أجل زيارة موقعنا. يتيح لك إنشاء حساب حفظ معلومات فوترة معينة حتى تتمكن من تتبع حالة طلباتك وتعيين تفضيلات الطلب الخاصة بك. من أجل خصوصيتك وأمانك ، لا نقوم بتخزين أرقام بطاقات الائتمان في حسابك. يمكنك تغيير معلومات الحساب المحفوظة في أي وقت.</p>
+        <p dir="RTL">ملفات تعريف الارتباط ومعلومات الكمبيوتر الأخرى: عند الوصول إلى bra7tak&nbsp;.com سيتم تخزين الملفات النصية الصغيرة المعروفة باسم &quot;ملفات تعريف الارتباط&quot; على القرص الصلب لجهاز الكمبيوتر الخاص بك. يسمح لنا ملف تعريف الارتباط بتعزيز وتخصيص تجربة التسوق عبر الإنترنت وتحسين تصميم موقعنا. تخزن ملفات تعريف الارتباط هذه أرقام معرفات عشوائية ومعلومات حول زياراتك الأولى والأخيرة وعدد الزيارات ومحتويات عربة التسوق. يمكنك ضبط متصفح الويب الخاص بك لإعلامك عندما تتلقى ملف تعريف ارتباط ويمكنك أيضا مسح ملفات تعريف الارتباط من متصفحك بعد التسوق. إذا قمت بحذف ملفات تعريف الارتباط الخاصة بنا ، فإنك تحد من قدرتنا على تخصيص bra7tak.com لزيارتك التالية للتسوق ؛ ومع ذلك ، فإن حذف ملف تعريف الارتباط لن يمنعك من التسوق والشراء في موقعنا في المستقبل.</p>
+        <p dir="RTL">قد نقوم أيضا بجمع معلومات فنية معينة من جهاز الكمبيوتر الخاص بك. قد تتضمن هذه المعلومات الفنية عنوان بروتوكول الإنترنت (IP) الخاص بك ونظام تشغيل جهاز الكمبيوتر الخاص بك ونوع المتصفح وعنوان موقع الويب المرجعي ، إن وجد. باستثناء حالة عناوين  ، لا يمكن استخدام هذه المعلومات الفنية لتحديد هويتك. علاوة على ذلك ، لا نستخدم عادة عناوين IP لتحديد هوية أي شخص. ومع ذلك ، قد نقوم بذلك لتحديد الأنشطة غير المصرح بها ومتابعة الإجراءات القانونية.</p>
+        <p dir="RTL"><strong>التسويق النصي والإشعارات:</strong></p>
+        <p dir="RTL">من خلال تقديم رقم هاتفك أثناء الخروج وبدء عملية شراء ، أو الاشتراك من خلال نماذج الاشتراك حيث يتم توفير رقم هاتف ، أو إرسال عبارة كلمة رئيسية ، فإنك تمنحنا الموافقة على إرسال رسائل نصية إليك. يمكن إرسال هذه الرسائل لتقديم معلومات حول منتجاتنا وخدماتنا وعروضنا الترويجية ، بما في ذلك تذكيرات سلة التسوق المهجورة. الموافقة ليست شرطا للشراء. قد يتم تطبيق أسعار الرسائل والبيانات. يختلف تكرار الرسالة.</p>
+        <p dir="RTL">يمكنك إلغاء الاشتراك من تلقي الرسائل النصية في أي وقت عن طريق الرد على أي رسالة مرسلة منا أو عن طريق النقر فوق رابط إلغاء الاشتراك الموجود في أي من رسائلنا. أنت تدرك أن هناك خيارات بديلة لإلغاء الاشتراك في رسائلنا النصية وأن الطلبات اليدوية لن تنسب كوسيلة معقولة لإلغاء الاشتراك في رسائلنا النصية. أرسل HELP إلى أي رسالة مرسلة من قبلنا للحصول على مزيد من المعلومات. لأية أسئلة تتعلق بسياستنا أو إلغاء الاشتراك ، يمكنك الاتصال بنا على عنوان البريد الإلكتروني. لإلغاء الاشتراك ، يرجى اتباع الإجراءات المذكورة abov</p>
+        <p dir="RTL"><strong>كيف سيتم استخدام معلوماتي؟</strong></p>
+        <p dir="RTL">يمكن استخدام المعلومات التي يتم جمعها على bra7tak.com بالطرق التالية:</p>
+        <ul>
+            <li>جدولة تسليم البضائع التي تشتريها عبر الإنترنت.</li>
+            <li>قم بإنشاء حساب عبر الإنترنت لك على bra7tak.com</li>
+            <li>قم بفوترة بطاقتك الائتمانية لمشترياتك.</li>
+            <li>تأكيد وتتبع طلباتك.</li>
+            <li>الرد على استفسارات خدمة العملاء الخاصة بك.</li>
+            <li>قدم لك اتصالات ترويجية ومعلومات أخرى ، إذا اخترت تلقيها.</li>
+            <li>قدم المنتجات التي تريدها.</li>
+            <li>تحسين حملاتنا الإعلانية.</li>
+            <li>تخصيص تجربة التسوق الخاصة بك.</li>
+            <li>مراجعة تصميم موقعنا على أساس معلومات مجهولة المصدر حول زوار موقعنا.</li>
+            <li>نحن لا نؤجر أو نبيع اسمك لشركات خارجية لأغراض التسويق الخاصة بهم. نحن نقدم معلوماتك إلى المنظمات ذات السمعة الطيبة التي تساعدنا في تلبية طلبك و / أو لشركائنا في العمل.</li>
+        </ul>
+        <p dir="RTL"><strong>الوصول إلى معلوماتي وتحديثها</strong></p>
+        <p dir="RTL">يمكنك الوصول إلى المعلومات التي شاركتها معنا عبر الإنترنت وتصحيحها إذا كنت قد أنشأت حسابا مع bra7tak.com. ما عليك سوى تسجيل الدخول باستخدام اسم المستخدم وكلمة المرور وتعديل أو حذف أي معلومات تريدها. لا تشارك&nbsp;&nbsp;كلمة مرور&nbsp;bra7tak&nbsp;.com مع أي شخص.</p>
+        <p dir="RTL"><strong>حماية الخصوصية</strong></p>
+        <p dir="RTL">نحن نحمي قواعد البيانات الخاصة بنا بمختلف التدابير المادية والتقنية والإجرائية ونقيد الوصول إلى معلوماتك من قبل أشخاص غير مصرح لهم.</p>
+        <p dir="RTL">نحن نستخدم تقنية Secure Sockets Layer (SSL) ، وهي معيار التجارة الإلكترونية لتأمين المعلومات أثناء انتقالها عبر الإنترنت. تم تصميم تقنية SSL لتشفير معلوماتك ، ومنع أي طرف غير مصرح له من عرض معلوماتك وتنزيلها. يجب أن يعرض متصفح الويب الخاص بك عنوان ويب ببادئة &quot;https&quot; ، مما يشير إلى أن تقنية SSL تعمل عند استخدام أجزاء معينة من موقعنا على الويب ، مثل ميزات التسجيل والسحب.</p>
+        <p dir="RTL"><strong>حقوق الملكية</strong></p>
+        <p dir="RTL">جميع المحتويات المضمنة في موقع bra7tak.com بما في ذلك المعلومات والبيانات والبرامج والصور الفوتوغرافية والرسوم البيانية ومقاطع الفيديو والمحارف والرسومات والموسيقى والأصوات والمواد الأخرى (يشار إليها مجتمعة باسم &quot;المحتوى&quot;) محمية بموجب حقوق الطبع والنشر أو العلامات التجارية أو براءات الاختراع أو حقوق الملكية الأخرى ، وهذه الحقوق صالحة ومحمية بجميع الأشكال والوسائط والتقنيات الموجودة الآن أو المطورة في المستقبل.</p>
+        <p dir="RTL"><strong>أمن</strong></p>
+        <p dir="RTL">إذا كنت تستخدم هذا الموقع ، فأنت مسؤول عن الحفاظ على سرية حسابك وكلمة المرور وتقييد الوصول إلى جهاز الكمبيوتر الخاص بك. أنت توافق على قبول المسؤولية عن جميع الأنشطة التي تحدث تحت حسابك وكلمة المرور الخاصة بك.</p>
+        <p dir="RTL">لا يجوز استخدام موقع bra7tak.com إلا لأغراض قانونية.</p>
+        <p>&nbsp;</p>
+        {% endif %}
+    </section>
+    
+	<footer>
+        <div id="content">
+			<div id="meta-info">
+				<div id="logo"></div>
+				<h1 style="font-family: '{{primary_font_family}}'">{{content.global_[lang]['name']}}</h1>
+				<p style="font-family: '{{primary_font_family}}'">{{content.global_[lang]["bio"]}}</p>
+				<div id="links">
+					{% if cfg.facebook %}
+						<a href="{{cfg.facebook}}" id="footer-facebook-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.instagram %}
+						<a href="{{cfg.instagram}}" id="footer-instagram-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.twitter %}
+						<a href="{{cfg.twitter}}" id="footer-twitter-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.tiktok %}
+						<a href="{{cfg.tiktok}}" id="footer-tiktok-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.linkedin %}
+						<a href="{{cfg.linkedin}}" id="footer-linkedin-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					
+				</div>
+			</div>
+			<div id="tabs">
+
+				<div class="tabs-column">
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/refundPolicy/">{{content.global_[lang]['refundPolicy']}}</a>
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/termsAndConditions/">{{content.global_[lang]['termsAndConditions']}}</a>
+				</div>
+				<div class="tabs-column">
+					{% for cat in database.categories.all_categories[:9] %}
+						<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+					{% endfor %}
+				</div>
+				<div class="tabs-column">
+					{% for cat in database.categories.all_categories[10:19] %}
+						<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div id="copyright" style="font-family: '{{primary_font_family}}'">lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r</div>
+	</footer>
+	<div id="drawer-overlay"></div>
+	<div id="drawer">
+		<div id="drawer-header">
+			<div id="drawer-close">x</div>
+		</div>
+		 <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+		<div id="options">
+      {% if uid %}
+			<a href="{{cfg.base_url}}/profile/" id="drawer-user-nav-item">
+      {% else %}
+				<a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+      {% endif %}
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+          	{% if uid %}
+          		{{content.tabs[lang]['account']}}
+          	{% else %}
+            	{{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          	<div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+	          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+        <a href="{{cfg.base_url}}/favourites/" id="drawer-favourites-nav-item">
+          <div id="drawer-favourites-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['favourites']}}</p>
+          <div id="drawer-favourites-badge">
+          	{% if uid %}
+          		{{len(user_data.favourites)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="drawer-cart-nav-item">
+          <div id="drawer-cart-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['cart']}}</p>
+          <div id="drawer-cart-badge">
+          	{% if uid %}
+          		{{len(user_data.cart)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+		</div>
+		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
+		<div id="categories">
+			{% for cat in database.categories.all_categories %}
+				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
+					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+				</div>
+			{% endfor %}
+		</div>
+		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['socialMedia']}}</h5>
+
+		<div id="links">
+					{% if cfg.facebook %}
+						<a href="{{cfg.facebook}}" id="drawer-facebook-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.instagram %}
+						<a href="{{cfg.instagram}}" id="drawer-instagram-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.twitter %}
+						<a href="{{cfg.twitter}}" id="drawer-twitter-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.tiktok %}
+						<a href="{{cfg.tiktok}}" id="drawer-tiktok-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.linkedin %}
+						<a href="{{cfg.linkedin}}" id="drawer-linkedin-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					
+				</div>
+	</div>
+
+</body>
+</html>

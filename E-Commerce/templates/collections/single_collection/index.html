@@ -156,7 +156,13 @@
           
         </div>
       </div>
-      <div id="tabs">
+      			<div id="tabs">
+				<div class="tabs-column">
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/termsAndConditions/">{{content.global_[lang]['termsAndConditions']}}</a>
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/refundPolicy/">{{content.global_[lang]['refundPolicy']}}</a>
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/privacyPolicy/">{{content.global_[lang]['privacyPolicy']}}</a>
+				</div>
+
         <div class="tabs-column">
           {% for cat in database.categories.all_categories[:9] %}
             <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>

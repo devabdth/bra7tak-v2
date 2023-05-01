@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{content.global_[lang]['name']}} - {{content.global_[lang]['termsAndConditions']}}</title>
+	<meta name="description" content="{{cfg.meta_description}}">
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='global/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='global/styles/smallDevices.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='documentations/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='documentations/styles/smallDevices.css')}}">
+
+	<script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+</head>
+<body>
+	    <header>
+	    	<div id="title">
+	    		<div id="drawer-icon"></div>
+			    		
+		      <a
+		        href="/"
+		        id="header-title"
+		        style="font-family: '{{primary_font_family}}';"
+		        >{{content.global_[lang]['name']}}</a
+		      >
+	    	</div>
+      <div id="header-search-container">
+        <input
+          type="name"
+          name="search"
+          id="header-search"
+          placeholder="{{content.global_[lang]['searchHint']}}"
+        />
+      </div>
+      <nav>
+      	{%if user_data %}
+        	<a href="{{cfg.base_url}}/profile/" id="header-user-nav-item">
+        {% else %}
+        	<a href="{{cfg.base_url}}/login/" id="header-user-nav-item">
+        {% endif %}
+          <div id="header-user-icon" class="header-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+          	{% if user_data %}
+          		{{content.global_[lang]['welcomeBack']}},<br><span>
+          			{{user_data.name}}
+          		</span>
+          	{% else %}
+            	{{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        <a href="{{cfg.base_url}}/favourites/" id="header-favourites-nav-item">
+          <div id="header-favourites-icon" class="header-nav-icon"></div>
+          <div id="header-favourites-badge">
+          	{% if user_data %}
+          		{{utils.cart_calculations(user_data.favourites)['PRODUCTS_LENGTH']}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="header-cart-nav-item">
+          <div id="header-cart-icon" class="header-nav-icon"></div>
+          <div id="header-cart-badge">
+          	{% if user_data %}
+          		{{len(user_data.cart)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+      </nav>
+    </header>
+    <section id="entry" class="terms">
+        <div id="overlay">
+            <h1 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['termsAndConditions']}}</h1>
+        </div>
+    </section>
+
+    <section id="content" style="font-family: '{{primary_font_family}}';">
+        {% if lang == 'en' %}
+        <p> Terms and Conditions consist of  following sections:&nbsp;</p>
+        <p>1. Introduction;&nbsp;</p>
+        <p>2. The Purchase Terms;&nbsp;</p>
+        <p>3. Use  the Website and&nbsp;</p>
+        <p>4. Miscellaneous, as well as policy,  of  or document to which a link has been provided herein (collectively &ldquo;Terms &amp; Conditions&rdquo;).&nbsp;</p>
+        <p><br></p>
+        <p><br></p>
+        <p>1. INTRODUCTION This website is operated  Bra7tak. Throughout  site, the terms &ldquo;we&rdquo;, &ldquo;us&rdquo; and &ldquo;our&rdquo; refer to Bra7tak. Bra7tak offers this website, including  information, tools and services   this site to you,  user, conditioned upon your acceptance of all terms, conditions,   notices  here. 2. PURCHASE TERMS Please read  Purchase   before ordering  online from the Website.&nbsp;</p>
+        <p><br></p>
+        <p>2.1 WHEN DO THESE PURCHASE TERMS APPLY? These terms of purchase are applicable to all contracts and offers that pertain to  delivery and sale of products by our company, including the Distance Sale Agreement.  ordering any product from our website, any webpage directly connected to our website, or accepting an offer from us, you agree to these Purchase Terms. These terms can only be   if our company agrees to such changes in writing.&nbsp;</p>
+        <p>2.2  We offer a range of products that can  viewed on our website, which we refer to as &quot;Products&quot;. Please be aware  for limited edition or  production products, additional restrictions  apply, such as a limit on the number of products a customer can purchase. We will inform  of  such restrictions through  website. Please  that the availability of products displayed on the website is subject  change. Although  make every effort to ensure  our website  the availability  stock, a product   displayed on the website may no  be available  purchase. Minor  in color or other variations in  may occur due to different image acquisition, display technologies, or  technical reasons. We are not responsible for these variations and deviations. We are not liable for any errors in typing,  descriptions, or other mistakes made on the website.  customer has the right to withdraw as  in  Distance Sale Agreement.&nbsp;</p>
+        <p>2.3 REQUIREMENTS TO CONCLUDE A CONTRACT WITH BRA7TAK To purchase products from the Website, you must be at least 21 years old and legally capable of entering into a contract. Additionally, you must be a private consumer and not a reseller. By placing an order on the Website, you are confirming that all information you provide to us is accurate and complete. We reserve the right to cancel any order or refuse service to  who violates  terms.&nbsp;</p>
+        <p>2.4 HOW  A   WITH YOU? 2.4.1 General Aspects of Contract Formation This section outlines  terms and conditions related to the ordering  acceptance of products on the website.  information provided on  website  an invitation  treat and not a binding  or offer. When you place an order,  is  an offer to purchase the products listed  your order, and we reserve the right to  or refuse  order. We may verify the order before  it, and we  the right to  an order without providing any reasons. If we do not confirm acceptance of your order within ten working days, it is considered refused. We may refuse to accept your order if the product(s) are no  available,   unable to obtain  of your payment, shipping restrictions apply, or there is a manifest error in the  or description of the product(s). If we cancel your order after the sale agreement is created, we will provide  with a  for the amount paid. We also reserve the right to refuse any  made with the  or involvement of any software, robot, crawler, spider, or  automated means or device. By placing an order,   to these terms and conditions. 2.4.2 Special Aspects of Contract Formation  Products The acknowledgement email  you  receive after placing your order will contain your order number, product details, and information about delivery services. Please note that  some countries,  Click &amp;  feature may not allow you to order and pay for products on  Website, but instead only reserve them for purchase at a local Bra7tak store. You  only return products purchased through Click &amp;  to  store where you bought them. As a result, sections 2.13, 2.14, and 2.15 (which pertain to the return of products purchased  the Website) do not apply  Click &amp; Collect purchases.&nbsp;</p>
+        <p>2.5 RETENTION OF TITLE This means  until  have  paid all amounts owed to Bra7tak for the Products, including any costs, earlier or later deliveries, or  deliveries, Bra7 retains the ownership of the Products. You  not  to sell,  of, or burden the Products in any  before you have full title of ownership.&nbsp;</p>
+        <p>2.6 MAINTENANCE OF PRODUCTS Please note that the washing and maintenance  printed on the labels of the Products must be followed. It is important  handle the Products properly and according  the instructions provided. Bra7tak is not liable  any damage resulting  incorrect handling of the Products, including handling contrary to the instructions.&nbsp;</p>
+        <p>2.7 ORDER CANCELLATION  see the  Sale  and   Form and/or kindly contact our customer  for more details.&nbsp;</p>
+        <p>2.8   is important to note  the prices listed on the Bra7tak   VAT and are quoted in EGP. However, Bra7tak reserves the right to make price changes prior to your order being placed, and may also change, limit,  terminate  special offers or discounts at any time. Additional costs, such as shipping, handling, delivery, postage, insurance, customs fees, and other government taxes, may apply depending on the Product and type  delivery chosen.   will  itemized and charged separately to you, and will be   the total amount of your order. For more information  these  costs, please refer to  2.12 or visit the Delivery section of the website.&nbsp;</p>
+        <p>2.9 METHODS OF PAYMENT Bra7tak offers various payment methods for customers to choose from, which can be found on the Website. Additionally, Bra7tak reserves the right to  a credit check for each order, as stated in the Bra7tak  Statement.  results of the credit check may affect  available payment methods, and Bra7tak  refuse certain methods  payment based on the credit check results.&nbsp;</p>
+        <p>2.10 INVOICING As per the terms and conditions, if we choose or are  by law to provide an invoice, we may issue or provide electronic invoices to you, and you agree to receive such  invoices. This means that you may not receive a physical paper invoice and instead may   electronic copy of the invoice via email or through your account on the Website. This  in accordance with applicable laws and regulations regarding invoicing.&nbsp;</p>
+        <p>2. DELIVERY Bra7tak offers delivery within Egypt territory to home or  addresses,   locations, or Bra7tak  for pickup. In case of an unsuccessful delivery attempt, the carrier may deliver  Products to a pick-up point, which  considered  Bra7tak&apos;s obligation  deliver the Products.   is  for standard delivery for orders above a minimum spend of purchase, which is subject  revision from time to time. Deliveries  be made on  days, not being a  holiday. For more information   periods, customers  check the specifications for different types of delivery  the Delivery section of the website. Bra7tak may make split deliveries to  customers receive  Products as soon  possible, but extra delivery costs may be charged  requested  deliveries. In case Bra7tak cannot deliver (part of)  order after entering into the contract of sale and is    the situation, the  of sale may be terminated, and any payments made will be reimbursed.&nbsp;</p>
+        <p>2.12 Returns and  For  about  and Refunds, please see the Distance Sale Agreement, Preliminary Information Form and Returns and Refunds section on our Website.&nbsp;</p>
+        <p>2.13   If  want  exchange a product, please note that we  not offer exchanges. In  cases, you will need to return the item(s) to us for a refund and then place a new   the desired item(s). It&apos;s  to  in mind that refunds are only possible if  return is in accordance  our  and Refunds Policy, which can be found in section 2.12 of our terms and conditions. We encourage you to read and understand our policy before  a purchase. If you have any questions or concerns regarding the policy or the return process, please do not hesitate to contact us.&nbsp;</p>
+        <p>2.14  or defective Products Bra7tak places great importance on the quality of its products   measures to ensure that they meet the intended purpose for which they were designed.   conducts real-life tests to confirm that the products are capable of withstanding the conditions  were  for. Although it is  for Bra7tak products to be defective  damaged, the company has a legal obligation  ensure  they conform to the contract of sale. If a product is returned due  a manufacturing defect or deviation from factory specifications, Bra7tak will refund the cost of the defective product. However, if the product was damaged due to reasons other than materials quality or assembly process, such as negligence, misuse, or activities other than the intended purpose, Bra7tak will not refund the product. Also, the life expectancy  any product depends  the  using it, the conditions of use, and the characteristic wear patterns of the user. Therefore, Bra7tak products   normal wear and tear or  have exceeded their reasonable lifespan will not be replaced. Bra7tak&apos;s Customer Service team is always available  provide assistance and answer   or concerns. If you have any inquiries or comments, do not  to contact  through the website.&nbsp;</p>
+        <p><br></p>
+        <p>3. USE  THE  Before using the Bra7tak website   Bra7tak content on social media websites, such as   Twitter, it is important to read and understand the Terms  Conditions for website use. These terms apply to all visits and uses of the website, including any content, information, recommendations, products, and services provided on or through the website.   and using the website, you agree to  terms and conditions, as well  any other applicable laws or regulations  govern  website  the Internet. If you do not agree to these terms and conditions, it is advised  you leave the website immediately.&nbsp;</p>
+        <p>3.1 CONTENT   WEBSITE This section of the Terms  Conditions for website use outlines that all content displayed on the Website, including logos, trademarks, graphics, text, images, sound, and software, is  by Bra7tak , its  companies, licensors or content providers. The content and elements of the Website are protected by copyright, moral rights, database rights, trademark, and other intellectual  laws. Without explicit permission from Bra7tak, no  or element of the   its content may be copied or retransmitted  any means. Bra7tak,  affiliated companies or licensors shall remain the exclusive owners of the Website, its content, and all related rights, unless otherwise agreed. All rights are reserved.&nbsp;</p>
+        <p>3.2 COPYRIGHT AND  The above terms  conditions clearly state that all content  trademarks on the Bra7tak website are the exclusive property of Bra7tak, its affiliated companies or its licensors, and are protected by copyright, trademark and  intellectual property laws. Visitors to   are authorized to view, play, print and download content found on the  for personal, informational and non-commercial purposes only. However,  are prohibited from modifying, copying, distributing, transmitting, displaying, performing, reproducing, publishing, licensing, creating derivative works,  or  any  without obtaining the  written consent of Bra7tak. The use of  of the trademarks or content on any other website or network  environment is also  prohibited  the express  consent of Bra7tak. Visitors  download any software from the website   a license by Bra7tak to use the software for personal, non-commercial purposes, but  prohibited from redistributing, selling, decompiling, reverse engineering, disassembling or reducing the software to human-readable form.&nbsp;</p>
+        <p>3.3 DISCLAIMER OF WARRANTIES It is important to note that the  and  Content are  for informational  only and do not constitute advice. Additionally, Bra7tak does   the accuracy, completeness, or currency of the information and facilities provided on the Website. While Bra7 strives to provide accurate and up-to-date information, it does  guarantee  the Website or the server that   available  free of viruses or other harmful components. Furthermore, Bra7tak cannot guarantee uninterrupted  error-free access to the Website, and does not make any warranties or representations regarding the use  the Content on  Website in terms of  correctness, accuracy, adequacy, usefulness, timeliness, reliability, or otherwise. These disclaimers apply to the fullest extent permitted by  law.&nbsp;</p>
+        <p>3.4 LIMITATION OF LIABILITY It is   note that the Website   Content are provided for informational purposes only and do not constitute advice. Additionally, Bra7tak does not guarantee the accuracy, completeness, or currency of the information and facilities provided on the Website. While Bra7 strives to  accurate and up-to-date information, it does not guarantee  the Website or  server that  it available are  of viruses or other  components. Furthermore, Bra7tak cannot guarantee uninterrupted  error- access   Website, and does not  any warranties or representations regarding   of the Content on  Website in terms of their correctness, accuracy, adequacy, usefulness, timeliness, reliability, or otherwise. These  apply to the  extent permitted by applicable law.&nbsp;</p>
+        <p>3.5  TO THIRD PARTIES When accessing third-party websites through links provided on Bra7tak&apos;s website, users do so at their own risk. Bra7  no control over the content and activities of  third-party websites and cannot be held liable for any damages or  incurred through their use. Users are advised to review the terms of use   policies of these websites before accessing them. Additionally, these third- websites may use cookies and collect data or personal information, which is subject to their  privacy policies.&nbsp;</p>
+        <p>3.6 MISUSE OF THE WEBSITE Users   from using the Website  post or transmit any User Generated Content that infringes  third-party intellectual property rights or violates any law. Users are also not allowed to use the Website to  or perform  commercial solicitation, or to use any automated means or  to access, copy, or  any part of the Website or  with its operation. Additionally, users may not  to gain unauthorized access to any part or feature of the Website or any system connected to it. Violation of these terms may  in the denial of access to the Website.&nbsp;</p>
+        <p>3.7  GENERATED CONTENT The section you have provided discusses   and conditions related to user- content posted on the website. It  that any content you post or  on the website will be considered non-confidential and non-proprietary. Bra7tak has the right to use, copy, distribute, and disclose any user-generated content for any purpose  any medium and throughout the world. However, Bra7  not responsible or liable for the content or  of the user-generated content,  it  not  represent the views of Bra7tak.   and warrant that any user- content posted or transmitted by you is original and  not copy  work of any  party or infringe any third- intellectual property rights, rights of privacy, or personality rights. You agree to indemnify and keep Bra7tak and its affiliated companies indemnified against  costs, expenses, damages, losses,  liabilities incurred or suffered by Bra7tak or its affiliated companies  to any user-generated content posted or  by you  your use  the website. Bra7tak reserves the right to block or  any user-generated content posted or transmitted by you that is not in accordance with the website&apos;s terms and conditions, infringes third-party intellectual  rights, rights of privacy   rights, or is otherwise unacceptable to Bra7tak. If you come   content that   terms and conditions, you are   notify Bra7tak   writing and provide sufficient information to enable Bra7tak  investigate whether such content breaches the terms and conditions. Bra7tak will make good faith efforts to investigate such complaints  take appropriate action, but it does not  that it will block  remove the content.&nbsp;</p>
+        <p>3.8 UNSOLICITED  Bra7 strictly adheres to the policy of not accepting any unsolicited submissions of ideas, designs, inventions, and other materials that are related to Bra7tak&apos;s business, which includes footwear, apparel, sporting goods, and services.  policy applies to all  of materials, whether   in the form of texts, images, sounds, software, information, or any other form. Therefore,  is advised that individuals external  Bra7tak  not post any materials on the Website or send them to Bra7 via  or  other means.&nbsp;</p>
+        <p><br></p>
+        <p>4. MISCELLANEOUS&nbsp;</p>
+        <p>4.1 HOW CAN YOU CONTACT US? If you need assistance or have any inquiries about the Bra7tak website  its terms and conditions,  can contact the Customer Service team by clicking on the provided link. In case you  to file a complaint, please  out to us using the email address: info@bra7tak.com, or  sending a written letter  the same email address.  value your feedback and will strive to provide a prompt and satisfactory resolution to any concerns or issues you may have.&nbsp;</p>
+        <p>4.2 Priorities In case of contradiction between Bra7tak Terms and Conditions and any content contained in other parts of the Website or in links, Bra7 Terms and Conditions contained in this document prevail  for the Distance Sale Agreement and  Information For&nbsp;</p>
+        <p>4.3 AMENDMENTS TO THE BRA7TAK TERMS AND CONDITIONS  reserve  right  modify these Terms and  at any time, at our sole discretion, without prior notice to you. By continuing  use this Website,  agree  be bound by  current version of the Bra7tak Terms and Conditions applicable to you. This applies to any purchase agreement entered into between you  us as well.   of  Bra7tak Terms  Conditions  force  the time you place an order through this Website or browse this Website (as applicable) will apply. We recommend that you check  Bra7tak Terms  Conditions periodically for any changes.&nbsp;</p>
+        <p>4.4 DATA PROTECTION Bra7tak   respects the privacy of individuals who access and use the Website. Our Privacy Statement and Cookie Policy govern the manner in which we collect and use information  you, including the use of cookies, the type of information we collect, how and for what purpose  use  information,  under what circumstances we may disclose it. These policies are an integral part of the Bra7tak Terms  Conditions, and you should  them carefully. When you place a purchase order, you consent to our collection, use, storage, and processing of  personal data in accordance with our Privacy Statement.&nbsp;</p>
+        <p>4.5 SEVERANCE This   each part of the Bra7tak Terms and Conditions is  separately and should be understood independently of the others. If one provision is  to be invalid or unenforceable, it will not affect the validity or enforceability of the other provisions. The remaining   continue to be in effect and enforceable.&nbsp;</p>
+        <p>4.6 SUB-CONTRACTING AND ASSIGNMENT Bra7tak has the  to sub-contract, transfer, assign or novate  of   and obligations under these Terms and Conditions  a  party, as long as it does not affect your rights under these  and Conditions and is permitted by law. Without our written consent, you cannot sub-contract, assign, or transfer any  your rights or obligations under these Terms  Conditions.&nbsp;</p>
+        <p>4.7 Events beyond reasonable control This provision  commonly known as a force majeure clause, which means that Bra7tak will   held liable for any delay or failure to fulfill its obligations under the Bra7tak   conditions if the cause  beyond their reasonable control. Some examples of  majeure events  natural disasters, acts of terrorism, war, and government actions. In  cases, Bra7tak would  be responsible  any losses or damages resulting from the delay or failure to perform its obligations under  terms and conditions.&nbsp;</p>
+        <p>4.8 APPLICABLE LAW AND JURISDICTION  Bra7tak Terms and  shall be  by  laws of Egypt. Any dispute which may arise under these Terms and Conditions  be  the exclusive jurisdiction of the  Egypt as the case may be.</p>
+        {% elif lang == 'ar' %}
+        <p dir="RTL">تتكون هذه الشروط والأحكام من الأقسام التالية: 1. مقدمة. 2. شروط الشراء؛ 3. استخدام الموقع و 4. مجموعة متنوعة ، بالإضافة إلى السياسة أو مجموعة الشروط أو المستندات التي تم توفير رابط لها هنا (يشار إليها مجتمعة باسم &quot;الشروط والأحكام&quot;).</p>
+        <p dir="RTL"><strong>1. مقدمة</strong></p>
+        <p dir="RTL">شبكة الاتصالات العالمية. يتم تشغيل bra7tak.com (&quot;الموقع الإلكتروني&quot;) من قبل أو نيابة عن ****** LLC.(&quot;Bra7tak&quot;). بقبول هذه الشروط والأحكام، سيتم الانتهاء من طلبك على الاشتراك في هذا الموقع وستخضع العلاقة بينك وبين Bra7*** لهذه الشروط والأحكام.</p>
+        <p dir="RTL">الحقول هي الشركة الأم ل Bra7tak ، والتي تضم العديد من الشركات التابعة ؛ من بينها ، Bra7tak. (يشار إليها معا فيما يلي باسم &quot;&nbsp;Bra7tak&nbsp;/&nbsp;نحن / لنا&quot;).</p>
+        <p dir="RTL"><strong>2. شروط الشراء</strong></p>
+        <p dir="RTL">يرجى قراءة شروط الشراء هذه بعناية قبل طلب المنتجات عبر الإنترنت من الموقع.</p>
+        <p dir="RTL"><strong>2.1 متى تسري شروط الشراء هذه؟</strong></p>
+        <p dir="RTL">تنطبق شروط الشراء هذه على جميع العروض والعقود ، بما في ذلك اتفاقية البيع عن بعد ، المتعلقة ببيع وتسليم المنتجات من قبلنا. بمعنى آخر ، أنت توافق على شروط الشراء هذه ، عندما (1) تطلب أي شيء من موقع الويب ، (2) تطلب أي شيء في أي صفحة ويب متصلة مباشرة بالموقع الإلكتروني أو (3) عندما تقبل عرضا منا. لا يمكن الخروج عن شروط الشراء هذه إلا إذا تم الاتفاق عليها كتابيا من قبلنا.</p>
+        <p dir="RTL"><strong>2.2 المنتجات</strong></p>
+        <p dir="RTL">لدينا أنواع مختلفة من المنتجات التي قد يتم عرضها على الموقع من وقت لآخر. (&quot;المنتجات&quot;).</p>
+        <p dir="RTL">يرجى ملاحظة أنه في حالة الإصدار المحدود أو منتجات الإنتاج المحدود ، قد يتم تطبيق قيود إضافية مثل الحد من عدد هذه المنتجات لكل عميل. سيتم إعلامك بهذه القيود الإضافية عبر الموقع الإلكتروني.</p>
+        <p dir="RTL">تخضع جميع المنتجات المعروضة على الموقع الإلكتروني للتوافر. هذا يعني أنه على الرغم من أننا نسعى جاهدين لضمان أن يعكس موقعنا الإلكتروني توفر المخزون ، فقد لا يكون المنتج المعروض على الموقع متاحا للشراء.</p>
+        <p dir="RTL">من الممكن حدوث اختلافات طفيفة في اللون والاختلافات الأخرى في المنتجات نتيجة لاختلاف الحصول على الصور أو تقنيات العرض أو لأسباب فنية أخرى. Bra7tak ليست مسؤولة عن هذه الاختلافات والانحرافات. لا يمكن اشتقاق أي حقوق من أخطاء الكتابة أو أوصاف المنتج أو أخطاء البيان على الموقع. يحق للعميل دائما الانسحاب كما هو متوقع في اتفاقية البيع عن بعد.</p>
+        <p dir="RTL"><strong>2.3 متطلبات إبرام عقد مع براحتك</strong></p>
+        <p dir="RTL">يجب أن يكون عمرك 21 عاما أو أكثر وألا تكون غير مؤهل قانونا للدخول في عقود لشراء المنتجات عبر الموقع الإلكتروني.</p>
+        <p dir="RTL">لا يمكنك الطلب على الموقع الإلكتروني إلا إذا كنت مستهلكا خاصا ، وليس موزعا</p>
+        <p dir="RTL">أنت تضمن أن المعلومات التي تقدمها لنا في الطلب أو الطلب دقيقة وكاملة.</p>
+        <p dir="RTL"><strong>2.4 كيف يتم إبرام العقد معك؟</strong></p>
+        <p dir="RTL"><strong>2-4-1 الجوانب العامة لتكوين العقود</strong></p>
+        <p dir="RTL">ينطبق ما يلي على جميع أنواع المنتجات. جميع المعلومات الموجودة على الموقع هي دعوة للمعاملات فقط. بمعنى آخر ، المعلومات ليست عرضا أو عقدا ملزما. أنت توافق على أن طلبك هو عرض لشراء المنتجات المدرجة في طلبك.</p>
+        <p dir="RTL">تخضع جميع الطلبات المقدمة من قبلك للقبول من قبلنا. يحق لنا التحقق من الطلب مقدما في جميع الأوقات و / أو رفض قبول الطلب دون إبداء الأسباب ودون أي مسؤولية تجاهك أو تجاه أي طرف ثالث. إذا لم نؤكد قبول طلبك في غضون عشرة أيام عمل ، اعتباره مرفوضا.</p>
+        <p dir="RTL">قبل إنشاء اتفاقية بيع ، قد نختار عدم قبول طلبك وفقا لتقديرنا الخاص. فيما يلي أمثلة على الحالات التي قد لا نقبل فيها طلبك:</p>
+        <p dir="RTL">إذا تم عرض المنتج (المنتجات) على الموقع الإلكتروني ولكنها لم تكن متوفرة أو لم تعد متوفرة ؛ إذا لم نتمكن من الحصول على إذن بدفعتك؛ إذا كانت قيود الشحن تنطبق على المنتج ؛</p>
+        <p dir="RTL">إذا كان المنتج (المنتجات) المعروضة على الموقع تحتوي على خطأ (واضح) مثل تسعيرها بشكل غير صحيح أو وصفها بشكل غير صحيح.</p>
+        <p dir="RTL">في حالة عدم قبولنا (جزء من) طلبك ، يحق لنا إلغاء (جزء من) طلبك دون تحمل أي مسؤولية تجاهك أو تجاه طرف ثالث. بعد الإلغاء ، سنقدم لك بالطبع استردادا للمبلغ المدفوع لنا (والذي تلقيناه) بموجب الطلب الملغى (جزء من).</p>
+        <p dir="RTL">بعد إنشاء اتفاقية البيع ، نحتفظ بالحق في إلغاء طلبك بعد إنشاء عقد البيع ، وبالتالي إنهاء عقد البيع ، للأسباب المنصوص عليها في اتفاقية البيع عن بعد. بعد الإلغاء ، سنقدم لك بالطبع استردادا للمبلغ المدفوع لنا بموجب الطلب الملغى (جزء من).</p>
+        <p dir="RTL">تمتلك &quot;براحتك&quot; وتحتفظ بالحق الكامل في رفض قبول أي طلب تعرفه أو تشك بشكل معقول في أنه تم إجراؤه بمساعدة أو مشاركة أي برنامج أو روبوت أو أي وسيلة أو جهاز آلي آخر.</p>
+        <p dir="RTL"><strong>2.4.2 الجوانب الخاصة لتكوين العقود للمنتجات</strong></p>
+        <p dir="RTL">بعد تقديم طلبك ، سنرسل إليك بريدا إلكترونيا لإقرار الطلب يحتوي على رقم طلبك وتفاصيل المنتجات التي عرضت شرائها وتفاصيل أي خدمات توصيل.</p>
+        <p dir="RTL">يرجى ملاحظة أن وظيفة Click &amp;Collect المتوفرة على موقع الويب في بلدك ، قد لا تتضمن خيار طلب المنتج ودفعه على موقع الويب ، ولكنها تمنحك خيار حجز منتج على موقع الويب ثم شرائه وبالتالي دفع ثمنه محليا في متجر Bra7tak. حجز Click &amp;Collect هذا ممكن فقط في&nbsp;&nbsp;متاجر&nbsp;Bra7tak&nbsp;المحددة&nbsp;&nbsp;كما هو موضح أثناء عملية الدفع على الموقع. إذا قمت بشراء المنتج المحجوز ، فأنت تبرم اتفاقية شراء مع&nbsp;&nbsp;بائع التجزئة&nbsp;Bra7*** الذي تختاره محليا. هذا يعني أنه يمكنك فقط إرجاع المنتج (المنتجات) إلى نفس المتجر الذي اشتريته منه ، وفقا لسياسة الإرجاع الخاصة بهذا المتجر. لذلك لا تنطبق الأقسام 2.13 و 2.14 و 2.15 أدناه لأنها تنطبق فقط على إرجاع المنتجات المشتراة من خلال الموقع.</p>
+        <p dir="RTL"><strong>2-5 الاحتفاظ بحق الملكية</strong></p>
+        <p dir="RTL">ستبقى جميع المنتجات ملكا ل &quot;براحتك&quot; &nbsp;حتى تقوم بدفع جميع المبالغ المستحقة لنا بالكامل بموجب أي اتفاقية ، بما في ذلك دفع التكاليف أو التسليم المبكر أو اللاحق أو التسليم الجزئي. لا يجوز لك بيع أي منتج أو التخلص منه أو رهنه قبل أن تنتقل ملكيته الكاملة إليك.</p>
+        <p dir="RTL"><strong>2.6 صيانة المنتجات</strong></p>
+        <p dir="RTL">نلفت انتباهك إلى تعليمات الغسيل والصيانة المطبوعة على ملصقات المنتجات. نحن لسنا مسؤولين عن أي ضرر ناتج عن التعامل غير الصحيح مع المنتجات ، بما في ذلك التعامل المخالف للتعليمات.</p>
+        <p dir="RTL"><strong>2.7 إلغاء الطلب</strong></p>
+        <p dir="RTL">يرجى الاطلاع على اتفاقية البيع عن بعد ونموذج المعلومات الأولية و / أو يرجى الاتصال بخدمة العملاء لمزيد من التفاصيل.</p>
+        <p dir="RTL"><strong>2.8 السعر</strong></p>
+        <p dir="RTL">الأسعار المذكورة تشمل ضريبة القيمة المضافة. الأسعار بالجنيه المصري. تحتفظ &quot;براحتك&quot; بالحق في إجراء تغييرات في الأسعار قبل تقديم طلب من قبلك. نحتفظ بالحق في تغيير أو تقييد أو إنهاء أي عروض أو خصومات خاصة في أي وقت.</p>
+        <p dir="RTL">سيتم تحديد التكاليف الإضافية مثل الشحن والمناولة والتسليم والبريد والتأمين ، وإذا أمكن ، الرسوم الجمركية والضرائب الحكومية الأخرى ، وسيتم تحميلها عليك بشكل منفصل. تختلف التكاليف لكل منتج ونوع التسليم. لمزيد من التفاصيل ، يرجى الاطلاع على القسم 2.12 أو الانتقال إلى قسم التسليم على الموقع. سيتم فرض جميع التكاليف الإضافية بشكل منفصل ومفصلة وإضافتها إلى المبلغ الإجمالي للطلب.</p>
+        <p dir="RTL"><strong>2.9 طرق الدفع</strong></p>
+        <p dir="RTL">يرجى مراجعة الموقع للحصول على معلومات حول طرق الدفع المتاحة. تحتفظ &quot;براحتك&quot; &nbsp;بالحق في إجراء فحص ائتماني فردي لكل طلب وفقا&nbsp;&nbsp;لبيان خصوصية&nbsp;&quot;براحتك&quot;. اعتمادا على نتائج هذا الفحص ،&nbsp;&nbsp;تحتفظ&nbsp;&quot;براحتك&quot; بالحق في رفض طرق دفع معينة.</p>
+        <p dir="RTL"><strong>2.10 الفواتير</strong></p>
+        <p dir="RTL">عندما نختار ، أو يطلب منا بموجب القانون المعمول به ، إصدار فاتورة أو إتاحتها ، فإننا نحتفظ بالحق في إصدار أو إتاحة الفواتير الإلكترونية وأنت توافق على هذا الشكل من الفواتير.</p>
+        <p dir="RTL"><strong>2.11 التسليم</strong></p>
+        <p dir="RTL">سنقوم بالتوصيل إلى العنوان الذي أشرت إليه داخل أراضي مصر. يمكننا فقط التسليم إلى عنوان المنزل أو المكتب أو موقع استلام الناقل أو إذا اخترت استلام المنتجات من متجر &quot;براحتك&quot; &nbsp;، إلى عنوان متجر &quot;براحتك&quot;&nbsp;&nbsp;ذي الصلة&nbsp;&nbsp;. سنؤكد لك ذلك عن طريق البريد الإلكتروني عند إبلاغك بأن المنتجات جاهزة لاستلامها. إذا لم تنجح محاولة التسليم، فإنك توافق على أن شركة النقل التي تعاقدنا معها للتسليم قد تقوم أيضا بتسليم المنتجات إلى نقطة الاستلام، وبعد ذلك&nbsp;&nbsp;تعتبر&nbsp;&quot;براحتك&quot; &nbsp;قد أوفت بالتزامها بتسليم المنتجات. سيقوم الناقل بإخطارك بالتسليم إلى نقطة الاستلام.</p>
+        <p dir="RTL">الشحن المجاني متاح للتسليم القياسي للطلبات التي تزيد عن الحد الأدنى للإنفاق على الشراء والذي سيتم تحديده (يخضع للمراجعة من وقت لآخر وفقا لتقديرنا الخاص). لن تكون هناك رسوم شحن إذا اخترت النقر والاستلام من متاجرنا / متجر التجميع / نقطة نقطة التجميع الذاتي ، كما قد يتم تحديده بواسطة &quot;براحتك&quot; من وقت لآخر</p>
+        <p dir="RTL">سيتم شحن الطلبات في أيام العمل ، وليس عطلة رسمية في المنطقة التي يقع فيها مستودعاتنا. لذلك ، يرجى النظر في أي أيام عطل رسمية بما في ذلك أي عطلات وطنية و / أو إقليمية في بلد إقامتك. سيتم التسليم في أيام العمل ، وليس عطلة رسمية</p>
+        <p dir="RTL">للحصول على معلومات مفصلة حول فترات التسليم ، يرجى التحقق من المواصفات الخاصة بأنواع التسليم المختلفة في قسم التسليم على موقعنا. فترات التسليم إرشادية وبالتالي لا تعتبر مواعيد نهائية صارمة. مجرد تجاوز فترة التسليم لا يخولك الحصول على تعويض وأنت تتنازل بموجب هذا عن حقوقك في المطالبة. على الرغم من ذلك ، في حالة حدوث تأخير غير محتمل في التسليم السريع ، يجوز لنا ، وفقا لتقديرنا ، رد التكلفة الكاملة للتسليم السريع إليك. هذا يعني أن طلبك الكامل للمنتجات سيستغرق وقتا أطول للتسليم.</p>
+        <p dir="RTL">يحق ل &quot;براحتك&quot; ، بقدر الإمكان بشكل معقول ، إجراء عمليات تسليم مقسمة حتى تتلقى منتجاتك في أقرب وقت ممكن. لا توجد تكاليف إضافية مرتبطة بعمليات التسليم المجزأة هذه. ومع ذلك ، إذا طلبت منا التسليم في أجزاء ، فقد نفرض عليك تكاليف توصيل إضافية. يجب أن يشكل كل أمر مجزأ عقد بيع منفصل. إذا طلب العميل عمليات تسليم مقسمة وإذا تأخرنا في تسليم جزء أو كان هناك خطأ في طلب مقسم ، فلن يؤهلك ذلك لإلغاء أي جزء آخر من الطلب المقسم.</p>
+        <p dir="RTL">في الحالة غير المحتملة التي لا يمكننا أو لا يمكننا أو لم يعد بإمكاننا تسليم (جزء من) طلبك ولسنا مسؤولين عن هذا الموقف ، يحق لنا إنهاء عقد البيع إلى الحد الذي تسمح به اتفاقيات البيع عن بعد. سنقوم ، بالطبع ، بإبلاغك في أقرب وقت ممكن عمليا وعلى أبعد تقدير خلال الفترة المتوقعة بموجب اتفاقية البيع عن بعد وسداد أي مدفوعات تم إجراؤها.</p>
+        <p dir="RTL"><strong>2.12 المرتجعات والمبالغ المستردة</strong></p>
+        <p dir="RTL">للحصول على معلومات حول المرتجعات والمبالغ المستردة ، يرجى الاطلاع على اتفاقية البيع عن بعد ونموذج المعلومات الأولية وقسم المرتجعات والمبالغ المستردة على موقعنا.</p>
+        <p dir="RTL"><strong>2.13 سياسة الاستبدال</strong></p>
+        <p dir="RTL">نحن لا نستبدل المنتجات. إذا كنت ترغب في استبدال منتج ، فستحتاج إلى إرجاع مشترياتك لاسترداد الأموال وتقديم طلب جديد. من الممكن فقط استرداد الأموال عند المرتجعات عندما يتماشى الإرجاع مع سياسة الإرجاع والاسترداد الخاصة بنا كما هو منصوص عليه في القسم 2.12.</p>
+        <p dir="RTL"><strong>2.14 المنتجات التالفة أو المعيبة</strong></p>
+        <p dir="RTL">بالنسبة ل &quot;براحتك&quot;&nbsp;&nbsp;، الجودة لها أهمية قصوى. نحن نختبر بدقة جميع منتجاتنا في ظروف الحياة الواقعية للتأكد من أنها قادرة تماما على الوقوف في وجه الاستخدامات التي صممت من أجلها. من النادر جدا أن تتعرض منتجاتنا للتلف أو العيوب. &quot;براحتك&quot; لديها التزام قانوني للتأكد من أن منتجاتنا تتوافق مع عقد البيع.</p>
+        <p dir="RTL">يتم فحص المنتجات المرتجعة من قبل قسم ضمان الجودة &quot;براحتك&quot; واستردادها إذا كان الضرر ناتجا عن عيب في التصنيع أو انحراف عن مواصفات المصنع. نتعهد برد تكلفة أي منتجات معيبة مصنعة بالكامل.</p>
+        <p dir="RTL">إذا كانت المشكلة ناتجة عن أسباب أخرى غير جودة المواد أو عملية التجميع ، إرجاع المنتج الأصلي إليك. نحن لا نرد المنتجات:</p>
+        <p dir="RTL">تم الحصول عليها من مصدر آخر غير الموقع الإلكتروني؛ التي تضررت بسبب سوء الاستخدام أو الإهمال (مثل التعرض للمواد الكيميائية والمواد الكاوية واللهب المكشوف والحرارة العالية والأدوات الحادة وما إلى ذلك) ؛ و / أو التي تضررت بسبب سوء الاستخدام أو الأنشطة بخلاف الغرض المقصود (مثل استخدام أحذية الجري لرياضات الملاعب أو أحذية المشي لمسافات طويلة كأحذية عمل ، وما إلى ذلك).</p>
+        <p dir="RTL">يرجى ملاحظة أن متوسط العمر المتوقع لأي منتج يعتمد على الفرد الذي يستخدم المنتج وشروط الاستخدام وأنماط التآكل المميزة للمستخدم. لا يتم استبدال منتجاتنا التي تضررت بسبب البلى العادي أو التي تجاوزت العمر الافتراضي المعقول للمنتج.</p>
+        <p dir="RTL">فريق خدمة العملاء لدينا متاح لمساعدتك. من فضلك لا تتردد في الاتصال بنا مع أسئلتك وتعليقاتك. اتصل بنا هنا.</p>
+        <p dir="RTL"><strong>3. استخدام الموقع</strong></p>
+        <p dir="RTL">يرجى قراءة هذه الشروط والأحكام لاستخدام موقع الويب (&quot;استخدام شروط وأحكام الموقع&quot;) بعناية قبل استخدام موقع الويب وأي محتوى خاص بنا&nbsp;على&nbsp;&nbsp;مواقع التواصل الاجتماعي ، بما في ذلك على سبيل المثال لا الحصر فيس بوك و انستقرام (معا: &quot;موقع الويب&quot;). تنطبق شروط وأحكام استخدام الموقع الإلكتروني هذه على جميع زيارات واستخدامات الموقع ، وكذلك على المحتوى (كما هو موضح أدناه) والمعلومات والتوصيات والمنتجات والخدمات المقدمة لك على الموقع أو من خلاله. من خلال الوصول إلى الموقع واستخدامه ، فإنك تمنح موافقتك على شروط وأحكام استخدام الموقع بالكامل بالإضافة إلى أي قانون أو لائحة أخرى تنطبق على الموقع والإنترنت. إذا كنت لا توافق على شروط وأحكام استخدام الموقع ، فيرجى مغادرة الموقع على الفور</p>
+        <p dir="RTL"><strong>3.1 المحتوى على الموقع</strong></p>
+        <p dir="RTL">جميع المحتويات المعروضة أو المعروضة على الموقع ، بما في ذلك ، على سبيل المثال لا الحصر ، الشعارات والأيقونات والعلامات التجارية والنصوص والرسومات والصور الفوتوغرافية والصور والصور المتحركة والصوت والرسوم التوضيحية والبرامج (&quot;المحتوى&quot;) ، مملوكة لشركة &quot;براحتك&quot; أو الشركات التابعة لها أو المرخصين لها أو مزودي المحتوى التابعين لها. يمكن حماية جميع عناصر الموقع بما في ذلك ، على سبيل المثال لا الحصر ، التصميم العام والمحتوى ، بموجب حقوق النشر والحقوق المعنوية وحقوق قاعدة البيانات والعلامات التجارية والقوانين الأخرى المتعلقة بحقوق الملكية الفكرية. باستثناء ما هو مسموح به صراحة بموجب هذه الاتفاقية أو اتفاقية أخرى مع &quot;براحتك&quot;&nbsp;، لا يجوز نسخ أو إعادة إرسال أي جزء أو عنصر من الموقع أو محتواه عبر أي وسيلة. يظل موقع الويب ومحتواه وجميع الحقوق ذات الصلة ملكية حصرية ل &quot;براحتك&quot;&nbsp;أو الشركات التابعة لها أو المرخصين لها ما لم يتم الاتفاق صراحة على خلاف ذلك. جميع هذه الحقوق محفوظة</p>
+        <p dir="RTL"><strong>3.2 حقوق النشر والعلامات التجارية</strong></p>
+        <p dir="RTL">حقوق الطبع والنشر في جميع المحتويات هي ولا تزال مملوكة من قبل &quot;براحتك&quot;&nbsp;أو&nbsp;&nbsp;الشركات التابعة لها أو المرخصين لها حسب الاقتضاء. باستثناء ما قد يشار إليه بخلاف ذلك في مستندات محددة داخل الموقع ، يحق لك عرض وتشغيل وطباعة وتنزيل المحتوى الموجود على الموقع لأغراض شخصية وإعلامية وغير تجارية فقط. لا يجوز لك تعديل أي من المواد ولا يجوز لك نسخ أو توزيع أو نقل أو عرض أو أداء أو إعادة إنتاج أو نشر أو ترخيص أو إنشاء أعمال مشتقة من أو نقل أو بيع أي محتوى. لا يجوز لك إعادة استخدام أي محتوى دون الحصول أولا على موافقة &quot;براحتك&quot;. لأغراض هذه الشروط ، يحظر استخدام أي محتوى من هذا القبيل على أي موقع ويب آخر أو بيئة كمبيوتر متصلة بالشبكة. لن تقوم بإزالة أي حقوق نشر أو علامة تجارية أو إشعارات ملكية أخرى من المحتوى الموجود على الموقع.</p>
+        <p dir="RTL">في حالة تنزيل البرنامج (بما في ذلك على سبيل المثال لا الحصر شاشات التوقف وتطبيقات الهواتف الذكية والأيقونات ومقاطع الفيديو والخلفيات) من موقع الويب ، فإن البرنامج ، بما في ذلك أي ملفات وصور مدمجة في البرنامج أو تم إنشاؤها بواسطة البرنامج والبيانات المصاحبة للبرنامج (يشار إليها مجتمعة باسم &quot;البرنامج&quot;) مرخصة لك من قبل &quot;براحتك&quot;.&nbsp;&nbsp;لا تقوم &quot;براحتك&quot; &nbsp;بنقل ملكية البرنامج إليك. أنت تمتلك الوسيط الذي يتم تسجيل البرنامج عليه، ولكن تحتفظ &quot;براحتك&quot; &nbsp;بالملكية الكاملة والكاملة للبرنامج، وجميع حقوق الملكية الفكرية فيه. لا يجوز لك إعادة توزيع البرنامج أو بيعه أو إلغاء تجميعه أو إجراء هندسة عكسية له أو تفكيكه أو تقليله إلى شكل يمكن للبشر قراءته.</p>
+        <p dir="RTL">تظل جميع العلامات التجارية وعلامات الخدمة والشعارات والأسماء التجارية التي تظهر على منتجات مجموعة &quot;براحتك&quot; وتغليف المنتجات و / أو على موقع الويب ، سواء كانت مسجلة أم لا (&quot;العلامات التجارية&quot;) ملكية حصرية ل &quot;براحتك&quot;&nbsp;أو الشركات التابعة لها أو المرخصين لها (حسب الاقتضاء) ومحمية بموجب قوانين ومعاهدات العلامات التجارية المعمول بها. لا يجوز لك استخدام أو نسخ أو إعادة إنتاج أو إعادة نشر أو تحميل أو نشر أو نقل أو توزيع أو تعديل أي من العلامات التجارية بأي شكل من الأشكال، بما في ذلك في الإعلان أو الدعاية المتعلقة بتوزيع المواد على الموقع، دون&nbsp;&nbsp;موافقة كتابية مسبقة من&nbsp;&quot;براحتك&quot;. يحظر استخدام أي من العلامات التجارية على أي موقع ويب آخر أو بيئة كمبيوتر شبكية ، على سبيل المثال تخزين أو إعادة إنتاج (جزء من) الموقع في أي موقع ويب خارجي أو إنشاء روابط أو نصوص تشعبية أو روابط أو روابط عميقة بين الموقع وأي مواقع إنترنت أخرى ، دون موافقة كتابية صريحة من &quot;براحتك&quot;.</p>
+        <p dir="RTL"><strong>3.3 إخلاء المسؤولية عن الضمانات</strong></p>
+        <p dir="RTL">الموقع والمحتوى مجانيان ويتم توفيرهما &quot;كما هو&quot; وبدون أي ضمانات من أي نوع. المعلومات الموجودة على الموقع هي لأغراض المعلومات العامة فقط ولا تشكل نصيحة.</p>
+        <p dir="RTL">&nbsp;&quot;براحتك&quot; لا تمثل أو تضمن أن المعلومات و / أو التسهيلات الواردة في الموقع دقيقة أو كاملة أو حديثة ، أو أن الموقع أو الخادم الذي يجعل الموقع متاحا خاليا من الفيروسات أو أي مكونات ضارة أخرى. علاوة على ذلك ،&nbsp;&nbsp;لن توفر&nbsp;&quot;براحتك&quot; بنية تحتية محددة لتكنولوجيا المعلومات أو الاتصال. وبالتالي ،&nbsp;&nbsp;لا يمكن ل&nbsp;&quot;براحتك&quot; تمثيل أو ضمان أن الموقع سيكون دون انقطاع أو خاليا من الأخطاء.&nbsp;&nbsp;لا تقدم&nbsp;&quot;براحتك&quot; أي ضمانات أو إقرارات فيما يتعلق باستخدام المحتوى على الموقع من حيث صحتها أو دقتها أو كفايتها أو فائدتها أو توقيتها أو موثوقيتها أو غير ذلك ، في كل حالة إلى أقصى حد يسمح به القانون المعمول به.</p>
+        <p dir="RTL"><strong>3.4 تحديد المسؤولية</strong></p>
+        <p dir="RTL">استخدامك لهذا الموقع هو على مسؤوليتك الخاصة. عندما لا يمكن استبعاد الشروط أو الضمانات أو ضمانات المستهلك الضمنية أو المطبقة بموجب القانون ، تحد &quot;براحتك&quot;&nbsp;من&nbsp;&nbsp;مسؤوليتها ، حيث يحق لها القيام بذلك: فيما يتعلق بالخدمات ، لإعادة توريد الخدمات ذات الصلة أو دفع تكلفة إعادة التوريد ؛ وفيما يتعلق بالسلع ، إصلاح أو استبدال السلع ذات الصلة أو دفع تكلفة هذا الإصلاح أو الاستبدال. خلاف ذلك ، إلى أقصى حد يسمح به القانون ، لا تتحمل &quot;براحتك&quot;&nbsp;أو أي من&nbsp;&nbsp;موظفيها أو مسؤوليها أو مديريها أو أي من وكلائها أو مقاوليها أو أي طرف آخر مشارك في إنشاء أو إنتاج أو تسليم هذا الموقع أو أي محتوى المسؤولية (وأنت بموجب هذا تعفي الكيانات المذكورة أعلاه من أي وجميع المسؤولية) عن أي مباشرة ، &nbsp;الخسارة أو الضرر غير المباشر أو الخاص أو التبعي أو غيره لأي شخص أو كيان ، مهما كان سببه (سواء عن طريق الإهمال أو غير ذلك) الذي ينتج عن استخدام أو عدم القدرة على استخدام هذا الموقع أو المحتوى أو أي مادة أو منتج آخر يتم توفيره لك عبر هذا الموقع ، بما في ذلك الضرر الناجم عن الفيروسات أو أي عدم صحة أو عدم اكتمال المعلومات الموجودة على هذا الموقع ، &nbsp;أو المتعلقة بأداء المنتجات التي تم الحصول عليها عبر هذا الموقع أو الناشئة بطريقة أخرى عن أو فيما يتعلق بهذا الموقع أو الشروط والأحكام، حتى لو&nbsp;&nbsp;تم إخطار&nbsp;&quot;براحتك&quot; بإمكانية حدوث أي خسارة أو ضرر من هذا القبيل.</p>
+        <p dir="RTL"><strong>3.5 روابط لأطراف ثالثة</strong></p>
+        <p dir="RTL">من أجل راحتك ولتحسين استخدام الموقع ، قد يتم توفير روابط لمواقع الويب التي تملكها وتتحكم فيها أطراف ثالثة من وقت لآخر. تأخذك هذه الروابط خارج خدمة &quot;براحتك&quot; وخارج الموقع الإلكتروني وهي خارجة عن&nbsp;&nbsp;سيطرة&nbsp;&quot;براحتك&quot;. يتضمن ذلك روابط للشركاء الذين قد يستخدمون العلامات التجارية كجزء من اتفاقية العلامة التجارية المشتركة. مواقع الويب التي يمكنك ربطها لها شروط وأحكام منفصلة خاصة بها بالإضافة إلى سياسة خصوصية. &quot;براحتك&quot; ليست مسؤولة ولا يمكن أن تكون مسؤولة عن محتوى وأنشطة هذه المواقع. لذلك تقوم بزيارة / الوصول إلى هذه المواقع بالكامل على مسؤوليتك الخاصة.</p>
+        <p dir="RTL">يرجى ملاحظة أن هذه المواقع الأخرى قد ترسل ملفات تعريف الارتباط الخاصة بها إلى المستخدمين أو تجمع البيانات أو تطلب معلومات شخصية ، وبالتالي ينصح بالتحقق من شروط الاستخدام و / أو سياسات الخصوصية على تلك المواقع قبل استخدامها.</p>
+        <p dir="RTL"><strong>3.6 إساءة استخدام الموقع</strong></p>
+        <p dir="RTL">يحظر عليك استخدام الموقع الإلكتروني لنشر أو نقل أي محتوى من إنشاء المستخدم (كما هو موضح أدناه) ينتهك أو قد ينتهك حقوق الملكية الفكرية لطرف ثالث أو يهدد أو كاذب أو مضلل أو تحريضي أو تشهيري أو منتهك للخصوصية أو فاحش أو إباحي أو مسيء أو تمييزي أو غير قانوني أو يمكن أن يشكل أو يشجع على سلوك يعتبر جريمة جنائية ، &nbsp;تنتهك حقوق أي طرف أو التي قد تؤدي إلى مسؤولية مدنية أو تنتهك أي قانون. &nbsp;قد يمنعك &quot;براحتك&quot; من الوصول إلى الموقع في أي وقت وفقا لتقديرها الخاص ، والتي يجب أن تشمل الحالات التي&nbsp;&nbsp;تعتقد&nbsp;فيها &quot;براحتك&quot; أن استخدامك للموقع ينتهك أيا من شروط وأحكام استخدام الموقع و / أو القوانين المعمول بها.&nbsp;</p>
+        <p dir="RTL">يحظر عليك أيضا استخدام الموقع للإعلان أو تنفيذ أي التماس تجاري. لا يجوز لك استخدام أي برنامج أو روبوت أو زاحف أو عنكبوت أو مكشطة صفحات أو أي وسيلة أو جهاز آلي آخر من أجل (أ) الوصول إلى أي جزء من الموقع أو محتواه أو نسخه أو التأثير عليه أو مراقبته أو التحايل على هيكل أو عرض الموقع أو أي من محتوياته أو (ب) للتدخل في تشغيل الموقع أو أي معاملة يتم إجراؤها على الموقع أو التدخل أو التأثير على استخدام أي شخص للموقع أو للمساعدة في تسهيل أي طرف ثالث لشراء أي منتج على الموقع.</p>
+        <p dir="RTL">لا يجوز لك محاولة الوصول غير المصرح به إلى أي جزء أو ميزة من الموقع أو أي نظام متصل بالموقع عن طريق القرصنة أو استخراج كلمة المرور أو غيرها من الوسائل غير المشروعة أو غير المصرح بها.</p>
+        <p dir="RTL"><strong>3.7 المحتوى الذي ينشئه المستخدم</strong></p>
+        <p dir="RTL">جميع الآراء والملاحظات والتعليقات والأعمال الفنية والرسومات والصور الفوتوغرافية والروابط والأسئلة والاقتراحات والمعلومات ومقاطع الفيديو والمواد الأخرى التي تنشرها أنت أو المستخدمون الآخرون للموقع على الموقع الإلكتروني أو تنقلها باستخدام الموقع (&quot;المحتوى الذي ينشئه المستخدم&quot;) ستعتبر غير سرية وغير مملوكة. وفقا لذلك ، يكون ل &quot;براحتك&quot; &nbsp;الحق غير الحصري والخالي من حقوق الملكية في استخدام ونسخ وتوزيع والكشف عن أي محتوى ينشئه المستخدم لأطراف ثالثة لأي غرض ، في أي وسيط وفي جميع أنحاء العالم (منح الترخيص). أنت تقر وتوافق على أن &quot;براحتك&quot; تعمل فقط كقناة سلبية لتوزيع المحتوى الذي ينشئه المستخدم وليست مسؤولة أو مسؤولة تجاهك أو تجاه أي طرف ثالث عن محتوى أو دقة المحتوى الذي ينشئه المستخدم.&nbsp;&nbsp;لا يجوز ل&nbsp;&quot;براحتك&quot;&nbsp;&nbsp;مراقبة المحتوى الذي ينشئه المستخدم الذي تنشره أنت أو الإشراف بين المستخدمين بشكل مستمر ، ولن&nbsp;&nbsp;تكون&nbsp;&quot;براحتك&quot; ملزمة بالقيام بذلك. دون تقييد لعمومية ما سبق، فإنك تقر وتوافق على أن أي ملاحظات وآراء وتعليقات واقتراحات وغيرها من المعلومات المعبر عنها أو المدرجة في المحتوى الذي ينشئه المستخدم لا تمثل بالضرورة تلك الخاصة ب &quot;براحتك&quot;. أي استخدام من جانبك للمحتوى الذي ينشئه المستخدم يكون على مسؤوليتك الخاصة تماما. أنت تقر وتضمن أن أي محتوى ينشئه المستخدم يتم نشره أو نقله بواسطتك أصلي لك ولا ينسخ عمل أي طرف ثالث أو ينتهك حقوق الملكية الفكرية لأي طرف ثالث أو حقوق الخصوصية أو حقوق الشخصية ولا يحتوي على أي بيانات تشهيرية أو مهينة. علاوة على ذلك ، فإنك تقر وتضمن أن لديك القدرة على منح الترخيص كما هو منصوص عليه في هذه الفقرة. أنت توافق على تعويض&nbsp;&nbsp;&quot;براحتك&quot;&nbsp;&nbsp;والشركات التابعة لها والحفاظ&nbsp;&nbsp;عليها مقابل جميع التكاليف والنفقات والأضرار والخسائر والمسؤوليات&nbsp;&nbsp;التي تكبدتها أو تكبدتها&nbsp;&quot;براحتك&quot;&nbsp;أو&nbsp;&nbsp;الشركات التابعة لها فيما يتعلق بأي محتوى من إنشاء المستخدم تم نشره أو نقله بواسطتك أو استخدامك الآخر للموقع.</p>
+        <p dir="RTL">تحتفظ &quot;براحتك&quot; بالحق وفقا لتقديرها الخاص في حظر أو إزالة (كليا أو جزئيا) أي محتوى من إنشاء المستخدم تم نشره أو نقله بواسطتك والذي&nbsp;&nbsp;تعتقد&nbsp;&quot;براحتك&quot; أنه لا يتوافق مع شروط وأحكام استخدام موقع الويب هذه (بما في ذلك المواد التي تنتهك أو قد تنتهك حقوق الملكية الفكرية لطرف ثالث أو حقوق الخصوصية أو حقوق الشخصية) ، &nbsp;أو غير مقبول ل &quot;براحتك&quot;.</p>
+        <p dir="RTL">أنت توافق على إخطار &quot;براحتك&quot;&nbsp;&nbsp;كتابيا على الفور (انظر كيفية الاتصال بنا أدناه للحصول على تفاصيل الاتصال) بأي محتوى من إنشاء المستخدم (أو محتوى آخر) ينتهك شروط وأحكام استخدام موقع الويب هذه. أنت توافق على تزويد &quot;براحتك&quot; &nbsp;بمعلومات كافية لتمكين &quot;براحتك&quot; &nbsp;من التحقيق فيما إذا كان هذا المحتوى الذي ينشئه المستخدم (أو محتوى آخر) ينتهك شروط وأحكام استخدام موقع الويب هذه.&nbsp;&nbsp;توافق&nbsp;&quot;براحتك&quot;&nbsp;&nbsp;&nbsp;على بذل جهود بحسن نية للتحقيق في هذه الشكوى ويجب أن تتخذ الإجراء الذي&nbsp;&nbsp;تقرره&nbsp;&quot;براحتك&quot; &nbsp;وفقا لتقديرها الخاص. ومع ذلك ،&nbsp;&nbsp;لا تضمن&nbsp;&quot;براحتك&quot;&nbsp;&nbsp;أو&nbsp;&nbsp;تقر بأنها ستمنع أو تزيل (كليا أو جزئيا) هذا المحتوى الذي ينشئه المستخدم أو المحتوى الآخر.</p>
+        <p dir="RTL"><strong>3.8 الأفكار غير المرغوب فيها</strong></p>
+        <p dir="RTL">تحافظ &quot;براحتك&quot; على سياسة عدم مراجعة أو قبول أي عمليات إرسال غير مرغوب فيها للأفكار والاختراعات والتصاميم و / أو المواد الأخرى المتعلقة بأعمال&nbsp;&nbsp;&quot;براحتك&quot;&nbsp;&nbsp;&nbsp;(بما في ذلك على سبيل المثال لا الحصر الأحذية والملابس والسلع والخدمات الرياضية) سواء كانت تتكون من نصوص أو صور أو أصوات أو برامج أو معلومات أو غير ذلك (&quot;المواد&quot;) من أشخاص خارج &quot;براحتك&quot;. لذلك يجب عليك عدم نشر أي مواد على الموقع أو إرسالها إلى &quot;براحتك&quot; عن طريق البريد الإلكتروني أو غير ذلك.</p>
+        <p dir="RTL"><strong>4. متفرقات</strong></p>
+        <p dir="RTL"><strong>4.1 كيف يمكنك الاتصال بنا؟</strong></p>
+        <p dir="RTL">إذا كان لديك أي أسئلة أو تعليقات حول الموقع أو شروط وأحكام &quot;براحتك&quot; &nbsp;أو في حالة رغبتك في تقديم شكوى ، فيرجى عدم التردد في الاتصال بخدمة العملاء بالنقر هنا.</p>
+        <p dir="RTL">بدلا من ذلك ، يمكنك أيضا الكتابة إلينا باستخدام العنوان التالي:&nbsp;<span dir="LTR">info@bra7tak.com</span></p>
+        <p dir="RTL"><strong>4.2 الأولويات</strong></p>
+        <p dir="RTL">في حالة وجود تعارض بين شروط وأحكام &quot;براحتك&quot; وأي محتوى وارد في أجزاء أخرى من الموقع أو في الروابط ،&nbsp;&nbsp;تسود شروط&nbsp;وأحكام &quot;براحتك&quot; الواردة في هذا المستند باستثناء اتفاقية البيع عن بعد والمعلومات الأولية ل</p>
+        <p dir="RTL"><strong>4.3 التعديلات على &nbsp;شروط وأحكام</strong> <strong>&quot;براحتك&quot;</strong></p>
+        <p dir="RTL">نحتفظ بالحق في إجراء تغييرات على هذه الشروط والأحكام في أي وقت وفقا لتقديرنا الخاص ودون الرجوع إليك حيث توافق على الشروط والأحكام الحالية المطبقة عليك وفقا لذلك.</p>
+        <p dir="RTL">سيخضع استخدام هذا الموقع بالإضافة إلى أي اتفاقية شراء مبرمة بينك وبيننا لإصدار شروط وأحكام &quot;براحتك&quot; السارية في وقت تقديم الطلب من خلال هذا الموقع أو في اليوم الذي تتصفح فيه هذا الموقع (حسب الاقتضاء). يرجى مراجعة&nbsp;&nbsp;شروط وأحكام&nbsp;&quot;براحتك&quot; بشكل دوري لمعرفة التغييرات.</p>
+        <p dir="RTL"><strong>4.4 حماية البيانات</strong></p>
+        <p dir="RTL">تحترم &quot;براحتك&quot; تماما خصوصية الأفراد الذين يصلون إلى الموقع ويستخدمونه. للحصول على تفاصيل حول الطريقة التي نستخدم بها ملفات تعريف الارتباط ، ونوع المعلومات التي نجمعها ، وكيف ولأي غرض ، نستخدم معلوماتك وتحت أي ظروف نكشف عن المعلومات ، يرجى الاطلاع على بيان الخصوصية وسياسة ملفات تعريف الارتباط الخاصة بنا ، والتي يتم دمجها في شروط وأحكام &quot;براحتك&quot;&nbsp;هذه وتشكل جزءا منها&nbsp;&nbsp;.</p>
+        <p dir="RTL">من خلال تقديم طلب شراء ، فإنك توافق وتفهم أنه يجوز لنا جمع بياناتك الشخصية واستخدامها وتخزينها ومعالجتها وفقا لبيان الخصوصية الخاص بنا.</p>
+        <p dir="RTL"><strong>4.5 الفصل</strong></p>
+        <p dir="RTL">يجب تفسير كل شرط من شروط وأحكام &quot;براحتك&quot; بشكل منفصل ومستقل عن بعضها البعض. إذا تم اعتبار أي حكم غير صالح أو باطل أو غير قابل للتنفيذ بأي شكل آخر، يعتبر هذا الحكم قابلا للفصل ولن يؤثر على قابلية تنفيذ أي من الأحكام الأخرى لشروط &nbsp;وأحكام&nbsp;&quot;براحتك&quot;&nbsp;هذه.</p>
+        <p dir="RTL"><strong>4-6 التعاقد من الباطن والإحالة</strong></p>
+        <p dir="RTL">تحتفظ &quot;براحتك&quot; بالحق في التعاقد من الباطن أو نقل أو التنازل عن أو تجديد كل أو أي من حقوقنا والتزاماتنا بموجب شروط وأحكام&nbsp;&nbsp;&quot;براحتك&quot;&nbsp;&nbsp;بشرط ألا تتأثر حقوقك بموجب شروط&nbsp;&nbsp;وأحكام&nbsp;&quot;براحتك&quot; ويسمح بها القانون. لا يجوز لك التعاقد من الباطن أو التنازل عن أو نقل أي من حقوقك أو التزاماتك بموجب&nbsp;&nbsp;شروط وأحكام&nbsp;&quot;براحتك&quot; دون موافقتنا كتابية.</p>
+        <p dir="RTL"><strong>4.7 الأحداث الخارجة عن السيطرة المعقولة</strong></p>
+        <p dir="RTL">لن تكون &quot;براحتك&quot; مسؤولة عن أي تأخير أو فشل في أداء أو الامتثال لالتزاماتنا بموجب &nbsp;شروط وأحكام &quot;براحتك&quot; عندما ينشأ التأخير أو الفشل عن أي سبب خارج عن&nbsp;&nbsp;سيطرة&nbsp;&quot;براحتك&quot;&nbsp;المعقولة.</p>
+        <p dir="RTL"><strong>4.8 القانون المعمول به والاختصاص القضائي</strong></p>
+        <p dir="RTL">تخضع شروط وأحكام &quot;براحتك&quot; لقوانين مصر. يخضع أي نزاع قد ينشأ بموجب هذه الشروط والأحكام للاختصاص القضائي الحصري لمحاكم مصر حسب مقتضى الحال.</p>
+        <p>&nbsp;</p>
+        {% endif %}
+    </section>
+    
+	<footer>
+        <div id="content">
+			<div id="meta-info">
+				<div id="logo"></div>
+				<h1 style="font-family: '{{primary_font_family}}'">{{content.global_[lang]['name']}}</h1>
+				<p style="font-family: '{{primary_font_family}}'">{{content.global_[lang]["bio"]}}</p>
+				<div id="links">
+					{% if cfg.facebook %}
+						<a href="{{cfg.facebook}}" id="footer-facebook-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.instagram %}
+						<a href="{{cfg.instagram}}" id="footer-instagram-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.twitter %}
+						<a href="{{cfg.twitter}}" id="footer-twitter-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.tiktok %}
+						<a href="{{cfg.tiktok}}" id="footer-tiktok-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.linkedin %}
+						<a href="{{cfg.linkedin}}" id="footer-linkedin-icon" class="footer-social-media-icon"></a>
+					{% endif %}
+					
+				</div>
+			</div>
+			<div id="tabs">
+
+				<div class="tabs-column">
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/refundPolicy/">{{content.global_[lang]['refundPolicy']}}</a>
+					<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/privacyPolicy/">{{content.global_[lang]['privacyPolicy']}}</a>
+				</div>
+				<div class="tabs-column">
+					{% for cat in database.categories.all_categories[:9] %}
+						<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+					{% endfor %}
+				</div>
+				<div class="tabs-column">
+					{% for cat in database.categories.all_categories[10:19] %}
+						<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories/{{cat.id}}">{{cat.name[lang]}}</a>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div id="copyright" style="font-family: '{{primary_font_family}}'">lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r</div>
+	</footer>
+	<div id="drawer-overlay"></div>
+	<div id="drawer">
+		<div id="drawer-header">
+			<div id="drawer-close">x</div>
+		</div>
+		 <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+		<div id="options">
+      {% if uid %}
+			<a href="{{cfg.base_url}}/profile/" id="drawer-user-nav-item">
+      {% else %}
+				<a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+      {% endif %}
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+          	{% if uid %}
+          		{{content.tabs[lang]['account']}}
+          	{% else %}
+            	{{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          	<div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+	          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+        <a href="{{cfg.base_url}}/favourites/" id="drawer-favourites-nav-item">
+          <div id="drawer-favourites-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['favourites']}}</p>
+          <div id="drawer-favourites-badge">
+          	{% if uid %}
+          		{{len(user_data.favourites)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="drawer-cart-nav-item">
+          <div id="drawer-cart-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['cart']}}</p>
+          <div id="drawer-cart-badge">
+          	{% if uid %}
+          		{{len(user_data.cart)}}
+          	{% else %}
+          		{{0}}
+          	{% endif %}
+          </div>
+        </a>
+		</div>
+		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
+		<div id="categories">
+			{% for cat in database.categories.all_categories %}
+				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
+					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+				</div>
+			{% endfor %}
+		</div>
+		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['socialMedia']}}</h5>
+
+		<div id="links">
+					{% if cfg.facebook %}
+						<a href="{{cfg.facebook}}" id="drawer-facebook-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.instagram %}
+						<a href="{{cfg.instagram}}" id="drawer-instagram-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.twitter %}
+						<a href="{{cfg.twitter}}" id="drawer-twitter-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.tiktok %}
+						<a href="{{cfg.tiktok}}" id="drawer-tiktok-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					{% if cfg.linkedin %}
+						<a href="{{cfg.linkedin}}" id="drawer-linkedin-icon" class="drawer-social-media-icon"></a>
+					{% endif %}
+					
+				</div>
+	</div>
+
+</body>
+</html>

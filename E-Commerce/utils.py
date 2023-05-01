@@ -34,13 +34,12 @@ class Utils:
     def format_date(self, date, show_hour: bool = False):
         if show_hour:
             parts = date.split(' ')
-            return "{} / {} / {}-{} : {} : {}".format(
+            return "{} / {} / {}<br>{} : {}".format(
                 parts[0].split('-')[0],
                 parts[0].split('-')[1],
                 parts[0].split('-')[2],
                 parts[1].split(':')[0],
                 parts[1].split(':')[1],
-                parts[1].split(':')[2].split('.')[0]
             )
 
         else:
@@ -49,6 +48,12 @@ class Utils:
                 date.split('-')[1],
                 date.split('-')[2]
             )
+
+    def format_date_from_timestamp(self, timestamp):
+        from datetime import datetime, timezone
+        print(timestamp)
+        date = datetime.fromtimestamp(int(timestamp/1000), tz= timezone.utc)
+        return self.format_date(str(date), show_hour=True)
 
     def format_price(self, price, show_curr: bool = True, show_full: bool = False):
         if show_full:

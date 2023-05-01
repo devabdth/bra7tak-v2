@@ -1,0 +1,53 @@
+@media screen and (min-width: 1024px) {
+  section#entry {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10vh;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .terms {
+    background: url(./images/terms.jpg);
+  }
+  .refund {
+    background: url(./images/refund.jpg);
+  }
+  .privacy {
+    background: url(./images/privacy.jpg);
+  }
+
+  section#entry > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  section#entry h1 {
+    font-weight: 900;
+    font-size: 4em;
+    color: white;
+  }
+
+  section#content {
+    width: 100%;
+    max-height: 10000vh;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    padding: 8vh 5%;
+    flex-direction: column;
+    line-height: 24px;
+    font-size: 1.25em;
+    color: var(--secondaryColor);
+  }
+}

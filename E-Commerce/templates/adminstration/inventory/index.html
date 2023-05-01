@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - Inventory</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/inventory/styles/computer.css')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/inventory/scripts/main.js')}}"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+
+
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <div class="navbar">
+        <div class="dropdown">
+          <button class="dropbtn">Analyticas</button>
+          <div class="dropdown-content">
+            <label>Analyticas</label>
+            <a href="/webapp/adminstration/overview/">Overview</a>
+          </div>
+        </div>        <div class="dropdown">
+          <button class="dropbtn">Resources Planning</button>
+          <div class="dropdown-content">
+            <label>Resources Planning</label>
+            <a href="#">Shipping Information</a>
+            <a href="/webapp/adminstration/inventory/" class="active">Inventory</a>
+            <a href="/webapp/adminstration/orders/">Orders</a>
+            <a href="/webapp/adminstration/pos/">POS</a>
+            <a href="/webapp/adminstration/hr/">HR</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Website Content</button>
+          <div class="dropdown-content">
+            <label>Website Content</label>
+            <a href="/webapp/adminstration/categories/">Categories</a>
+            <a href="/webapp/adminstration/products">Products</a>
+            <a href="/webapp/adminstration/banners/">Banners</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Users Management</button>
+          <div class="dropdown-content">
+            <label>Users Management</label>
+            <a href="/webapp/adminstration/users/">Users</a>
+            <a href="/webapp/adminstration/settings/">Admins</a>
+          </div>
+        </div>
+        |
+        <button onclick="logout();" class="shadow-button" style="color: red">Logout</button>
+      </div>
+    </header>
+    <section id="entry">
+      <div id="main-section">
+        <h3>Products</h3>
+        <div class="product-cards">
+          <div class="product-row" id="header">
+            <div class="product-row-header">
+              <div class="product-row-cover"></div>
+              <div class="product-row-code">#</div>
+              <div class="product-row-title">Name</div>
+              <div class="product-row-sizes">Sizes</div>
+              <div class="product-row-colors">Colors</div>
+              <div class="product-row-stock">Stock</div>
+          </div>
+          </div>
+          {% for prod in db.products.all_products %}
+            <div class="product-row" id="{{prod.id}}" onclick="toggleProductRow(this)">
+              <div class="product-row-header">
+                  <div class="product-row-cover" style="background-image: url(/assets/products/name/{{prod.id}}-0.png);"></div>
+                  <div class="product-row-code">{{prod.code}}</div>
+                <div class="product-row-title">{{prod.name['en'][:25]}}...</div>
+                <div class="product-row-sizes">
+                  {% for size in prod.sizes %}
+                    {{size}}
+                  {%endfor%}
+                </div>
+                <div class="product-row-colors">
+                  {% for color in (prod.inventory.keys()|list)[:3] %}
+                  {{color[:10]}}
+                  {%endfor%}
+                </div>
+                <div class="product-row-stock">{{calculate_stock(prod.inventory)}}<span>Pairs/Pieces</span></div>
+              </div>
+              <div class="product-row-divider"></div>
+              <div class="product-row-collapsable">
+                <div class="product-row-collapsable-body">
+                  <div class="product-row-collapsable-cover" style="background-image: url(/assets/products/name/{{prod.id}}-0.png);"></div>
+                  <div class="product-row-collapsable-column">
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Name</label>
+                      <h3 class="product-row-collapsable-product">{{prod.name['en'][:25]}}</h3>
+                    </div>
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Code</label>
+                      <h3 class="product-row-collapsable-product">{{prod.code}}</h3>
+                    </div>
+                    <div class="product-row-collapsable-column-tile">
+                      <label>ID Number</label>
+                      <h3 class="product-row-collapsable-product">{{prod.id}}</h3>
+                    </div>
+                  </div>
+                  <div class="product-row-collapsable-column">
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Colors</label>
+                      <h3 class="product-row-collapsable-product">
+                        {% for color in prod.inventory.keys() %}
+                        {{color}},
+                        {%endfor%}
+                      </h3>
+                    </div>
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Sizes</label>
+                      <h3 class="product-row-collapsable-product">
+                        {% for size in prod.sizes %}
+                        {{size}}
+                        {%endfor%}
+                      </h3>
+                    </div>
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Stock</label>
+                      <h3 class="product-row-collapsable-product">{{calculate_stock(prod.inventory)}}</h3>
+                    </div>
+                  </div>
+                  <div class="product-row-collapsable-column">
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Stock Price</label>
+                      <h3 class="product-row-collapsable-product">{{utils.format_price(prod.pricing['stockPrice'])}}</h3>
+                    </div>
+                    <div class="product-row-collapsable-column-tile">
+                      <label>Tags</label>
+                      <h3 class="product-row-collapsable-product">{{db.categories.get_category_by_id(prod.category).name['en']}}, {{db.categories.get_sub_category_by_id(cid= prod.category, scid= prod.sub_category).name['en']}}</h3>
+                    </div>
+                    <div class="product-row-collapsable-column-tile options">
+                      <label>Options</label>
+                      <button class="product-row-collapsable-product shadow-button" onclick="chooseDepositProduct(`{{prod.name['en']}}`, {{prod.to_dict() | safe}}, 'en', false, showSizesnColorsSeciton); openDepositDialog({{prod.to_dict() | safe}})">Add Items</button>
+                      <button class="product-row-collapsable-product shadow-button" onclick="exportInventorySheet('{{prod.id}}', this)">Report</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div id="side-section">
+        <div class="card">
+          <h3>Options</h3>
+          <div class="options">
+            <button class="main-button" id="export-inventory-sheet" onclick="exportInventorySheet('all', this);">Export Sheet</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Requests</h3>
+          <div id="options">
+            <button onclick="requestFragment(0)" class="fragment-controller active" id="deposit-requests">Deposit Requests ({{requests['activeDepositRequests'].values() | length}})</button>
+            <button onclick="requestFragment(1)" class="fragment-controller" id="withdraw-requests">Withdraw Request ({{requests['activeWithdrawRequests'].values() | length}})</button>
+          </div>
+          <div class="requests-fragment active" id="deposit-requests">
+            {% for request in requests['activeDepositRequests'].values() %}
+              <div class="request-card">
+                <p class="type">Deposit</p>
+                <p class="date"><i class="date"></i>{{utils.format_date(request['placedIn'], show_hour= True)}}</p>
+                <div class="products-cards">
+                  {% for prod in request["products"] %}
+                    <div class="req-product-card">
+                      <div class="product-icon" style="background-image: url(/assets/products/name/{{prod['productId']}}-0.png);"></div>
+                      <div class="product-detatils">
+                        <p class="product-title">{{prod["productName"]}}</p>
+                        <p class="product-specs"><i class="color"></i>{{prod["color"]}} |<i class="size"></i> {{prod["size"]}} </p>
+                        <p class="product-quantity"><i class="quantity"></i>{{prod["quantity"]}}</p>
+                      </div>
+                    </div>
+                  {%endfor%}
+                </div>
+                <div class="options">
+                  <button class="shadow-button" onclick="openRequestDialog({{request}}, 'deposit')">Submit</button>
+                </div>
+              </div>
+            {%endfor%}
+          </div>
+          <div class="requests-fragment" id="withdraw-requests">
+            {% for request in requests['activeWithdrawRequests'].values() %}
+              <div class="request-card">
+                <p class="type">Deposit</p>
+                <p class="date"><i class="date"></i>{{utils.format_date(request['placedIn'], show_hour= True)}}</p>
+                <div class="products-cards">
+                  {% for prod in request["products"] %}
+                    <div class="req-product-card">
+                      <div class="product-icon" style="background-image: url(/assets/products/name/{{prod['productId']}}-0.png);"></div>
+                      <div class="product-detatils">
+                        <p class="product-title">{{prod["productName"]}}</p>
+                        <p class="product-specs"><i class="color"></i>{{prod["color"]}} |<i class="size"></i> {{prod["size"]}} </p>
+                        <p class="product-quantity"><i class="quantity"></i>{{prod["quantity"]}}</p>
+                      </div>
+                    </div>
+                  {%endfor%}
+                </div>
+                <div class="options">
+                  <button class="shadow-button" onclick="openRequestDialog({{request}}, 'withdraw')">Submit</button>
+                </div>
+              </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="overlay">
+    <div id="deposit-dialog">
+      <div id="header">
+        <h3>Deposit</h3>
+        <div id="dialog-header-close-action">x</div>
+      </div>
+      <div id="body">
+        <button
+          onclick="toggleProductsDropdown()"
+          id="products-dropbtn"
+          class="products-dropbtn"
+        >
+          Pick Product
+        </button>
+        <div id="products-dropdown" class="products-dropdown-content">
+          <input
+            type="text"
+            placeholder="{{content.global_['en']['search']}}..."
+            id="product-search"
+            onkeyup="productsFilter()"
+          />
+          {% for product in db.products.all_products %}
+          <button
+            style="font-family: 'Raleway'"
+            onclick="chooseDepositProduct(`{{product.name['en']}}`, {{product.to_dict() | safe}}, 'en', showSizesnColorsSeciton);"
+          >
+            {{product.name['en']}}
+          </button>
+          {% endfor %}
+        </div>
+        <h3 class="title">Colors</h3>
+        <div id="colors-section"></div>
+        <h3 class="title">Sizes</h3>
+        <div id="sizes-section"></div>
+        <h3 class="title"></h3>
+        <div class="field-container" id="quantity-field-container">
+          <input placeholder="Deposit Amount" type="number" min="0", max="50" name="quantity" id="quantity-field">
+        </div>
+      </div>
+      <div id="options">
+        <button class="shadow-button" id="dialog-options-cancel">Cancel</button>
+        <button class="main-button" id="dialog-options-confirm">Confirm</button>
+        <p id="status-msg"></p>
+      </div>
+    </div>
+    <div id="deposit-request-submission">
+      <div id="header">
+        <h3>Submit Request</h3>
+        <div id="request-submission-header-close-action">x</div>
+      </div>
+      <div id="body"></div>
+      <div id="options">
+        <button class="shadow-button" id="request-dialog-options-cancel">Cancel</button>
+        <button class="main-button" id="request-dialog-options-confirm">Confirm</button>
+        <p id="request-dialog-status-msg"></p>
+      </div>
+    </div>
+  <script>
+  </script>  
+  </body>
+</html>

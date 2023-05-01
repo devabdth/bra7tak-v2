@@ -622,6 +622,7 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 
 
 const openOrderDialog = (url, orderData, city) => {
+	currentOrderId = orderData['id'];
 	document.getElementById('order-id').innerHTML = orderData["id"];
 	document.getElementById('order-user-id').innerHTML = orderData["username"];
 	document.getElementById('order-user-address').innerHTML = orderData["address"];

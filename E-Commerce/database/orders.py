@@ -3,8 +3,7 @@ import pymongo
 import time
 import datetime
 from bson.objectid import ObjectId
-
-
+from .pos import POS
 import sys
 sys.path.insert(0, '../')
 
@@ -31,10 +30,10 @@ class Order:
         self.status = status
         self.uid = uid
         self.placed_in = placed_in
-        self.gender= gender
+        self.gender = gender
         self.aid = aid or None
         self.police_number = police_number
-        self.comment= comment
+        self.comment = comment
 
     def to_dict(self):
         return {
@@ -61,12 +60,14 @@ class Order:
 
 
 class Orders:
-    def __init__(self, client: pymongo.MongoClient):
+    def __init__(self, client: pymongo.MongoClient, Utils):
         self.order_form = Order
+        self.pos = POS()
         self.cfg: Config = Config()
         self.client: pymongo.MongoClient = client
         self.database = self.client["bra7tak"]
         self.orders_collection = self.database["orders"]
+        self.utils = Utils()
 
     def create_order_from_dict(self, dict_: dict) -> Order:
         return Order(
@@ -78,7 +79,7 @@ class Orders:
             address_two=dict_['addressLineTwo'],
             city_code=dict_['cityCode'],
             products=dict_['products'],
-            gender= dict_['gender'] or 2,
+            gender=dict_['gender'] or 2,
             vat=dict_['vat'],
             price=dict_['price'],
             shipping_fees=dict_['shippingFees'],
@@ -87,7 +88,7 @@ class Orders:
             placed_in=dict_['placedIn'],
             aid=dict_['aid'],
             police_number=dict_['policeNumber'],
-            comment= dict_['comment']
+            comment=dict_['comment']
         )
 
     def get_orders_by_uid(self, uid: str) -> list:
@@ -109,7 +110,7 @@ class Orders:
             else:
                 filter_params['policeNumber'] = {
                     '$gte': int(params['policeNumber'])}
-                
+
         print(params)
 
         return [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find(filter_params))]
@@ -172,6 +173,19 @@ class Orders:
 
     def update_order(self, oid, params):
         try:
+            if 'status' in params.keys():
+                if str(params['status']) == "2":
+                    order = self.orders_collection.find_one(
+                        {'_id': ObjectId(oid)})
+                    cart_cal = self.utils.cart_calculations(
+                        order['products'], order['cityCode'])
+                    self.pos.add_entry(
+                        mode='input',
+                        amount=cart_cal['PRODUCTS_PRICE'],
+                        direction=f"Order: ({oid})",
+                        recorded_by="Automated Process"
+                    )
+
             self.orders_collection.find_one_and_update(
                 {'_id': ObjectId(oid)}, {'$set': params})
             return True

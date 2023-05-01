@@ -1,4 +1,3 @@
-from config import Config
 import os
 import pymongo
 import time
@@ -9,12 +8,13 @@ from bson.objectid import ObjectId
 import sys
 sys.path.insert(0, '../')
 
+from config import Config
 
 class Product:
     def __init__(
         self, id: str, name: dict, bio: dict, pricing: float, assets: list,
-        category: int, sub_category: int, avg_del_days: dict,
-        code: str, specs: dict, vat: float = 0.14, shipping_fees: dict = {}, colors: list = [], sizes: list = []
+        category: int, sub_category: int, avg_del_days: dict, inventory: dict,
+        code: str, specs: dict, vat: float = 0.14, shipping_fees: dict = {}, colors: list = [], sizes: list = [],
     ):
         self.id = id
         self.name = name
@@ -30,6 +30,7 @@ class Product:
         self.shipping_fees = shipping_fees
         self.colors = colors
         self.sizes = sizes
+        self.inventory = inventory
 
     def to_dict(self) -> dict:
         return {
@@ -47,6 +48,7 @@ class Product:
             "shippingFees": self.shipping_fees,
             "colors": self.colors or "",
             "sizes": self.sizes or "",
+            "inventory": self.inventory,
         }
 
 
@@ -104,7 +106,8 @@ class Products:
             vat=dict_['vat'],
             shipping_fees=dict_['shippingFees'],
             colors=dict_['colors'],
-            sizes=dict_['sizes']
+            sizes=dict_['sizes'],
+            inventory=dict_['inventory']
         )
 
     def refresh_all_products(self):
@@ -201,6 +204,7 @@ class Products:
             product.sub_category = int(product_["subCategory"])
             product.colors = product_['colors']
             product.sizes = product_['sizes']
+            product.inventory = product_['inventory']
             self.products_collection.find_one_and_update(
                 {'_id': ObjectId(product.id)}, {'$set': product.to_dict()})
             self.refresh_all_products()
@@ -228,7 +232,8 @@ class Products:
                 category=product_["category"],
                 sub_category=int(product_["subCategory"]),
                 colors=product_['colors'],
-                sizes=product_['sizes']
+                sizes=product_['sizes'],
+                inventory=product_['inventory']
             )
             product = self.products_collection.insert_one(product.to_dict())
             self.refresh_all_products()
