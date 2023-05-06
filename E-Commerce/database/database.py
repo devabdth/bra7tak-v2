@@ -6,8 +6,8 @@ from .users import Users
 from .orders import Orders
 from .admins import Admins
 from .bulks import Bulks
-# from .inventory import Inventory
-# from .pos import POS
+from .inventory import Inventory
+from .pos import POS
 
 from utils import Utils
 import pymongo as pymongo
@@ -24,5 +24,5 @@ class Database:
         self.users: Users = Users(client=self.client)
         self.orders: Orders = Orders(client=self.client, Utils= Utils)
         self.admins: Admins = Admins()
-        # self.inventory: Inventory = Inventory(client=self.client)
-        # self.pos: POS= POS()
+        self.inventory: Inventory = Inventory(client=self.client)
+        self.pos: POS= POS()

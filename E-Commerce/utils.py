@@ -1,4 +1,5 @@
 from invoice_gen.app import InvoiceGenerator
+from pandas import to_datetime
 
 
 class Utils:
@@ -51,8 +52,8 @@ class Utils:
 
     def format_date_from_timestamp(self, timestamp):
         from datetime import datetime, timezone
-        print(timestamp)
-        date = datetime.fromtimestamp(int(timestamp/1000), tz= timezone.utc)
+        date = to_datetime(timestamp, unit='ms')
+        print(date)
         return self.format_date(str(date), show_hour=True)
 
     def format_price(self, price, show_curr: bool = True, show_full: bool = False):

@@ -1,6 +1,7 @@
 import os
 import json
 from datetime import datetime
+import time
 from pandas import DataFrame, concat
 
 
@@ -33,7 +34,7 @@ class POS:
 
     def add_entry(self, mode, direction, amount, recorded_by):
         entry = {
-            "date": int(datetime.now().timestamp() * 1000 * 1000),
+            "date": int(time.time() * 1000),
             "direction": direction,
             "amount": amount,
             "recordedBy": recorded_by

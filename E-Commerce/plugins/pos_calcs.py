@@ -28,14 +28,14 @@ class POSCalculations:
                                                                   ['DEALS']['direction'].str.contains('Deal')]
         report['INPUTS']['DEALS'] = sum(report['INPUTS']['DEALS']['amount'])
 
-        report['OUTPUTS']['STOCK'] = self.db.pos.inputs.loc[self.db.pos.inputs['date'] > start_date]
+        report['OUTPUTS']['STOCK'] = self.db.pos.outputs.loc[self.db.pos.outputs['date'] > start_date]
         report['OUTPUTS']['STOCK'] = report['OUTPUTS']['STOCK'].loc[report['OUTPUTS']
                                                                     ['STOCK']['date'] < end_date]
         report['OUTPUTS']['STOCK'] = report['OUTPUTS']['STOCK'].loc[report['OUTPUTS']
                                                                     ['STOCK']['direction'].str.contains('Stock')]
         report['OUTPUTS']['STOCK'] = sum(report['OUTPUTS']['STOCK']['amount'])
 
-        report['OUTPUTS']['SALARIES'] = self.db.pos.inputs.loc[self.db.pos.inputs['date'] > start_date]
+        report['OUTPUTS']['SALARIES'] = self.db.pos.outputs.loc[self.db.pos.outputs['date'] > start_date]
         report['OUTPUTS']['SALARIES'] = report['OUTPUTS']['SALARIES'].loc[report['OUTPUTS']
                                                                           ['SALARIES']['date'] < end_date]
         report['OUTPUTS']['SALARIES'] = report['OUTPUTS']['SALARIES'].loc[report['OUTPUTS']
@@ -43,14 +43,14 @@ class POSCalculations:
         report['OUTPUTS']['SALARIES'] = sum(
             report['OUTPUTS']['SALARIES']['amount'])
 
-        report['OUTPUTS']['BILLS'] = self.db.pos.inputs.loc[self.db.pos.inputs['date'] > start_date]
+        report['OUTPUTS']['BILLS'] = self.db.pos.outputs.loc[self.db.pos.outputs['date'] > start_date]
         report['OUTPUTS']['BILLS'] = report['OUTPUTS']['BILLS'].loc[report['OUTPUTS']
                                                                     ['BILLS']['date'] < end_date]
         report['OUTPUTS']['BILLS'] = report['OUTPUTS']['BILLS'].loc[report['OUTPUTS']
                                                                     ['BILLS']['direction'].str.contains('Bills')]
         report['OUTPUTS']['BILLS'] = sum(report['OUTPUTS']['BILLS']['amount'])
 
-        report['OUTPUTS']['INVESTMENTS'] = self.db.pos.inputs.loc[self.db.pos.inputs['date'] > start_date]
+        report['OUTPUTS']['INVESTMENTS'] = self.db.pos.outputs.loc[self.db.pos.outputs['date'] > start_date]
         report['OUTPUTS']['INVESTMENTS'] = report['OUTPUTS']['INVESTMENTS'].loc[report['OUTPUTS']
                                                                                 ['INVESTMENTS']['date'] < end_date]
         report['OUTPUTS']['INVESTMENTS'] = report['OUTPUTS']['INVESTMENTS'].loc[report['OUTPUTS']
@@ -74,8 +74,10 @@ class POSCalculations:
 
         report['PROFIT_MARGIN'] = report['TOTAL_INPUTS'] - \
             report['TOTAL_OUTPUTS']
-        report['PROFIT_MARGIN_PRECENTAGE'] = (
-            report['PROFIT_MARGIN'] * 100) / report['TOTAL_INPUTS']
+        if report['TOTAL_INPUTS'] == 0:
+            report['PROFIT_MARGIN_PRECENTAGE']= 0
+        else:
+            report['PROFIT_MARGIN_PRECENTAGE'] = (report['PROFIT_MARGIN'] * 100) / report['TOTAL_INPUTS']
 
         return report
 

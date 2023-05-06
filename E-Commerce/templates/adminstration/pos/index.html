@@ -79,7 +79,7 @@
     {% set report= calcs.report() %}
     <div id="header">
       <h3>Point of Sale</h3>
-      <button class="main-button">Add Entry</button>
+      <button class="main-button" onclick="openEntryDialog()">Add Entry</button>
     </div>
     <section id="entry">
       <div id="cards">
@@ -172,8 +172,20 @@
       </div>
     </section>
     <div id="fragments-controllers">
-      <div onclick="pickFragment(this)" class="fragment-controller active" id="inputs">Revenue</div>
-      <div onclick="pickFragment(this)" class="fragment-controller" id="outputs">Expenses</div>
+      <div
+        onclick="pickFragment(this)"
+        class="fragment-controller active"
+        id="inputs"
+      >
+        Revenue
+      </div>
+      <div
+        onclick="pickFragment(this)"
+        class="fragment-controller"
+        id="outputs"
+      >
+        Expenses
+      </div>
     </div>
     <section class="table-container active" id="inputs">
       <table id="inputs">
@@ -211,7 +223,47 @@
         {%endfor%}
       </table>
     </section>
-
-    <script></script>
+    <div id="add-entry-dialog-overlay"></div>
+    <div id="add-entry-dialog">
+      <div id="header">
+        <h3>Expenses Entry</h3>
+        <div onclick="closeAddEntryDialog();" style="cursor: pointer">x</div>
+      </div>
+      <div id="body">
+        <div class="field-container">
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            placeholder="Amount (EGP)"
+            class="single-line-field"
+          />
+        </div>
+        <div id="tabs">
+          <div
+            onclick="selectExpenseTab(this)"
+            class="expense-tab"
+            id="investment"
+          >
+            Investment
+          </div>
+          <div onclick="selectExpenseTab(this)" class="expense-tab" id="salary">
+            Salary
+          </div>
+          <div onclick="selectExpenseTab(this)" class="expense-tab" id="bill">
+            Bill
+          </div>
+        </div>
+      </div>
+      <div id="options">
+        <button class="shadow-button" onclick="closeAddEntryDialog();">
+          Cancel
+        </button>
+        <button class="main-button" onclick="addEntryDialogConfirmation();">
+          Confirm
+        </button>
+        <p id="status-msg"></p>
+      </div>
+    </div>
   </body>
 </html>

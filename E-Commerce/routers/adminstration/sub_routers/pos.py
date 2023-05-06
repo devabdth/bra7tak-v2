@@ -21,10 +21,28 @@ class POSSubRouter:
 
     def setup(self):
         self.assign_pos_index()
+        self.assign_post_entry()
+
+    def assign_post_entry(self):
+        @self.app.route('/webapp/adminstration/pos/enteries/', methods=['POST'])
+        def post_entry():
+            try:
+                body= dict(json.loads(request.data))
+                self.database.pos.add_entry(
+                    mode= 'output',
+                    amount=body['amount'],
+                    direction=body['direction'],
+                    recorded_by= session.get("CURRENT_ADMIN_ID")
+                )
+                return self.app.response_class(status= 201)
+            except Exception as e:
+                print(e)
+                return self.app.response_class(status= 500)
 
     def assign_pos_index(self):
         @self.app.route('/webapp/adminstration/pos/', methods=['GET'])
         def pos_index():
+            self.database.pos.init_data()
             aid = session.get("CURRENT_ADMIN_ID", None)
             if aid is None:
                 return redirect('{}/webapp/adminstration/login/'.format(self.cfg.base_url))

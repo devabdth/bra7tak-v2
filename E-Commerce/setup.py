@@ -72,3 +72,5 @@ def setup(app: Flask):
 
     from routers.documentations.router import DocumentationsRouter
     DocumentationsRouter(app=app).setup()
+
+

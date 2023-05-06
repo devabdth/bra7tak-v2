@@ -248,20 +248,21 @@ const stockOrders = async () => {
 	}
 
 	const allOrders = selectedPendingOrders.concat(selectedInDeliveredOrders.concat(selectedCanceledOrders))
-	for (let order of allOrders) {
-		try {
-			fetch(`./?oid=${order}&status=0`, {
-				method: 'PATCH'
-			}).then(async r => {
-				if (r.status === 200) {
-					return;
-				}
-			});
-		} catch (e) {
-			console.log(e);
+	try {
+		let res = await fetch(`./multipeStock/`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				orders: allOrders
+			})
+		});
+		if (res.status !== 200) {
 			document.getElementById('converting-orders-count').innerHTML = "Failed!";
-			setTimeout(() => { updateSelectedOrdersDisplay(); }, 3000);
+			return;
 		}
+	} catch (e) {
+		console.log(e);
+		document.getElementById('converting-orders-count').innerHTML = "Failed!";
+		setTimeout(() => { updateSelectedOrdersDisplay(); }, 3000);
 	}
 	window.open('./', '_self');
 	return;

@@ -29,6 +29,24 @@ class OrdersSubRouter:
         self.assign_order_data_update()
         self.assign_order_invoice()
         self.assign_order_multiple_invoice()
+        self.assign_order_multiple_stocking()
+
+    def assign_order_multiple_stocking(self,):
+        @self.app.route('/webapp/adminstration/orders/multipeStock/', methods=["PATCH"])
+        def order_multiple_stocking():
+            try:
+                body= dict(json.loads(request.data))
+                orders= body['orders']
+                for order in orders:
+                    self.database.orders.update_order(
+                            order, {'status': 0})
+                    
+                return self.app.response_class(status= 200)
+            except Exception as e:
+                return self.app.response_class(status= 500)
+
+
+
 
     def setup_products_tr_display(self, order_products, products):
         final_display = ''
