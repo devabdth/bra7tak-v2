@@ -97,7 +97,7 @@ class Orders:
 
     def get_all_orders_combined(self, params):
         if len(params.keys()) == 0:
-            return [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find())]
+            return [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find().sort('policeNumber', -1))]
 
         filter_params = {}
         if params['status'] != '':
@@ -121,7 +121,7 @@ class Orders:
                 'status': -3,
                 'policeNumber': int(params['policeNumber']) if
                 'policeNumber' in params.keys() and int(
-                    params['policeNumber']) < 1000000000
+                    params['policeNumber']) > 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
@@ -129,7 +129,7 @@ class Orders:
                 'status': -2,
                 'policeNumber': int(params['policeNumber']) if
                 'policeNumber' in params.keys() and int(
-                    params['policeNumber']) < 1000000000
+                    params['policeNumber']) > 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
@@ -137,7 +137,7 @@ class Orders:
                 'status': -1,
                 'policeNumber': int(params['policeNumber']) if
                 'policeNumber' in params.keys() and int(
-                    params['policeNumber']) < 1000000000
+                    params['policeNumber']) > 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
@@ -145,7 +145,7 @@ class Orders:
                 'status': 0,
                 'policeNumber': int(params['policeNumber']) if
                 'policeNumber' in params.keys() and int(
-                    params['policeNumber']) < 1000000000
+                    params['policeNumber']) > 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
@@ -153,7 +153,7 @@ class Orders:
                 'status': 1,
                 'policeNumber': int(params['policeNumber']) if
                 'policeNumber' in params.keys() and int(
-                    params['policeNumber']) < 1000000000
+                    params['policeNumber']) > 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
@@ -161,7 +161,7 @@ class Orders:
                 'status': 2,
                 'policeNumber': int(params['policeNumber']) if
                 'policeNumber' in params.keys() and int(
-                    params['policeNumber']) < 1000000000
+                    params['policeNumber']) > 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],

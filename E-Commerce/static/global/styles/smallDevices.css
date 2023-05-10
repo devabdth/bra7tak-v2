@@ -476,7 +476,7 @@
 
   .product-card {
     width: 160px;
-    height: 288px;
+    height: 320px;
     margin: 0 6px;
     position: relative;
     transition: 500ms ease;
@@ -728,10 +728,11 @@
   section#products > #products {
     width: 100%;
     min-height: 30vh;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     align-items: center;
-    flex-direction: row;
     justify-items: center;
+    row-gap: 16px;
+    column-gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }

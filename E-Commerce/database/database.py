@@ -8,6 +8,7 @@ from .admins import Admins
 from .bulks import Bulks
 from .inventory import Inventory
 from .pos import POS
+from .shipping_providers import ShippingProviders
 
 from utils import Utils
 import pymongo as pymongo
@@ -26,3 +27,4 @@ class Database:
         self.admins: Admins = Admins()
         self.inventory: Inventory = Inventory(client=self.client)
         self.pos: POS= POS()
+        self.shipping_providers= ShippingProviders()

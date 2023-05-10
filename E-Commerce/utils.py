@@ -5,6 +5,18 @@ from pandas import to_datetime
 class Utils:
     def __init__(self):
         self.inv_gen = InvoiceGenerator
+        self.accesses= [
+            'Overview',
+            'Shipping Informations',
+            'Inventory',
+            'Orders',
+            'POS',
+            'Categories',
+            'Products',
+            'Banners',
+            'Users',
+            'Admins'
+        ]
         self.status_names = {
             "-3": {
                 "en": "Pending",
@@ -31,6 +43,9 @@ class Utils:
                 "ar": "تم التوصيل"
             },
         }
+
+    def sum_scopes(self, statuses_reports):
+        pass
 
     def format_date(self, date, show_hour: bool = False):
         if show_hour:
@@ -117,14 +132,13 @@ class Utils:
                                    prod['PRODUCT_DATA'].pricing['dozinPiecesPrice'])
                 total_vat += (prod['COUNT'] * prod['PRODUCT_DATA']
                               .pricing['dozinPiecesPrice']) * prod['PRODUCT_DATA'].vat
-            try:
-                total_shipping_fee += prod['PRODUCT_DATA'].shipping_fees[city_code or 5]
-            except KeyError:
-                total_shipping_fee += prod['PRODUCT_DATA'].shipping_fees[str(
-                    city_code or 5)]
 
         cart_['PRODUCTS_PRICE'] = products_price
         cart_['TOTAL_VAT'] = total_vat
-        cart_['TOTAL_SHIPPING_FEE'] = total_shipping_fee
         cart_['TOTAL_PRICE'] = products_price + total_vat + total_shipping_fee
         return cart_
+    
+    def calculate_avg(self, input_):
+        if len(input_) == 0:
+            return 0
+        return sum(input_) / len(input_)

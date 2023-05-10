@@ -54,6 +54,7 @@ class POSSubRouter:
                 'adminstration/pos/index.html',
                 db=self.database,
                 content=self.content,
+                admin_data= admin_data,
                 utils=self.utils,
                 calcs= self.pos_calcs,
             )

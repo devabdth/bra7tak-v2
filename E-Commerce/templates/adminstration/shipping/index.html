@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - Shipping</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/shipping/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='checkout/styles/computer.css')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/shipping/scripts/main.js')}}"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <div class="navbar">
+        {% if "0" in admin_data["accesses"] %}
+        <div class="dropdown">
+          <button class="dropbtn">Overview</button>
+          <div class="dropdown-content">
+            <label>Overview</label>
+            <a href="/webapp/adminstration/overview/">Overview</a>
+          </div>
+        </div>
+        {% endif %}
+        <div class="dropdown">
+          <button class="dropbtn">Resources Planning</button>
+          <div class="dropdown-content">
+            <label>Resources Planning</label>
+            {% if "1" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/shippingInformation/" class="active"
+              >Shipping Information</a
+            >
+            {%else%}
+            <a
+              href="/webapp/adminstration/shippingInformation/"
+              class="disabled"
+              >Shipping Information</a
+            >
+            {%endif%} {% if "2" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/inventory/">Inventory</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/inventory/"
+              >Inventory</a
+            >
+            {%endif%} {% if "3" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/orders/">Orders</a>
+            {%else%}
+            <a href="/webapp/adminstration/orders/" class="disabled">Orders</a>
+            {%endif%} {% if "4" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/pos/">POS</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/pos/">POS</a>
+            {%endif%}
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Website Content</button>
+          <div class="dropdown-content">
+            <label>Website Content</label>
+            {% if "5" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/categories/">Categories</a>
+            {%else%}
+            <a href="/webapp/adminstration/categories/" class="disabled"
+              >Categories</a
+            >
+            {%endif%} {% if "6" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/products">Products</a>
+            {%else%}
+            <a href="/webapp/adminstration/products" class="disabled"
+              >Products</a
+            >
+            {%endif%} {% if "7" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/banners/">Banners</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/banners/"
+              >Banners</a
+            >
+            {%endif%}
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Users Management</button>
+          <div class="dropdown-content">
+            <label>Users Management</label>
+            {% if "8" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/users/">Users</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/users/">Users</a>
+            {%endif%}
+            <a href="/webapp/adminstration/settings/">Admins</a>
+          </div>
+        </div>
+        |
+        <button onclick="logout();" class="shadow-button" style="color: red">
+          Logout
+        </button>
+      </div>
+    </header>
+    <section id="entry">
+      <div id="left-side">
+        <div class="header">
+          <h3>Shipping Providers</h3>
+        </div>
+        <div class="body">
+          <div class="shipping-provider-row">
+            <div class="shipping-provider-row-code">#</div>
+            <div class="shipping-provider-row-title">Name</div>
+            <div class="shipping-provider-row-del-days">Average Days</div>
+            <div class="shipping-provider-row-avg-fees">Average Fees</div>
+            <div class="shipping-provider-row-options">Options</div>
+          </div>
+          {% for shpr in db.shipping_providers.shipping_providers %}
+          <div class="shipping-provider-row">
+            <div class="shipping-provider-row-code">{{shpr.id[:10]}}...</div>
+            <div class="shipping-provider-row-title">{{shpr.name}}</div>
+            <div class="shipping-provider-row-del-days">
+              {{utils.format_price(utils.calculate_avg(shpr.del_days.values()), show_curr= False, show_full= True)}} Day/s
+            </div>
+            <div class="shipping-provider-row-avg-fees">
+              {{utils.format_price(utils.calculate_avg(shpr.fees.values()), show_full= True)}}
+            </div>
+            <div class="shipping-provider-row-options">
+              <button
+                class="shadow-button"
+                onclick="openShippingProviderForm('UPDATE', {shpr: {{shpr.to_dict() | safe}}, cities: {{content.cities['en'].keys()|list}}});"
+              >
+                Update
+              </button>
+              <button
+                onclick="openDeleteDialog({{shpr.to_dict() | safe}})"
+                class="shadow-button"
+                style="color: red"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+          {%endfor%}
+        </div>
+      </div>
+      <div id="right-side">
+        <div>
+          <div class="header">
+            <h3>Options</h3>
+          </div>
+          <div class="body">
+            <button
+              class="shadow-button"
+              onclick="openShippingOptionsDialog();"
+            >
+              Edit Shipping Options
+            </button>
+            <button
+              class="shadow-button"
+              onclick="openShippingProviderForm('CREATE', {cities: {{content.cities['en'].keys()|list}}});"
+            >
+              Add Shipping Provider
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="header">
+            <h3>Shipping Information</h3>
+          </div>
+          <div class="body">
+            <table>
+              <tr>
+                <th>City</th>
+                <th>Duration</th>
+                <th>Cost (EGP)</th>
+              </tr>
+              {% for shipping_option in shipping_options %}
+              <tr>
+                <td>
+                  {{content.get_city_name_by_id(lang='en',
+                  city_code=(shipping_option|int))}}
+                </td>
+                <td>{{shipping_options[shipping_option]['durations']}} Days</td>
+                <td>
+                  {{utils.format_price(shipping_options[shipping_option]['fees']
+                  | int)}}
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div
+      class="dialog-overlay"
+      id="shipping-options-dialog-overlay"
+      onclick="closeEditShippingOptionsDialog()"
+    ></div>
+    <div id="shipping-options-dialog" class="dialog">
+      <div id="header">
+        <h3>Edit Shipping Options</h3>
+        <div id="close" onclick="closeEditShippingOptionsDialog()">x</div>
+      </div>
+      {% for i in content.cities['en'].keys() %}
+      <label>{{content.cities['en'][i]}}</label>
+      <div style="flex-direction: row; display: flex; width: 100%; gap: 16px">
+        <div class="field-container">
+          <input
+            type="quantity"
+            value="{{shipping_options[i|string]['durations']}}"
+            name="Delivery Days"
+            placeholder="Delivery Days"
+            id="{{i}}-options-del-days"
+          />
+        </div>
+        <div class="field-container">
+          <input
+            type="number"
+            value="{{shipping_options[i|string]['fees']}}"
+            name="Shipping Fees"
+            placeholder="Shipping Fees"
+            id="{{i}}-options-shipping-fees"
+          />
+        </div>
+      </div>
+      {% endfor %}
+      <div id="options">
+        <div
+          class="shadow-button"
+          id="submit"
+          onclick="closeEditShippingOptionsDialog();"
+        >
+          Close
+        </div>
+        <div
+          class="main-button"
+          id="options-submit"
+          onclick="submitEditShippingOptions({{content.cities['en'].keys()|list}});"
+        >
+          Submit
+        </div>
+      </div>
+    </div>
+    <div class="dialog-overlay" id="delete-dialog-overlay"></div>
+    <div class="dialog-overlay" id="form-dialog-overlay"></div>
+    <div class="dialog" id="form-dialog">
+      <div id="header">
+        <h3>Shipping Provider Form</h3>
+        <div
+          onclick="closeShippingProviderForm({{content.cities['en'].keys()|list}});"
+        >
+          x
+        </div>
+      </div>
+      <div id="body">
+        <div class="field-container" id="name-conteiner">
+          <input
+            type="name"
+            name="name"
+            placeholder="Provider Name"
+            id="name-field"
+          />
+        </div>
+        <div id="sh-options">
+          {% for i in content.cities['en'].keys() %}
+          <div
+            style="flex-direction: row; display: flex; width: 100%; gap: 16px"
+          >
+            <label>{{content.cities['en'][i]}}</label>
+            <div class="field-container">
+              <input
+                type="quantity"
+                value="0"
+                name="Delivery Days"
+                placeholder="Delivery Days"
+                id="{{i}}-form-del-days"
+              />
+            </div>
+            <div class="field-container">
+              <input
+                type="number"
+                value="0"
+                name="Shipping Fees"
+                placeholder="Shipping Fees"
+                id="{{i}}-form-shipping-fees"
+              />
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div id="options">
+        <button class="shadow-button">Cancel</button>
+        <button class="main-button">Confirm</button>
+        <p id="msg"></p>
+      </div>
+    </div>
+    <div id="delete-dialog" class="dialog">
+      <div id="header">
+        <h3>Delete</h3>
+        <div onclick="closeDeleteDialog();">x</div>
+      </div>
+      <div id="body">
+        <p id="msg"></p>
+      </div>
+      <div id="options">
+        <button
+          class="shadow-button"
+          onclick="closeShippingProviderForm({{content.cities['en'].keys()|list}});"
+        >
+          Cancel
+        </button>
+        <button class="main-button">Confirm</button>
+      </div>
+    </div>
+    <script>
+      initShippingOptions({{shipping_options | safe}});
+    </script>
+  </body>
+</html>

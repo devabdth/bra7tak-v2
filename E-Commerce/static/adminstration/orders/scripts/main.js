@@ -14,6 +14,7 @@ let selectedPendingOrders = [],
 	selectedDeliveredOrders = [],
 	selectedInDeliveredOrders = [],
 	allProducts = [],
+	shippingOptionsData = {},
 	citiesData = [];
 
 const updateSelectedOrdersDisplay = () => {
@@ -897,7 +898,8 @@ const updateCart = (product) => {
 	vat.innerHTML = `Vat<br><span style="font-family: 'Poppins';">${Number.parseInt(cartCalc.totalVat)}</span> L.E.`;
 
 	const shippingFees = document.getElementById('shipping-fees');
-	shippingFees.innerHTML = `shipping Fees<br><span style="font-family: 'Poppins';">${Number.parseInt(cartCalc.totalShippingFees)}</span> L.E.`;;
+	console.log(cartCalc)
+	shippingFees.innerHTML = `shipping Fees<br><span style="font-family: 'Poppins';">${cartCalc.totalShippingFees}</span> L.E.`;;
 
 }
 
@@ -906,7 +908,7 @@ const cartCalculation = () => {
 	const cart_ = {
 		totalPrice: {},
 		totalVat: {},
-		shippingFees: {},
+		shippingFees: 0,
 		productsLength: cart.length,
 	}
 
@@ -915,6 +917,15 @@ const cartCalculation = () => {
 	cart.forEach(e => {
 		count[e.id] = (count[e.id] || 0) + 1
 	});
+
+	if (currentCity !== undefined) {
+		console.log(shippingOptionsData[`${currentCity}`]['fees']);
+		shippingFees = Number.parseInt(shippingOptionsData[`${currentCity}`]['fees']);
+	} else {
+		shippingFees = Number.parseInt(shippingOptionsData['5']['fees']);
+	}
+
+
 
 
 	uniqueProducts.forEach(prod => {
@@ -952,11 +963,6 @@ const cartCalculation = () => {
 		}
 		cart_.totalVat[product["id"]] = (product['vat'] || 0) * cart_.totalPrice[product["id"]]
 		totalPrice = 0;
-		if (currentCity !== undefined) {
-			cart_.shippingFees[product["id"]] = (product['shippingFees'][currentCity]) || (product['shippingFees'][5])
-		} else {
-			cart_.shippingFees[product["id"]] = (product['shippingFees'][5])
-		}
 	});
 	for (let i in cart_.totalPrice) {
 		totalPrice += cart_.totalPrice[i];
@@ -964,10 +970,6 @@ const cartCalculation = () => {
 	for (let i in cart_.totalVat) {
 		totalVat += cart_.totalVat[i];
 	}
-	for (let i in cart_.shippingFees) {
-		shippingFees += cart_.shippingFees[i];
-	}
-
 	return {
 		totalPrice: totalPrice,
 		totalVat: totalVat,
@@ -991,6 +993,8 @@ const placeOrderConfirmation = async () => {
 
 	const addressTwoField = document.getElementById('address-line-two-field');
 	const addressTwoFieldContainer = document.getElementById('address-line-two-field-container');
+
+	const commentsField = document.getElementById('comments-field');
 
 	const citiesBtn = document.getElementById(`cities-dropbtn`);
 	const gendersBtn = document.getElementById(`genders-dropbtn`);
@@ -1049,6 +1053,7 @@ const placeOrderConfirmation = async () => {
 					customerAddressLineOne: addressOneField.value.trim(),
 					customerAddressLineTwo: addressTwoField.value.trim(),
 					customerCity: currentCity,
+					comments: commentsField.value.trim(),
 				},
 				status: 0,
 				fees: {
@@ -1142,6 +1147,9 @@ const openPlaceOrderDialog = (mode, order) => {
 
 const initializeProductsData = (allProducts_) => {
 	allProducts = allProducts_;
+}
+const initializeShippingOptionsData = (shippingOptionsData_) => {
+	shippingOptionsData = shippingOptionsData_;
 }
 
 const EditOrderConfirmation = async (order) => {

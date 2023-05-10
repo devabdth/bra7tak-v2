@@ -1,0 +1,102 @@
+@media screen and (min-width: 1024px) {
+  div.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 10vh;
+    padding: 1.5vw 0;
+  }
+
+  div.header h3 {
+    font-weight: 900;
+    font-size: 2em;
+    font-family: "Raleway";
+    color: var(--main-color);
+  }
+
+  section {
+    width: 100%;
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2.5vw 5%;
+  }
+
+  section .body {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 8px;
+    row-gap: 16px;
+  }
+
+  .card {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+    flex-direction: column;
+    border-radius: 12px;
+    padding: 8px 16px;
+  }
+
+  .card.red {
+    background-color: maroon;
+  }
+
+  .card.blue {
+    background-color: darkblue;
+  }
+
+  .card.green {
+    background-color: darkolivegreen;
+  }
+
+  .card.yellow {
+    background-color: yellowgreen;
+  }
+
+  .card.purple {
+    background-color: purple;
+  }
+
+  .card .title {
+    font-size: 1.5em;
+    font-weight: 700;
+    font-family: "Raleway";
+    color: white;
+  }
+
+  .card .bio {
+    font-size: 0.75em;
+    font-weight: 300;
+    font-family: "Poppins";
+    color: whitesmoke;
+  }
+
+  .card .value {
+    font-size: 1.25em;
+    font-weight: 500;
+    font-family: "Poppins";
+    color: ghostwhite;
+    text-align: end;
+    align-items: end;
+    justify-content: end;
+    display: flex;
+    width: 100%;
+  }
+
+  .card .value span {
+    font-size: 0.75em;
+    font-weight: 300;
+    font-family: "Poppins";
+    color: ghostwhite;
+    padding-left: 4px;
+  }
+}

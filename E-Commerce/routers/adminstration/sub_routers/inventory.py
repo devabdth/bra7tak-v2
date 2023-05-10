@@ -103,6 +103,7 @@ class InventorySubRouter:
                 'adminstration/inventory/index.html',
                 db=self.database,
                 content=self.content,
+                admin_data= admin_data,
                 sum=sum,
                 requests=self.database.inventory.read_requests_file(),
                 calculate_stock=self.database.inventory.calc.calculate_total_pieces,

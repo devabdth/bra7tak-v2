@@ -48,6 +48,11 @@ class InventoryCalculations:
     def multiple_products_status(products: list):
         return [InventoryCalculations.product_status(prod) for prod in products]
 
+    @staticmethod
+    def multiple_products_status_df(products: list):
+        boundries= [InventoryCalculations.product_status(prod) for prod in products]
+        return DataFrame(boundries, columns=['productId', 'productName', 'redScope', 'yellowScope', 'greenScope'])
+
 
     @staticmethod
     def calculate_total_pieces(inventory: dict):

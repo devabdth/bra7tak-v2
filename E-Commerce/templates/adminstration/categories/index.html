@@ -30,36 +30,43 @@
     <header>
       <h3>Bra7tak Admin</h3>
       <div class="navbar">
+        {% if "0" in admin_data["accesses"] %}
         <div class="dropdown">
-          <button class="dropbtn">Analyticas</button>
+          <button class="dropbtn">Overview</button>
           <div class="dropdown-content">
-            <label>Analyticas</label>
+            <label>Overview</label>
             <a href="/webapp/adminstration/overview/">Overview</a>
           </div>
         </div>
+        {% endif %}
         <div class="dropdown">
           <button class="dropbtn">Resources Planning</button>
           <div class="dropdown-content">
             <label>Resources Planning</label>
-            <a href="#">Shipping Information</a>
             {% if "1" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/shippingInformation/"
+              >Shipping Information</a
+            >
+            {%else%}
+            <a
+              href="/webapp/adminstration/shippingInformation/"
+              class="disabled"
+              >Shipping Information</a
+            >
+            {%endif%} {% if "2" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/inventory/">Inventory</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/inventory/"
               >Inventory</a
             >
-            {%endif%} {% if "1" in admin_data["accesses"] %}
+            {%endif%} {% if "3" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/orders/">Orders</a>
             {%else%}
             <a href="/webapp/adminstration/orders/" class="disabled">Orders</a>
-            {%endif%} {% if "6" in admin_data["accesses"] %}
+            {%endif%} {% if "4" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/pos/">POS</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/pos/">POS</a>
-            {%endif%} {% if "7" in admin_data["accesses"] %}
-            <a href="/webapp/adminstration/hr/">HR</a>
-            {%else%}
-            <a class="disabled" href="/webapp/adminstration/hr/">HR</a>
             {%endif%}
           </div>
         </div>
@@ -67,19 +74,19 @@
           <button class="dropbtn">Website Content</button>
           <div class="dropdown-content">
             <label>Website Content</label>
-            {% if "2" in admin_data["accesses"] %}
+            {% if "5" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/categories/" class="active">Categories</a>
             {%else%}
             <a href="/webapp/adminstration/categories/" class="disabled"
               >Categories</a
             >
-            {%endif%} {% if "0" in admin_data["accesses"] %}
+            {%endif%} {% if "6" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/products">Products</a>
             {%else%}
             <a href="/webapp/adminstration/products" class="disabled"
               >Products</a
             >
-            {%endif%} {% if "4" in admin_data["accesses"] %}
+            {%endif%} {% if "7" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/banners/">Banners</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/banners/"
@@ -92,7 +99,7 @@
           <button class="dropbtn">Users Management</button>
           <div class="dropdown-content">
             <label>Users Management</label>
-            {% if "5" in admin_data["accesses"] %}
+            {% if "8" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/users/">Users</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/users/">Users</a>
@@ -101,7 +108,9 @@
           </div>
         </div>
         |
-        <button onclick="logout();" class="shadow-button" style="color: red">Logout</button>
+        <button onclick="logout();" class="shadow-button" style="color: red">
+          Logout
+        </button>
       </div>
     </header>
 

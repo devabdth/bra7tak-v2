@@ -1,5 +1,8 @@
-from database.orders import Order
 import sys
+sys.path.insert(0, '../')
+
+from database.orders import Order
+from database.products import Products
 from io import BytesIO
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.pagesizes import A4
@@ -17,11 +20,11 @@ pdfmetrics.registerFont(TTFont('Cairo', os.path.join(
     os.path.dirname(__file__), 'Cairo-Regular.ttf')))
 
 
-sys.path.insert(0, '../')
 
 
 class InvoiceGenerator:
     def __init__(self, order: Order, utils):
+        self.shipping_options= Products.load_shipping_options()
         self.utils = utils
         self.order = order.to_dict()
         self.logo = ImageReader(os.path.join(
@@ -109,27 +112,27 @@ class InvoiceGenerator:
             if product['COUNT'] < 2:
                 canvas.drawCentredString(
                     125*mm, current_line, str(product['PRODUCT_DATA'].pricing['currentPrice']))
-                canvas.drawCentredString(165*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
+                canvas.drawCentredString(170*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
                     product['COUNT'] * product['PRODUCT_DATA'].pricing['currentPrice'], show_curr=False, show_full=True))))
             if product['COUNT'] >= 2 and product['COUNT'] < 4:
                 canvas.drawCentredString(
                     125*mm, current_line, str(product['PRODUCT_DATA'].pricing['twoPiecesPrice']))
-                canvas.drawCentredString(165*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
+                canvas.drawCentredString(170*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
                     product['COUNT'] * product['PRODUCT_DATA'].pricing['twoPiecesPrice'], show_curr=False, show_full=True))))
             if product['COUNT'] >= 4 and product['COUNT'] < 6:
                 canvas.drawCentredString(
                     125*mm, current_line, str(product['PRODUCT_DATA'].pricing['fourPiecesPrice']))
-                canvas.drawCentredString(165*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
+                canvas.drawCentredString(170*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
                     product['COUNT'] * product['PRODUCT_DATA'].pricing['fourPiecesPrice'], show_curr=False, show_full=True))))
             if product['COUNT'] >= 6 and product['COUNT'] < 12:
                 canvas.drawCentredString(
                     125*mm, current_line, str(product['PRODUCT_DATA'].pricing['sixPiecesPrice']))
-                canvas.drawCentredString(165*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
+                canvas.drawCentredString(170*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
                     product['COUNT'] * product['PRODUCT_DATA'].pricing['sixPiecesPrice'], show_curr=False, show_full=True))))
             if product['COUNT'] >= 12:
                 canvas.drawCentredString(
                     125*mm, current_line, str(product['PRODUCT_DATA'].pricing['dozinPiecesPrice']))
-                canvas.drawCentredString(165*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
+                canvas.drawCentredString(170*mm, current_line, "{} L.E.".format(str(self.utils.format_price(
                     product['COUNT'] * product['PRODUCT_DATA'].pricing['dozinPiecesPrice'], show_curr=False, show_full=True))))
             current_line += 12*mm
             index += 1
@@ -147,7 +150,7 @@ class InvoiceGenerator:
         canvas.setFont("Cairo", 10)
         canvas.drawRightString(60*mm, 270*mm, "Shipping Fees:")
         canvas.setFont("Cairo", 5*mm)
-        canvas.drawRightString(80*mm, 270*mm, str(cart['TOTAL_SHIPPING_FEE']))
+        canvas.drawRightString(80*mm, 270*mm, str(self.shipping_options[str(self.order['cityCode'])]['fees']))
 
         canvas.setFont("Cairo", 10)
         canvas.drawRightString(150*mm, 270*mm, "Total:")

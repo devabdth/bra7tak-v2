@@ -124,7 +124,7 @@ class OrdersSubRouter:
                 shipping_fees=body['fees']['shippingFees'],
                 placed_in=None,
                 aid=admin_data['aid'],
-                comment="",
+                comment=body['information']['comments'],
                 police_number=0
             )
 
@@ -154,6 +154,7 @@ class OrdersSubRouter:
             admin_data = self.database.admins.get_admin_by_id(aid)
             orders = self.database.orders.get_all_orders_combined(params)
             products = self.database.products.get_all_products()
+            self.database.products.load_shipping_data()
             return render_template(
                 'adminstration/orders/index.html',
                 cfg=self.cfg,

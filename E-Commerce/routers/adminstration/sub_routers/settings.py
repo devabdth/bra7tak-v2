@@ -85,4 +85,5 @@ class SettingsSubRouter:
 				lang= "en",
 				search_params= params,
 				cats_ids= [cat.id for cat in self.database.categories.all_categories],
+				accesses= self.utils.accesses
 			)

@@ -30,36 +30,43 @@
     <header>
       <h3>Bra7tak Admin</h3>
       <div class="navbar">
+        {% if "0" in admin_data["accesses"] %}
         <div class="dropdown">
-          <button class="dropbtn">Analyticas</button>
+          <button class="dropbtn">Overview</button>
           <div class="dropdown-content">
-            <label>Analyticas</label>
+            <label>Overview</label>
             <a href="/webapp/adminstration/overview/">Overview</a>
           </div>
         </div>
+        {% endif %}
         <div class="dropdown">
           <button class="dropbtn">Resources Planning</button>
           <div class="dropdown-content">
             <label>Resources Planning</label>
-            <a href="#">Shipping Information</a>
             {% if "1" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/shippingInformation/"
+              >Shipping Information</a
+            >
+            {%else%}
+            <a
+              href="/webapp/adminstration/shippingInformation/"
+              class="disabled"
+              >Shipping Information</a
+            >
+            {%endif%} {% if "2" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/inventory/">Inventory</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/inventory/"
               >Inventory</a
             >
-            {%endif%} {% if "1" in admin_data["accesses"] %}
+            {%endif%} {% if "3" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/orders/">Orders</a>
             {%else%}
             <a href="/webapp/adminstration/orders/" class="disabled">Orders</a>
-            {%endif%} {% if "6" in admin_data["accesses"] %}
+            {%endif%} {% if "4" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/pos/">POS</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/pos/">POS</a>
-            {%endif%} {% if "7" in admin_data["accesses"] %}
-            <a href="/webapp/adminstration/hr/">HR</a>
-            {%else%}
-            <a class="disabled" href="/webapp/adminstration/hr/">HR</a>
             {%endif%}
           </div>
         </div>
@@ -67,19 +74,19 @@
           <button class="dropbtn">Website Content</button>
           <div class="dropdown-content">
             <label>Website Content</label>
-            {% if "2" in admin_data["accesses"] %}
+            {% if "5" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/categories/">Categories</a>
             {%else%}
             <a href="/webapp/adminstration/categories/" class="disabled"
               >Categories</a
             >
-            {%endif%} {% if "0" in admin_data["accesses"] %}
+            {%endif%} {% if "6" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/products" class="active">Products</a>
             {%else%}
             <a href="/webapp/adminstration/products" class="disabled"
               >Products</a
             >
-            {%endif%} {% if "4" in admin_data["accesses"] %}
+            {%endif%} {% if "7" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/banners/">Banners</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/banners/"
@@ -92,7 +99,7 @@
           <button class="dropbtn">Users Management</button>
           <div class="dropdown-content">
             <label>Users Management</label>
-            {% if "5" in admin_data["accesses"] %}
+            {% if "8" in admin_data["accesses"] %}
             <a href="/webapp/adminstration/users/">Users</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/users/">Users</a>
@@ -101,7 +108,9 @@
           </div>
         </div>
         |
-        <button onclick="logout();" class="shadow-button" style="color: red">Logout</button>
+        <button onclick="logout();" class="shadow-button" style="color: red">
+          Logout
+        </button>
       </div>
     </header>
 
@@ -118,17 +127,6 @@
           onclick="openProductEdit({{{} | safe}}, 1, '{{cfg.base_url}}');"
         >
           Create Product
-        </div>
-        <div
-          style="
-            color: var(--main-color);
-            text-decoration: underline;
-            margin: 8px;
-            cursor: pointer;
-          "
-          onclick="openShippingOptionsDialog({{shipping_options}});"
-        >
-          Edit Shipping Options
         </div>
         <div style="height: 10vh"></div>
         <h3>Filter</h3>
@@ -443,55 +441,6 @@
             color: var(--main-color);
           "
         ></p>
-      </div>
-    </div>
-    <div
-      id="shipping-options-dialog-overlay"
-      onclick="closeEditShippingOptionsDialog()"
-    ></div>
-    <div id="shipping-options-dialog">
-      <div id="header">
-        <h3>Edit Shipping Options</h3>
-        <div id="close" onclick="closeEditShippingOptionsDialog()">x</div>
-      </div>
-      {% for i in content.cities['en'].keys() %}
-      <label>{{content.cities['en'][i]}}</label>
-      <div style="flex-direction: row; display: flex; width: 100%; gap: 16px">
-        <div class="field-container">
-          <input
-            type="quantity"
-            value="{{shipping_options[i|string]['durations']}}"
-            name="Delivery Days"
-            placeholder="Delivery Days"
-            id="{{i}}-options-del-days"
-          />
-        </div>
-        <div class="field-container">
-          <input
-            type="number"
-            value="{{shipping_options[i|string]['fees']}}"
-            name="Shipping Fees"
-            placeholder="Shipping Fees"
-            id="{{i}}-options-shipping-fees"
-          />
-        </div>
-      </div>
-      {% endfor %}
-      <div id="options">
-        <div
-          class="shadow-button"
-          id="submit"
-          onclick="closeEditShippingOptionsDialog();"
-        >
-          Close
-        </div>
-        <div
-          class="main-button"
-          id="options-submit"
-          onclick="submitEditShippingOptions({{content.cities['en'].keys()|list}});"
-        >
-          Submit
-        </div>
       </div>
     </div>
     <script type="text/javascript">

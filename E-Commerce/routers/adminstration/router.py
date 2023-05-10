@@ -7,6 +7,8 @@ from .sub_routers.orders import OrdersSubRouter
 from .sub_routers.users import UsersSubRouter
 from .sub_routers.products import ProductsSubRouter
 from .sub_routers.pos import POSSubRouter
+from .sub_routers.overview import OverviewSubRouter
+from .sub_routers.shipping import ShippingSubRouter
 from layout.layout import Layout
 from database.database import Database
 from content import Content
@@ -34,3 +36,5 @@ class AdminstrationRouter:
         AuthSubRouter(app=self.app).setup()
         InventorySubRouter(app=self.app).setup()
         POSSubRouter(app=self.app).setup()
+        OverviewSubRouter(app=self.app).setup()
+        ShippingSubRouter(app=self.app).setup()

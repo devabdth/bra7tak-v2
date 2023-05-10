@@ -78,7 +78,7 @@ const createAdminConfirmation= async()=> {
 	
 	const accessCheckbox= [];
 	let activeAccesses= [];
-	for(let i= 0; i!= 7; i++) {
+	for(let i= 0; i!= 10; i++) {
 		accessCheckbox.push(document.getElementById(`${i}-checkbox`));
 	}
 

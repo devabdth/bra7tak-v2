@@ -22,6 +22,7 @@ class CheckoutRouter:
     def assign_place_order(self):
         @self.app.route('/checkout/', methods=["POST"])
         def place_order():
+            self.database.products.load_shipping_options()
             import json
 
             params = dict(request.values)
@@ -55,7 +56,7 @@ class CheckoutRouter:
                 products=user_data.cart if uid != None else cart,
                 vat=cart_calc['TOTAL_VAT'],
                 price=cart_calc['TOTAL_PRICE'],
-                shipping_fees=cart_calc['TOTAL_SHIPPING_FEE'],
+                shipping_fees=self.database.products.shipping_options[(str(user_data.city_code))]['fees'],
                 status=0,
                 gender=order['gender'],
                 comment=order['comments'],
@@ -73,6 +74,7 @@ class CheckoutRouter:
                     order_id)).generate_invoice()
                 return self.app.response_class(status=201)
             except Exception as e:
+                print(e)
                 return self.app.response_class(status=500)
 
     def assign_checkout_form_router(self):

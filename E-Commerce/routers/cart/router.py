@@ -112,6 +112,7 @@ class CartRouter:
 		@self.app.route('/cart/', methods= ["GET"])
 		def cart_index():
 			self.database.categories.load()
+			self.database.products.load_shipping_options()
 			
 			params= dict(request.values)
 			fresh_prod= self.database.products.get_product_by_id(params['freshProduct']) if 'freshProduct' in params.keys() else None

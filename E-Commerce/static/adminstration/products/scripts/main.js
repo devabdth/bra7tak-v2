@@ -332,8 +332,8 @@ const openProductEdit = (product, mode, url) => {
 		document.getElementById('delete-product').style.display = "none";
 
 		for (let shippingOption in shippingOptions) {
-			document.getElementById(`${shippingOption}-del-days`).value= shippingOptions[shippingOption]['durations'];
-			document.getElementById(`${shippingOption}-shipping-fees`).value= shippingOptions[shippingOption]['fees'];
+			document.getElementById(`${shippingOption}-del-days`).value = shippingOptions[shippingOption]['durations'];
+			document.getElementById(`${shippingOption}-shipping-fees`).value = shippingOptions[shippingOption]['fees'];
 		}
 		const addAssetBtn = document.getElementById('add-asset-btn');
 		addAssetBtn.onclick = () => {
@@ -764,56 +764,4 @@ const chooseCategory = (text_, category, subcategory, lang, wtoggle) => {
 	btn.textContent = text_;
 
 	if (wtoggle ?? true) toggleCategoriesDropdown();
-}
-
-const openShippingOptionsDialog = () => {
-	document.getElementById('shipping-options-dialog').style.display = 'flex';
-	document.getElementById('shipping-options-dialog-overlay').style.display = 'flex';
-}
-
-const closeEditShippingOptionsDialog = () => {
-	document.getElementById('shipping-options-dialog').style.display = 'none';
-	document.getElementById('shipping-options-dialog-overlay').style.display = 'none';
-}
-
-const submitEditShippingOptions = async (cities) => {
-	let payload = {}
-	for (let i of cities) {
-		const durationsField = document.getElementById(`${i}-options-del-days`);
-		const feesField = document.getElementById(`${i}-options-shipping-fees`);
-		payload[i] = {
-			durations: Number.parseInt(durationsField.value.trim()),
-			fees: Number.parseInt(feesField.value.trim()),
-		}
-	}
-
-	const subButton = document.getElementById('options-submit');
-	subButton.innerHTML = 'Loading...';
-	subButton.onclick = () => { };
-
-	try {
-		const res = await fetch(
-			`./shippingOptions/`,
-			{
-				method: 'PATCH',
-				body: JSON.stringify({ data: payload }),
-				headers: {
-					'Content-Type': 'application/json'
-				},
-
-			}
-		);
-		if (res.status === 200) {
-			window.open('./', '_self');
-			return
-		}
-
-		subButton.innerHTML = 'Failed!';
-		setTimeout(() => {
-			subButton.innerHTML = 'Submit';
-			subButton.onclick = () => { submitEditShippingOptions(cities); }
-		}, 3000);
-	} catch (error) {
-
-	}
 }

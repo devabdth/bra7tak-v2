@@ -1,5 +1,6 @@
 import os
 import json
+import secrets
 
 
 class Admin:
@@ -28,7 +29,7 @@ class Admins:
 	def create_admin(self, admin_data: dict) -> bool:
 		try:
 			self.admins_data['{}'.format(len(self.admins_data))]= {
-				"aid": '{}'.format(len(self.admins_data)),
+				"aid": str(secrets.token_hex(12)),
 				'name': admin_data['name'],
 				'username': admin_data['username'],
 				'accessKey': admin_data['accessKey'],

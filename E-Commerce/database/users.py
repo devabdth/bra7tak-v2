@@ -92,8 +92,12 @@ class Users:
 
 	def get_user_by_username(self, email: str):
 		users = self.users_collection.find({'email': email})
-		if len(list(users)) == 0:
+		users= list(users)
+		
+		if len(users) == 0:
 			return None
+		
+		print(list(users))
 		return self.create_user_from_dict(dict(list(users)[0]))
 
 

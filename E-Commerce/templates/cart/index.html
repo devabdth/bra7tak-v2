@@ -126,7 +126,7 @@
                 				</div>
                 				<div class="product-row-entry">
                 					<div class="product-row-entry-icon" id="price"></div>
-                					{% if product['COUNT']<2%}
+                					{% if product['COUNT'] < 2 %}
                 						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['currentPrice']))}}</p>
                 					{% elif product['COUNT']>=2 and product['COUNT']<4%}
                 						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['twoPiecesPrice']))}}</p>
@@ -159,7 +159,7 @@
             	<div id="reciept-info">
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['productsPrice']}}: </span>{{utils.format_price(cart['PRODUCTS_PRICE'])}}</p>
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['vat']}}: </span>{{utils.format_price(cart['TOTAL_VAT'])}}</p>
-            	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['shippingFees']}}: </span>{{utils.format_price(cart['TOTAL_SHIPPING_FEE'])}}</p>
+            	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['shippingFees']}}: </span>{{utils.format_price(database.products.shipping_options[(user_data.city_code | string)]['fees'] | int)}}</p>
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['totalPrice']}}: </span>{{utils.format_price(cart['TOTAL_PRICE'])}}</p>
             </div>
         	<button style="font-family: '{{primary_font_family}}';" class="main-button" onclick="checkout('{{url}}');">{{content.actions[lang]['checkout']}}</button>
