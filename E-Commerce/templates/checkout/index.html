@@ -168,7 +168,11 @@
             <div class="icon" id="shipping"></div>
             <p style="font-family: '{{primary_font_family}}';">
               {{content.global_[lang]['shippingFees']}}: 
+              {% if uid %}
               <span style="font-family: 'Poppins">{{utils.format_price(database.products.shipping_options[(user_data.city_code | string)]['fees'] | int, show_curr=True)}}</span>
+              {%else%}
+              <span style="font-family: 'Poppins">{{utils.format_price(database.products.shipping_options['5']['fees'] | int, show_curr=True)}}</span>
+              {%endif%}
             </p>
           </div>
         </div>
