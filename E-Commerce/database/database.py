@@ -9,6 +9,7 @@ from .bulks import Bulks
 from .inventory import Inventory
 from .pos import POS
 from .shipping_providers import ShippingProviders
+from .hr import HR
 
 from utils import Utils
 import pymongo as pymongo
@@ -28,3 +29,4 @@ class Database:
         self.inventory: Inventory = Inventory(client=self.client)
         self.pos: POS= POS()
         self.shipping_providers= ShippingProviders()
+        self.hr= HR()

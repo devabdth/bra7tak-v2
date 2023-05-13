@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bra7tak Admin - HR</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='adminstration/hr/styles/computer.css')}}"
+    />
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/hr/scripts/main.js')}}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='adminstration/global/scripts/main.js')}}"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h3>Bra7tak Admin</h3>
+      <div class="navbar">
+        {% if "0" in admin_data["accesses"] %}
+        <div class="dropdown">
+          <button class="dropbtn">Overview</button>
+          <div class="dropdown-content">
+            <label>Overview</label>
+            <a href="/webapp/adminstration/overview/">Overview</a>
+          </div>
+        </div>
+        {% endif %}
+        <div class="dropdown">
+          <button class="dropbtn">Resources Planning</button>
+          <div class="dropdown-content">
+            <label>Resources Planning</label>
+            {% if "1" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/shippingInformation/"
+              >Shipping Information</a
+            >
+            {%else%}
+            <a
+              href="/webapp/adminstration/shippingInformation/"
+              class="disabled"
+              >Shipping Information</a
+            >
+            {%endif%} {% if "2" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/inventory/">Inventory</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/inventory/"
+              >Inventory</a
+            >
+            {%endif%} {% if "3" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/orders/">Orders</a>
+            {%else%}
+            <a href="/webapp/adminstration/orders/" class="disabled">Orders</a>
+            {%endif%} {% if "4" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/pos/">POS</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/pos/">POS</a>
+            {%endif%} {% if "9" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/hr" class="active">HR</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/hr/">HR</a>
+            {%endif%}
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Website Content</button>
+          <div class="dropdown-content">
+            <label>Website Content</label>
+            {% if "5" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/categories/">Categories</a>
+            {%else%}
+            <a href="/webapp/adminstration/categories/" class="disabled"
+              >Categories</a
+            >
+            {%endif%} {% if "6" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/products">Products</a>
+            {%else%}
+            <a href="/webapp/adminstration/products" class="disabled"
+              >Products</a
+            >
+            {%endif%} {% if "7" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/banners/">Banners</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/banners/"
+              >Banners</a
+            >
+            {%endif%}
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Users Management</button>
+          <div class="dropdown-content">
+            <label>Users Management</label>
+            {% if "8" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/users/">Users</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/users/">Users</a>
+            {%endif%}
+            <a href="/webapp/adminstration/settings/">Admins</a>
+          </div>
+        </div>
+        |
+        <button onclick="logout();" class="shadow-button" style="color: red">
+          Logout
+        </button>
+      </div>
+    </header>
+    <div id="header">
+      <h3>Human Resources</h3>
+      <div id="actions">
+        <button class="main-button" onclick="openCreateAgentDialog()">
+          Create Agent
+        </button>
+      </div>
+    </div>
+    <section id="hr">
+      <div id="body">
+        <div id="cards">
+          <div class="agent-row" id="header">
+            <div class="agent-row-header">
+              <div class="agent-row-code">#</div>
+              <div class="agent-row-title">Name</div>
+              <div class="agent-row-position">Position</div>
+              <div class="agent-row-model">Hiring Model</div>
+              <div class="agent-row-salary">Salary</div>
+              <div class="agent-row-actions" style="text-decoration: none">
+                Actions
+              </div>
+            </div>
+          </div>
+          {% for agent in database.hr.all_agents %}
+          <div class="agent-row">
+            <div class="agent-row-header">
+              <div class="agent-row-code">{{agent['id'][:6]}}...</div>
+              <div class="agent-row-title">{{agent['name']}}</div>
+              <div class="agent-row-position">
+                {{utils.jobs[(agent['position']|int)]}}
+              </div>
+              <div class="agent-row-model">
+                {{utils.hiring_models[(agent['model']|int)]}}
+              </div>
+              <div class="agent-row-salary">
+                {{utils.format_price(agent['salary'], show_curr= True)}}
+              </div>
+              <div class="agent-row-actions">
+                {% if (agent['model']| string) == '0' or (agent['model']|
+                string) == '1' %}
+                <button
+                  class="shadow-button"
+                  onclick='openKPIDialog(`bonus`, {{dumps(agent) | safe}})'
+                >
+                  Bonus
+                </button>
+                <button
+                  class="shadow-button"
+                  onclick='openKPIDialog(`decipline`, {{dumps(agent) | safe}})'
+                >
+                  Decepline
+                </button>
+                <button
+                  class="shadow-button"
+                  onclick='openWithdrawDialog({{dumps(agent) | safe}})'
+                >
+                  Withdraw
+                </button>
+                {% elif (agent['model'] | string) == '2' or (agent['model'] |
+                string) == '3' %} {%endif%}
+              </div>
+            </div>
+          </div>
+          {%endfor%}
+        </div>
+      </div>
+    </section>
+    <div id="withdraw-dialog-overlay"></div>
+    <div id="kpi-dialog-overlay"></div>
+    <div id="kpi-dialog">
+      <div id="header">
+        <h3></h3>
+        <div onclick="closeKPIDialog()">x</div>
+      </div>
+      <div id="body">
+        <div class="field-container" id="kpi-amount-field-container">
+          <input
+            placeholder="Amount"
+            type="number"
+            name="kpi-amount"
+            id="kpi-amount-field"
+          />
+        </div>
+      </div>
+      <div id="options">
+        <button class="shadow-button" onclick="closeKPIDialog()">Cancel</button>
+        <button class="main-button">Submit</button>
+        <p id="status-msg"></p>
+      </div>
+    </div>
+    <div id="withdraw-dialog">
+      <div id="header">
+        <h3>Withdraw Salary</h3>
+        <div onclick="closeWithdrawDialog()">x</div>
+      </div>
+      <div id="body">
+        <p></p>
+      </div>
+      <div id="options">
+        <button class="shadow-button" onclick="closeWithdrawDialog()">
+          Cancel
+        </button>
+        <button class="main-button">Submit</button>
+        <p id="status-msg"></p>
+      </div>
+    </div>
+    <div id="create-dialog-overlay"></div>
+    <div id="create-dialog">
+      <div id="header">
+        <h3>Create Agent</h3>
+        <div onclick="closeCreateAgentDialog();">x</div>
+      </div>
+      <div id="body">
+        <button
+          onclick="toggleJobsDropdown()"
+          id="jobs-dropbtn"
+          class="jobs-dropbtn"
+        >
+          Pick Position
+        </button>
+        <div id="jobs-dropdown" class="jobs-dropdown-content">
+          <input
+            type="text"
+            placeholder="{{content.global_['en']['search']}}..."
+            id="job-search"
+            onkeyup="jobsFilter()"
+          />
+          {% for job in utils.jobs %}
+          <button
+            style="font-family: 'Raleway'"
+            onclick="chooseJob(`{{job}}`, {{utils.jobs.index(job)}}, 'en');"
+          >
+            {{job}}
+          </button>
+          {% endfor %}
+        </div>
+        <div id="tabs">
+          {%for model in utils.hiring_models%}
+          <div
+            onclick="selectModelTab(this)"
+            class="model-tab"
+            id="{{utils.hiring_models.index(model)}}"
+          >
+            {{model}}
+          </div>
+          {%endfor%}
+        </div>
+        <div class="field-container" id="salary-field-container">
+          <input
+            placeholder="Salary"
+            type="number"
+            name="salary"
+            id="salary-field"
+          />
+        </div>
+        <div class="field-container" id="name-field-container">
+          <input
+            placeholder="Agent Name"
+            type="text"
+            name="name"
+            id="name-field"
+          />
+        </div>
+        <div class="field-container" id="email-field-container">
+          <input
+            placeholder="Agent Email"
+            type="email"
+            name="email"
+            id="email-field"
+          />
+        </div>
+        <div class="field-container" id="phone-field-container">
+          <input
+            placeholder="Agent Phone"
+            type="tel"
+            name="phone"
+            id="phone-field"
+          />
+        </div>
+      </div>
+      <div id="options">
+        <button class="shadow-button" onclick="closeCreateAgentDialog();">
+          Cancel
+        </button>
+        <button class="main-button" onclick="createAgentSubmit();">
+          Confirm
+        </button>
+        <p id="status"></p>
+      </div>
+    </div>
+  </body>
+</html>

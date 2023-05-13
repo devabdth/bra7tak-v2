@@ -4,4 +4,6 @@ class APILinks {
 
   static get login => '$globalLink/webapp/adminstration/login/';
   static get logout => '$globalLink/webapp/adminstration/logout/';
+  static get providersData =>
+      '$globalLink/webapp/adminstration/shippingInformation/data/';
 }

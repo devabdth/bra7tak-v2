@@ -9,6 +9,7 @@ from .sub_routers.products import ProductsSubRouter
 from .sub_routers.pos import POSSubRouter
 from .sub_routers.overview import OverviewSubRouter
 from .sub_routers.shipping import ShippingSubRouter
+from .sub_routers.hr import HRSubRouter
 from layout.layout import Layout
 from database.database import Database
 from content import Content
@@ -38,3 +39,4 @@ class AdminstrationRouter:
         POSSubRouter(app=self.app).setup()
         OverviewSubRouter(app=self.app).setup()
         ShippingSubRouter(app=self.app).setup()
+        HRSubRouter(app=self.app).setup()

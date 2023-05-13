@@ -1,5 +1,8 @@
 import 'package:express/prefs/theme.dart';
+import 'package:express/screens/order_status/order_status.dart';
+import 'package:express/screens/providers/shipping_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,12 +21,12 @@ class _HomePageState extends State<HomePage> {
       {
         'title': 'Change Order Status',
         'icon': 'assets/status.png',
-        // 'navigation': OrderStatusScanner(),
+        'target': const OrderStatusScanner(),
       },
       {
         'title': 'Assign Order to Shipping Company',
         'icon': 'assets/shipping.png',
-        // 'navigation': OrderStatusScanner(),
+        'target': const ShippingProviderScanner(),
       }
     ];
     options = baseOptions;
@@ -129,11 +132,105 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              SizedBox(height: mq.size.width * 0.05),
               for (var option in options) ...[
                 SizedBox(height: mq.size.width * 0.025),
-                Text(option['title']),
-                SizedBox(height: mq.size.width * 0.025),
-              ]
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(option['target']);
+                    },
+                    child: Container(
+                        width: double.infinity,
+                        height: mq.size.width * 0.15,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            boxShadow: const <BoxShadow>[
+                              BoxShadow(
+                                offset: Offset.zero,
+                                spreadRadius: 10,
+                                blurRadius: 5,
+                                color: Colors.black12,
+                              )
+                            ]),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: mq.size.width * 0.1,
+                                height: mq.size.width * 0.1,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: AssetImage(option['icon']),
+                                  fit: BoxFit.contain,
+                                  repeat: ImageRepeat.noRepeat,
+                                  alignment: Alignment.center,
+                                )),
+                              ),
+                              SizedBox(width: mq.size.width * 0.05),
+                              Text(
+                                option['title'],
+                                style: TextStyle(
+                                  fontSize: mq.size.width * 0.035,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Raleway',
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(height: mq.size.width * 0.05),
+              ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                    width: double.infinity,
+                    height: mq.size.width * 0.15,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            offset: Offset.zero,
+                            spreadRadius: 10,
+                            blurRadius: 5,
+                            color: Colors.black12,
+                          )
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: mq.size.width * 0.1,
+                            height: mq.size.width * 0.1,
+                          ),
+                          SizedBox(width: mq.size.width * 0.05),
+                          Text(
+                            'TBA',
+                            style: TextStyle(
+                              fontSize: mq.size.width * 0.035,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Raleway',
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              )
             ],
           ),
         ),

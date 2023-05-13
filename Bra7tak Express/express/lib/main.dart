@@ -5,6 +5,8 @@ import 'package:express/screens/login/login_page.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 
+import 'providers/shipping_providers.dart';
+
 void main() {
   GetStorage.init();
   runApp(const Bra7takExpress());
@@ -18,6 +20,7 @@ class Bra7takExpress extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => ShippingProvidersController()),
       ],
       child: const GetMaterialApp(
         home: LoginPage(),

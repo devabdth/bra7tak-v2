@@ -37,6 +37,7 @@ class OverviewSubRouter:
 				return redirect('{}/webapp/adminstration/login/'.format(self.cfg.base_url))
 
 			admin_data= self.database.admins.get_admin_by_id(aid)
+			self.database.pos.init_data()
 			return render_template(
 				'adminstration/overview/index.html',
 				cfg= self.cfg,
@@ -47,6 +48,6 @@ class OverviewSubRouter:
 				len= len,
 				lang= "en",
 				search_params= params,
-				pos_report= self.pos_calcs.report(),
+                calcs= self.pos_calcs,
 				inventory_calcs= InventoryCalculations
 			)

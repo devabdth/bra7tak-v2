@@ -115,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: mq.size.height * 0.05),
                 TextField(
+                  obscureText: true,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),

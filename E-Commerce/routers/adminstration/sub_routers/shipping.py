@@ -17,68 +17,73 @@ class ShippingSubRouter:
         self.database: Database = Database()
         self.utils: Utils = Utils()
         self.content: Content = Content()
-        self.pos_calcs: POSCalculations= POSCalculations(self.database)
+        self.pos_calcs: POSCalculations = POSCalculations(self.database)
 
     def setup(self):
         self.assign_shipping_index()
         self.assign_delete_shipping_provider()
         self.assign_update_shipping_provider()
         self.assign_create_shipping_provider()
+        self.assign_shipping_providers_data()
+
+    def assign_shipping_providers_data(self):
+        @self.app.route('/webapp/adminstration/shippingInformation/data/', methods=["GET"])
+        def shipping_providers_data():
+            self.database.shipping_providers.read_data()
+            return self.app.response_class(status=200, response=json.dumps({shpr.id: shpr.to_dict() for shpr in self.database.shipping_providers.shipping_providers}))
 
     def assign_update_shipping_provider(self):
         @self.app.route('/webapp/adminstration/shippingInformation/', methods=["PATCH"])
         def update_shipping_provider():
             try:
-                body= dict(json.loads(request.data))
-                url_params= dict(request.values)
-                res= self.database.shipping_providers.update_shipping_provider(
-                    sh_id= url_params['shprId'],
-                    payload= body
+                body = dict(json.loads(request.data))
+                url_params = dict(request.values)
+                res = self.database.shipping_providers.update_shipping_provider(
+                    sh_id=url_params['shprId'],
+                    payload=body
                 )
 
                 if res:
-                    return self.app.response_class(status= 200)
-                return self.app.response_class(status= 500)
+                    return self.app.response_class(status=200)
+                return self.app.response_class(status=500)
             except Exception as e:
                 print(e)
-                return self.app.response_class(status= 500)
-
+                return self.app.response_class(status=500)
 
     def assign_create_shipping_provider(self):
         @self.app.route('/webapp/adminstration/shippingInformation/', methods=["POST"])
         def create_shipping_provider():
             try:
-                body= dict(json.loads(request.data))
-                res= self.database.shipping_providers.create_shipping_provider(
-                    name= body['name'],
-                    fees= body['fees'],
-                    del_days= body['del_days'],
+                body = dict(json.loads(request.data))
+                res = self.database.shipping_providers.create_shipping_provider(
+                    name=body['name'],
+                    fees=body['fees'],
+                    del_days=body['del_days'],
                 )
 
                 if res:
-                    return self.app.response_class(status= 201)
-                return self.app.response_class(status= 500)
+                    return self.app.response_class(status=201)
+                return self.app.response_class(status=500)
             except Exception as e:
                 print(e)
-                return self.app.response_class(status= 500)
-
+                return self.app.response_class(status=500)
 
     def assign_delete_shipping_provider(self):
         @self.app.route('/webapp/adminstration/shippingInformation/', methods=["DELETE"])
         def delete_shipping_provider():
             try:
-                url_params= dict(request.values)
-                shpr_id= url_params['shprid']
+                url_params = dict(request.values)
+                shpr_id = url_params['shprid']
 
-                res= self.database.shipping_providers.delete_shipping_provider(sh_id= shpr_id)
-                if res: 
-                    return self.app.response_class(status= 200)
-                
-                return self.app.response_class(status= 500)
+                res = self.database.shipping_providers.delete_shipping_provider(
+                    sh_id=shpr_id)
+                if res:
+                    return self.app.response_class(status=200)
+
+                return self.app.response_class(status=500)
             except Exception as e:
                 print(e)
-                return self.app.response_class(status= 500)
-
+                return self.app.response_class(status=500)
 
     def assign_shipping_index(self):
         @self.app.route('/webapp/adminstration/shippingInformation/', methods=['GET'])
@@ -95,10 +100,8 @@ class ShippingSubRouter:
                 'adminstration/shipping/index.html',
                 db=self.database,
                 content=self.content,
-                admin_data= admin_data,
+                admin_data=admin_data,
                 utils=self.utils,
-                calcs= self.pos_calcs,
+                calcs=self.pos_calcs,
                 shipping_options=self.database.products.shipping_options,
             )
-
-

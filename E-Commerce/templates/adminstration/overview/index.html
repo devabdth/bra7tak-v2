@@ -72,6 +72,10 @@
             <a href="/webapp/adminstration/pos/">POS</a>
             {%else%}
             <a class="disabled" href="/webapp/adminstration/pos/">POS</a>
+            {%endif%} {% if "9" in admin_data["accesses"] %}
+            <a href="/webapp/adminstration/hr">HR</a>
+            {%else%}
+            <a class="disabled" href="/webapp/adminstration/hr/">HR</a>
             {%endif%}
           </div>
         </div>
@@ -118,6 +122,7 @@
         </button>
       </div>
     </header>
+    {% set pos_report= calcs.report() %}
     <section>
       <div class="header">
         <h3>Point of Sale</h3>

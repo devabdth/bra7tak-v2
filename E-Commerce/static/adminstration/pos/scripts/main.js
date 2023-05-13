@@ -34,6 +34,7 @@ const openEntryDialog = () => {
 const addEntryDialogConfirmation = async () => {
     const statusMsg = document.querySelector('#add-entry-dialog #status-msg');
     const amountField = document.querySelector('#add-entry-dialog input.single-line-field');
+    const directionField = document.querySelector('#add-entry-dialog input#direction');
     if (!(Number.parseInt(amountField.value.trim()))) {
         statusMsg.innerHTML = 'Add Expense amount!';
         return;
@@ -54,7 +55,7 @@ const addEntryDialogConfirmation = async () => {
             method: 'POST',
             body: JSON.stringify({
                 amount: Number.parseInt(amountField.value.trim()),
-                direction: selectedExpenseTab.charAt(0).toUpperCase() + selectedExpenseTab.slice(1)
+                direction: directionField.value.trim().length == 0 ? selectedExpenseTab.charAt(0).toUpperCase() + selectedExpenseTab.slice(1) : `${selectedExpenseTab.charAt(0).toUpperCase() + selectedExpenseTab.slice(1)}: (${directionField.value.trim()})`,
             })
         });
 

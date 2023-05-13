@@ -48,7 +48,7 @@ class POSSubRouter:
                 return redirect('{}/webapp/adminstration/login/'.format(self.cfg.base_url))
 
             admin_data = self.database.admins.get_admin_by_id(aid)
-
+            self.database.pos.init_data()
             self.database.products.refresh_all_products()
             return render_template(
                 'adminstration/pos/index.html',

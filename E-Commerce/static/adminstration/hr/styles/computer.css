@@ -1,0 +1,381 @@
+@media screen and (min-width: 1024px) {
+  body > div#header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 10vh;
+    padding: 1.5vw 5%;
+  }
+
+  body > div#header h3 {
+    font-weight: 900;
+    font-size: 2em;
+    font-family: "Raleway";
+    color: var(--main-color);
+  }
+
+  section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    padding: 4vh 5%;
+  }
+
+  #body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+  }
+
+  #cards {
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 1vh;
+    background-color: var(--bg-color);
+    padding: 8px 16px;
+    border-radius: 12px;
+    flex-direction: column;
+  }
+
+  .agent-row {
+    transition: 250ms ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 12px;
+    padding: 8px 16px;
+  }
+
+  .agent-row:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  .agent-row-header {
+    border-radius: 12px;
+    transition: 250ms ease;
+    padding: 0 8px;
+    width: 100%;
+    height: 12vh;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    gap: 8px;
+  }
+  .agent-row-header#header {
+    max-height: 5vh;
+  }
+
+  .agent-row-cover {
+    min-width: 64px;
+    min-height: 64px;
+    display: flex;
+    border-radius: 12px;
+    background-color: var(--body-bg-color);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  #header .agent-row-cover {
+    opacity: 0;
+  }
+
+  .agent-row-code {
+    min-width: 10%;
+    max-width: 10%;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: start;
+    text-align: start;
+    font-weight: 300;
+    font-size: 0.9em;
+    font-family: "Poppins";
+  }
+
+  .agent-row-title {
+    min-width: 30%;
+    max-width: 30%;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    text-align: start;
+    font-weight: 300;
+    font-size: 0.9em;
+    font-family: "Poppins";
+  }
+
+  .agent-row-salary {
+    min-width: 10%;
+    max-width: 10%;
+  }
+
+  .agent-row-model {
+    min-width: 20%;
+    max-width: 20%;
+  }
+
+  .agent-row-position {
+    min-width: 20%;
+    max-width: 20%;
+  }
+
+  .agent-row-actions {
+    min-width: 10%;
+    max-width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: start;
+    font-weight: 300;
+    font-size: 0.9em;
+    font-family: "Poppins";
+    color: #111;
+    text-decoration: underline;
+  }
+
+  .agent-row-model,
+  .agent-row-salary,
+  .agent-row-position {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    text-align: start;
+    font-weight: 300;
+    font-size: 0.9em;
+    font-family: "Poppins";
+  }
+
+  .agent-row-stock {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .agent-row-stock span {
+    font-weight: 500;
+    font-size: 0.75em;
+    font-family: "Poppins";
+  }
+
+  .model-tab {
+    padding: 8px 16px;
+    display: flex;
+    background-color: var(--bg-color);
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 1em;
+    font-family: "Raleway";
+    color: var(--seondaryColor);
+    cursor: pointer;
+    transition: 500ms ease;
+  }
+
+  .model-tab.active {
+    border: 2px var(--main-color) solid;
+  }
+
+  .jobs-dropbtn {
+    background-color: var(--body-bg-color);
+    padding: 32px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 0px 30px 1px #999;
+    border-radius: 12px;
+    width: 100%;
+    height: 8vh;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    transition: 500ms ease;
+    margin: 4vh 0;
+  }
+
+  #job-search {
+    width: 100%;
+    height: 7vh;
+    display: flex;
+    padding: 4px 8px;
+    outline: none;
+    border: none;
+    transition: 500ms ease;
+    font-size: 1.25em;
+    font-weight: 500;
+    font-family: "Cairo";
+    color: var(--main-color);
+    background-color: transparent;
+  }
+
+  .jobs-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .jobs-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--body-bg-color);
+    min-width: 90%;
+    max-height: 50vh;
+    overflow: auto;
+    border: 1px solid var(--main-color);
+    z-index: 1;
+    box-shadow: 0 0 30px 1px #999;
+    border-radius: 4px;
+    bottom: 0;
+    font-family: "Raleway";
+  }
+
+  .jobs-dropdown-content {
+    top: -5% !important;
+  }
+
+  .jobs-dropdown-content button {
+    color: var(--main-color);
+    font-weight: 300;
+    padding: 12px 16px;
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    align-items: center;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-family: "Raleway";
+  }
+
+  .jobs-dropdown-content button:hover {
+    background-color: var(--main-color-variant);
+  }
+
+  .show {
+    display: block;
+  }
+
+  #withdraw-dialog-overlay,
+  #kpi-dialog-overlay,
+  #create-dialog-overlay {
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+  }
+
+  #withdraw-dialog,
+  #kpi-dialog,
+  #create-dialog {
+    width: 80%;
+    height: 80vh;
+    display: none;
+    align-items: start;
+    justify-content: start;
+    background-color: var(--body-bg-color);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    padding: 8px 17px;
+    border-radius: 12px;
+    flex-direction: column;
+  }
+
+  #withdraw-dialog,
+  #kpi-dialog {
+    width: 40%;
+    height: 25vh;
+  }
+
+  div#withdraw-dialog > #header,
+  div#kpi-dialog > #header,
+  #create-dialog > #header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  div#withdraw-dialog > #header > h3,
+  div#kpi-dialog > #header > h3,
+  #create-dialog > #header > h3 {
+    font-weight: 700;
+    font-size: 1.5em;
+    color: var(--main-color);
+    font-family: "Raleway";
+  }
+
+  div#withdraw-dialog > #header > div,
+  div#kpi-dialog > #header > div,
+  #create-dialog > #header > div {
+    cursor: pointer;
+  }
+
+  div#withdraw-dialog > #options,
+  div#kpi-dialog > #options,
+  #create-dialog > #options {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: row;
+    column-gap: 8px;
+  }
+
+  div#withdraw-dialog > #options p,
+  div#kpi-dialog > #options p,
+  #create-dialog > #options p {
+    font-weight: 500;
+    font-size: 0.75em;
+    font-family: "Raleway";
+  }
+
+  div#kpi-dialog > #header div,
+  div#withdraw-dialog > #header div,
+  div#withdraw-dialog > #body p {
+    font-family: "Poppins";
+  }
+
+  div#withdraw-dialog > #body,
+  div#kpi-dialog > #body,
+  #create-dialog > #body {
+    width: 100%;
+    height: 100%;
+    padding: 8px 16px;
+    align-items: start;
+    justify-content: start;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+  }
+
+  #create-dialog #body #tabs {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    margin: 4vh 0;
+  }
+}

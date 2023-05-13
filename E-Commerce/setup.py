@@ -6,7 +6,11 @@ import json
 
 
 def setup(app: Flask):
+	setup_app(app)
+	setup_files()
+	setup_routers(app)
 
+def setup_app(app: Flask):
 	app.config.update(SESSION_COOKIE_SAMESITE="None",
 					  SESSION_COOKIE_SECURE=True)
 
@@ -20,6 +24,8 @@ def setup(app: Flask):
 	Session(app)
 	QRcode(app)
 
+
+def setup_routers(app: Flask):
 	# Routers Assignment
 	from routers.home.router import HomeRouter
 	HomeRouter(app=app).setup()
@@ -79,6 +85,7 @@ def setup(app: Flask):
 	from routers.adminstration.router import AdminstrationRouter
 	AdminstrationRouter(app=app).setup()
 
+def setup_files():
 	# Directories Creation
 	dirs= ['./jsons/', './csvs/']
 	for dir_ in dirs:
@@ -143,7 +150,11 @@ def setup(app: Flask):
 		{
 			'file_path': './jsons/shippingProviders.json',
 			'initial_data': {}
-		}
+		},
+		{
+			'file_path': './jsons/agents.json',
+			'initial_data': {}
+		},
 	]
 
 	for file_ in files:
