@@ -4,6 +4,7 @@ import time
 import datetime
 from bson.objectid import ObjectId
 from .pos import POS
+from .inventory import Inventory
 import sys
 sys.path.insert(0, '../')
 
@@ -13,7 +14,7 @@ class Order:
             self, id: str, address: str, address_two: str, city_code: str, products: list,
             vat: float, price: int, shipping_fees: int, status: int, uid: str,
             placed_in: str, username: str, user_email: str, user_phone: str, aid: str,
-            police_number: int, gender: int, comment: str
+            police_number: int, gender: int, comment: str, shpr: str
     ):
 
         self.id = id
@@ -34,6 +35,7 @@ class Order:
         self.aid = aid or None
         self.police_number = police_number
         self.comment = comment
+        self.shpr = shpr
 
     def to_dict(self):
         return {
@@ -55,7 +57,8 @@ class Order:
             "placedIn": self.placed_in,
             "aid": self.aid,
             "policeNumber": self.police_number,
-            "comment": self.comment
+            "comment": self.comment,
+            "shpr": self.shpr,
         }
 
 
@@ -65,6 +68,7 @@ class Orders:
         self.pos = POS()
         self.cfg: Config = Config()
         self.client: pymongo.MongoClient = client
+        self.inventory = Inventory(self.client)
         self.database = self.client["bra7tak"]
         self.orders_collection = self.database["orders"]
         self.utils = Utils()
@@ -88,7 +92,8 @@ class Orders:
             placed_in=dict_['placedIn'],
             aid=dict_['aid'],
             police_number=dict_['policeNumber'],
-            comment=dict_['comment']
+            comment=dict_['comment'],
+            shpr=dict_['shpr']
         )
 
     def get_orders_by_uid(self, uid: str) -> list:
@@ -173,10 +178,19 @@ class Orders:
 
     def update_order(self, oid, params):
         try:
+            order = self.orders_collection.find_one(
+                {'_id': ObjectId(oid)})
             if 'status' in params.keys():
+                if str(params['status']) == "2" or str(params['status']) == "1":
+                    for product in order['products']:
+                        self.inventory.withdraw_product(
+                            product_id= product['product'],
+                            color= product['color'],
+                            size= product['size'],
+                            quantity= 1,
+                            admin_id=''
+                        )
                 if str(params['status']) == "2":
-                    order = self.orders_collection.find_one(
-                        {'_id': ObjectId(oid)})
                     cart_cal = self.utils.cart_calculations(
                         order['products'], order['cityCode'])
                     self.pos.add_entry(

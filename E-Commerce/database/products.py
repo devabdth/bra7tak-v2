@@ -13,8 +13,8 @@ from config import Config
 class Product:
     def __init__(
         self, id: str, name: dict, bio: dict, pricing: float, assets: list,
-        category: int, sub_category: int, avg_del_days: dict, inventory: dict,
-        code: str, specs: dict, vat: float = 0.14, shipping_fees: dict = {}, colors: list = [], sizes: list = [],
+        category: int, sub_category: int, inventory: dict,
+        code: str, specs: dict, vat: float = 0.14, colors: list = [], sizes: list = [],
     ):
         self.id = id
         self.name = name
@@ -24,10 +24,8 @@ class Product:
         self.sub_category = sub_category
         self.code = code
         self.pricing = pricing
-        self.avg_del_days = avg_del_days
         self.specs = specs
         self.vat = vat
-        self.shipping_fees = shipping_fees
         self.colors = colors
         self.sizes = sizes
         self.inventory = inventory
@@ -42,10 +40,8 @@ class Product:
             "subCategory": self.sub_category,
             "code": self.code,
             "pricing": self.pricing,
-            "avgDelDays": self.avg_del_days,
             "specs": self.specs,
             "vat": self.vat,
-            "shippingFees": self.shipping_fees,
             "colors": self.colors or "",
             "sizes": self.sizes or "",
             "inventory": self.inventory,
@@ -120,10 +116,8 @@ class Products:
             sub_category=int(dict_['subCategory']),
             code=dict_['code'],
             pricing=dict_['pricing'],
-            avg_del_days=dict_['avgDelDays'],
             specs=dict_['specs'],
             vat=dict_['vat'],
-            shipping_fees=dict_['shippingFees'],
             colors=dict_['colors'],
             sizes=dict_['sizes'],
             inventory=dict_['inventory']
@@ -217,13 +211,10 @@ class Products:
             assets_ = list(set(list(newAssetsNames + product_["assets"])))
             product.assets = ["{}.{}".format(assets_.index(
                 asset_name), asset_name.split('.')[-1]) for asset_name in assets_]
-            product.avg_del_days = product_["avgDelDays"]
-            product.shipping_fees = product_["shippingFees"]
             product.category = product_["category"]
             product.sub_category = int(product_["subCategory"])
             product.colors = product_['colors']
             product.sizes = product_['sizes']
-            product.inventory = product_['inventory']
             self.products_collection.find_one_and_update(
                 {'_id': ObjectId(product.id)}, {'$set': product.to_dict()})
             self.refresh_all_products()
@@ -246,13 +237,11 @@ class Products:
                 vat=product_["vat"],
                 assets=["{}.{}".format(list(product_["assets"]).index(asset), list(product_["assets"])[
                         product_["assets"].index(asset)].split('.')[-1]) for asset in product_["assets"]],
-                avg_del_days=product_["avgDelDays"],
-                shipping_fees=product_["shippingFees"],
                 category=product_["category"],
                 sub_category=int(product_["subCategory"]),
                 colors=product_['colors'],
                 sizes=product_['sizes'],
-                inventory=product_['inventory']
+                inventory={}
             )
             product = self.products_collection.insert_one(product.to_dict())
             self.refresh_all_products()

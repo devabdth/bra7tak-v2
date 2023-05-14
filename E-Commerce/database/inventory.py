@@ -165,6 +165,26 @@ class Inventory:
             print(e)
             return False
 
+    def withdraw_product(self, admin_id: str, product_id: str, color: str, size: str, quantity: int) -> bool:
+        try:
+            product = self.products.get_product_by_id(product_id)
+            if color not in product.inventory.keys():
+                product.inventory[color] = {}
+
+            if size not in product.inventory[color].keys():
+                product.inventory[color][size] = 0
+
+            product.inventory[color][size] -= quantity
+
+            res = self.products.update_product(product.to_dict(), files={})
+            if not res:
+                raise Exception('Failed to update product data!')
+
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
     def handle_request_interactions(self, mode: str, **kwargs):
         requests_data = self.read_requests_file()
         if mode == "create":

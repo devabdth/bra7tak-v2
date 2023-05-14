@@ -125,7 +125,8 @@ class OrdersSubRouter:
                 placed_in=None,
                 aid=admin_data['aid'],
                 comment=body['information']['comments'],
-                police_number=0
+                police_number=0,
+                shpr= ''
             )
 
             try:

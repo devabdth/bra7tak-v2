@@ -361,6 +361,14 @@
               id="dozin-peices-price"
             />
           </div>
+          <div class="field-container">
+            <input
+              type="number"
+              placeholder="Stock Price"
+              name="Stock Price"
+              id="stock-peices-price"
+            />
+          </div>
         </legend>
         <label>Vat</label>
         <div class="field-container">
@@ -374,31 +382,6 @@
           />
         </div>
         <div style="height: 10vh"></div>
-        {% for city_code in content.cities['en'].keys() %}
-        <legend>
-          <label>{{content.cities['en'][city_code]}}</label>
-          <div
-            style="flex-direction: row; display: flex; width: 100%; gap: 16px"
-          >
-            <div class="field-container">
-              <input
-                type="quantity"
-                name="Delivery Days"
-                placeholder="Delivery Days"
-                id="{{city_code}}-del-days"
-              />
-            </div>
-            <div class="field-container">
-              <input
-                type="number"
-                name="Shipping Fees"
-                placeholder="Shipping Fees"
-                id="{{city_code}}-shipping-fees"
-              />
-            </div>
-          </div>
-        </legend>
-        {% endfor %}
         <div style="height: 10vh"></div>
         <legend>
           <label
@@ -448,11 +431,10 @@
       </div>
     </div>
     <script type="text/javascript">
-             window.onload= ()=> {
-      initShippingOptions({{shipping_options | safe}});
-               initCategoriesCheckboxes({{cats_ids | safe}})
-               initWithParams({{search_params | safe}});
-             }
+      window.onload= ()=> {
+        initCategoriesCheckboxes({{cats_ids | safe}})
+        initWithParams({{search_params | safe}});
+      }
     </script>
   </body>
 </html>

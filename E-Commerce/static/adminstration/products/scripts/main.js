@@ -1,7 +1,12 @@
-const colors = ['white', 'black', 'green', 'blue', 'skyblue', 'orange', 'brown', 'marron', 'ivory', 'lavender', 'red', 'darkred', 'mediumspringgreen', 'greenyellow',];
+const colors = [
+	'Red', 'Blue', 'Black', 'White', 'Pink', 'Violet', 'Orange', 'Brown',
+	'Lavender', 'Dark Blue', 'Dark Cyan', 'Dark Green', 'Gold', 'Olive', 'Dark Olive Green',
+	'Silver', 'Grey', 'Sky Blue', 'Saddle Brown', 'Maroon', 'Purple', 'Mint Cream', 'Fuchsia',
+	'Beige', 'Antique White', 'Blue Violet', 'Indigo', 'Khaki', 'Light Blue', 'Light Green', 'Navy',
+	'Snow', 'Spring Green',
+];
 const sizes = ['s', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl'];
 "sizes-{{size}}-checkbox"
-let shippingOptions = {};
 let cats = [];
 
 
@@ -11,9 +16,6 @@ const initCategoriesCheckboxes = (catIds) => {
 	});
 }
 
-const initShippingOptions = (shippingOptions_) => {
-	shippingOptions = shippingOptions_;
-}
 
 const initWithParams = (params) => {
 	if (!params) {
@@ -95,10 +97,6 @@ const filterClear = () => {
 const closeProductEdit = () => {
 	document.getElementById('product-edit-dialog').style.display = "none";
 	document.getElementById('overlay').style.display = "none";
-	for (let color in colors) {
-		document.getElementById(`${colors[color]}-color-btn`).classList.add('active');
-	}
-
 	for (let size in sizes) {
 		document.getElementById(`sizes-${sizes[size]}-checkbox`).checked = false;
 	}
@@ -108,15 +106,25 @@ const closeProductEdit = () => {
 }
 
 const initializedColors = () => {
-	const colorsDiv = document.getElementById('colors');
-	for (let color in colors) {
-		const div = document.createElement('div');
-		div.id = `${colors[color]}-color-btn`;
-		div.style.background = colors[color];
-		div.onclick = () => {
-			div.classList.toggle('active');
+	const colorsSection = document.getElementById('colors')
+	for (let color of colors) {
+		const colorDiv = document.createElement('div');
+		colorDiv.classList.add('color-div');
+		colorDiv.setAttribute('id', color.replace(' ', '').replace(' ', '').toLowerCase());
+
+		const title = document.createElement('p');
+		title.innerHTML = color;
+
+		const color_ = document.createElement('div');
+		color_.style.backgroundColor = color.replace(' ', '').replace(' ', '').toLowerCase();
+		color_.onclick = () => {
+			colorDiv.classList.add('active');
 		}
-		colorsDiv.appendChild(div);
+
+		colorDiv.appendChild(color_);
+		colorDiv.appendChild(title);
+
+		colorsSection.appendChild(colorDiv);
 	}
 }
 
@@ -137,6 +145,7 @@ const openProductEdit = (product, mode, url) => {
 	const fourPeicesPriceField = document.getElementById("4-peices-price");
 	const sixPeicesPriceField = document.getElementById("6-peices-price");
 	const dozinPeicesPriceField = document.getElementById("dozin-peices-price");
+	const stockPeicesPriceField = document.getElementById("stock-peices-price");
 	const vatField = document.getElementById("vat");
 	initializedColors();
 
@@ -179,22 +188,15 @@ const openProductEdit = (product, mode, url) => {
 		fourPeicesPriceField.value = product["pricing"]["fourPiecesPrice"];
 		sixPeicesPriceField.value = product["pricing"]["sixPiecesPrice"];
 		dozinPeicesPriceField.value = product["pricing"]["dozinPiecesPrice"];
+		stockPeicesPriceField.value = product["pricing"]["stockPrice"];
 		vatField.value = product["vat"];
 		newAssets = product["assets"];
 		for (let color in product["colors"]) {
-			document.getElementById(`${product["colors"][color]}-color-btn`).classList.add('active');
+			document.querySelector(`.color-div#${product["colors"][color].replace(' ', '').replace(' ', '').toLowerCase()}`).classList.add('active');
 		}
 
 		for (let size in product["sizes"]) {
 			document.getElementById(`sizes-${product["sizes"][size]}-checkbox`).checked = true;
-		}
-
-		for (let cityCode in product["avgDelDays"]) {
-			document.getElementById(`${cityCode}-del-days`).value = product["avgDelDays"][cityCode];
-		}
-
-		for (let cityCode in product["shippingFees"]) {
-			document.getElementById(`${cityCode}-shipping-fees`).value = product["shippingFees"][cityCode];
 		}
 
 		for (let assetName in newAssets) {
@@ -262,19 +264,11 @@ const openProductEdit = (product, mode, url) => {
 				product["pricing"]["fourPiecesPrice"] = Number.parseInt(fourPeicesPriceField.value.trim());
 				product["pricing"]["sixPiecesPrice"] = Number.parseInt(sixPeicesPriceField.value.trim());
 				product["pricing"]["dozinPiecesPrice"] = Number.parseInt(dozinPeicesPriceField.value.trim());
+				product["pricing"]["stockPrice"] = Number.parseInt(stockPeicesPriceField.value.trim());
 				product["vat"] = Number.parseInt(vatField.value.trim());
 				product["assets"] = newAssets;
 				product["category"] = currentCategory;
 				product["subCategory"] = currentSubCategory;
-
-				for (let cityCode in product["avgDelDays"]) {
-					product["avgDelDays"][cityCode] = Number.parseInt(document.getElementById(`${cityCode}-del-days`).value);
-				}
-
-				for (let cityCode in product["shippingFees"]) {
-					product["shippingFees"][cityCode] = Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value);
-				}
-
 
 				let colors = [];
 				const colorsDiv = document.getElementById('colors');
@@ -330,11 +324,6 @@ const openProductEdit = (product, mode, url) => {
 
 	} else if (mode === 1) {
 		document.getElementById('delete-product').style.display = "none";
-
-		for (let shippingOption in shippingOptions) {
-			document.getElementById(`${shippingOption}-del-days`).value = shippingOptions[shippingOption]['durations'];
-			document.getElementById(`${shippingOption}-shipping-fees`).value = shippingOptions[shippingOption]['fees'];
-		}
 		const addAssetBtn = document.getElementById('add-asset-btn');
 		addAssetBtn.onclick = () => {
 			const input = document.createElement("input");
@@ -393,16 +382,11 @@ const openProductEdit = (product, mode, url) => {
 				product["pricing"]["fourPiecesPrice"] = Number.parseInt(fourPeicesPriceField.value.trim());
 				product["pricing"]["sixPiecesPrice"] = Number.parseInt(sixPeicesPriceField.value.trim());
 				product["pricing"]["dozinPiecesPrice"] = Number.parseInt(dozinPeicesPriceField.value.trim());
+				product["pricing"]["stockPrice"] = Number.parseInt(stockPeicesPriceField.value.trim());
 				product["vat"] = Number.parseInt(vatField.value.trim());
 				product["assets"] = newAssets;
 				product["category"] = currentCategory
 				product["subCategory"] = currentSubCategory
-
-				for (let cityCode = 0; cityCode != 27; cityCode++) {
-					product["avgDelDays"][cityCode] = Number.parseInt(document.getElementById(`${cityCode}-del-days`).value || '0');
-					product["shippingFees"][cityCode] = Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value || '0');
-				}
-
 
 				let colors = [];
 				const colorsDiv = document.getElementById('colors');
@@ -522,58 +506,57 @@ const formFieldValidation = (assetsList) => {
 	const fourPeicesPriceField = document.getElementById("4-peices-price");
 	const sixPeicesPriceField = document.getElementById("6-peices-price");
 	const dozinPeicesPriceField = document.getElementById("dozin-peices-price");
+	const stockPeicesPriceField = document.getElementById("stock-peices-price");
 	const vatField = document.getElementById("vat");
-	const cairoDelDays = document.getElementById(`5-del-days`)
-	const cairoShippingFees = document.getElementById(`5-shipping-fees`)
 
 	if (codeField.value.trim().length < 8) {
 		codeField.value = "code"
 		codeField.style.color = 'red';
 		return false;
 	}
-	codeField.style.color = "var(--secondary-color);";
+	codeField.style.color = "var(--secondary-color)";
 
 	if (enNameField.value.trim().length < 8) {
 		enNameField.value = "Name"
 		enNameField.style.color = 'red';
 		return false;
 	}
-	enNameField.style.color = "var(--secondary-color);";
+	enNameField.style.color = "var(--secondary-color)";
 
 	if (arNameField.value.trim().length < 8) {
 		arNameField.value = "Name"
 		arNameField.style.color = 'red';
 		return false;
 	}
-	arNameField.style.color = "var(--secondary-color);";
+	arNameField.style.color = "var(--secondary-color)";
 
 	if (enBioField.value.trim().length < 8) {
 		enBioField.value = "Bio"
 		enBioField.style.color = 'red';
 		return false;
 	}
-	enBioField.style.color = "var(--secondary-color);";
+	enBioField.style.color = "var(--secondary-color)";
 
 	if (arBioField.value.trim().length < 8) {
 		arBioField.value = "Bio"
 		arBioField.style.color = 'red';
 		return false;
 	}
-	arBioField.style.color = "var(--secondary-color);";
+	arBioField.style.color = "var(--secondary-color)";
 
 	if (enSpecsField.value.trim().length < 8) {
 		enSpecsField.value = "Specs"
 		enSpecsField.style.color = 'red';
 		return false;
 	}
-	enSpecsField.style.color = "var(--secondary-color);";
+	enSpecsField.style.color = "var(--secondary-color)";
 
 	if (arSpecsField.value.trim().length < 8) {
 		arSpecsField.value = "Specs"
 		arSpecsField.style.color = 'red';
 		return false;
 	}
-	arSpecsField.style.color = "var(--secondary-color);";
+	arSpecsField.style.color = "var(--secondary-color)";
 
 	if (currentCategory === undefined || currentSubCategory === undefined) {
 		categoryBtn.style.border = "1px red solid";
@@ -587,57 +570,48 @@ const formFieldValidation = (assetsList) => {
 		peicePriceField.style.color = 'red';
 		return false;
 	}
-	peicePriceField.style.color = "var(--secondary-color);";
+	peicePriceField.style.color = "var(--secondary-color)";
 
 	if (twoPeicesPriceField.value.length === 0 || Number.parseInt(twoPeicesPriceField.value.trim()) === 0) {
 		twoPeicesPriceField.value = "0";
 		twoPeicesPriceField.style.color = 'red';
 		return false;
 	}
-	twoPeicesPriceField.style.color = "var(--secondary-color);";
+	twoPeicesPriceField.style.color = "var(--secondary-color)";
 
 	if (fourPeicesPriceField.value.length === 0 || Number.parseInt(fourPeicesPriceField.value.trim()) === 0) {
 		fourPeicesPriceField.value = "0";
 		fourPeicesPriceField.style.color = 'red';
 		return false;
 	}
-	fourPeicesPriceField.style.color = "var(--secondary-color);";
+	fourPeicesPriceField.style.color = "var(--secondary-color)";
 
 	if (sixPeicesPriceField.value.length === 0 || Number.parseInt(sixPeicesPriceField.value.trim()) === 0) {
 		sixPeicesPriceField.value = "0";
 		sixPeicesPriceField.style.color = 'red';
 		return false;
 	}
-	sixPeicesPriceField.style.color = "var(--secondary-color);";
+	sixPeicesPriceField.style.color = "var(--secondary-color)";
 
 	if (dozinPeicesPriceField.value.length === 0 || Number.parseInt(dozinPeicesPriceField.value.trim()) === 0) {
 		dozinPeicesPriceField.value = "0";
 		dozinPeicesPriceField.style.color = 'red';
 		return false;
 	}
-	dozinPeicesPriceField.style.color = "var(--secondary-color);";
+	dozinPeicesPriceField.style.color = "var(--secondary-color)";
 
-	if (Number.parseInt(vatField.value) < 0 || Number.parseInt(vatField.value) > 1) {
+	if (stockPeicesPriceField.value.length === 0 || Number.parseInt(stockPeicesPriceField.value.trim()) === 0) {
+		stockPeicesPriceField.value = "0";
+		stockPeicesPriceField.style.color = 'red';
+		return false;
+	}
+	stockPeicesPriceField.style.color = "var(--secondary-color)";
+
+	if (vatField.value.length === 0 || Number.parseInt(vatField.value.trim()) > 1) {
 		vatField.style.color = 'red';
 		return false;
 	}
-	vatField.style.color = "var(--secondary-color);";
-
-
-	if (cairoDelDays.value.length === 0 || Number.parseInt(cairoDelDays.value) < 1) {
-		cairoDelDays.value = "0"
-		cairoDelDays.style.color = 'red';
-		return false;
-	}
-	cairoDelDays.style.color = "var(--secondary-color);";
-
-
-	if (cairoShippingFees.value.length === 0 || Number.parseInt(cairoShippingFees.value) < 1) {
-		cairoShippingFees.value = "0"
-		cairoShippingFees.style.color = 'red';
-		return false;
-	}
-	cairoShippingFees.style.color = "var(--secondary-color);";
+	vatField.style.color = "var(--secondary-color)";
 
 	if (assetsList.length < 3) {
 		document.getElementById('add-asset-btn').style.color = 'red';
@@ -651,76 +625,68 @@ const formFieldValidation = (assetsList) => {
 
 
 const clearForm = () => {
+	document.getElementById('colors').innerHTML = '';
 	const codeField = document.getElementById("code");
 	codeField.value = "";
-	codeField.style.color = "var(--secondary-color);";
+	codeField.style.color = "var(--secondary-color)";
 
 	const enNameField = document.getElementById("en-name");
 	enNameField.value = "";
-	enNameField.style.color = "var(--secondary-color);";
+	enNameField.style.color = "var(--secondary-color)";
 
 	const arNameField = document.getElementById("ar-name");
 	arNameField.value = "";
-	arNameField.style.color = "var(--secondary-color);";
+	arNameField.style.color = "var(--secondary-color)";
 
 	const enBioField = document.getElementById("en-bio");
 	enBioField.value = "";
-	enBioField.style.color = "var(--secondary-color);";
+	enBioField.style.color = "var(--secondary-color)";
 
 	const arBioField = document.getElementById("ar-bio");
 	arBioField.value = "";
-	arBioField.style.color = "var(--secondary-color);";
+	arBioField.style.color = "var(--secondary-color)";
 
 	const enSpecsField = document.getElementById("en-specs");
 	enSpecsField.value = "";
-	enSpecsField.style.color = "var(--secondary-color);";
+	enSpecsField.style.color = "var(--secondary-color)";
 
 	const arSpecsField = document.getElementById("ar-specs");
 	arSpecsField.value = "";
-	arSpecsField.style.color = "var(--secondary-color);";
+	arSpecsField.style.color = "var(--secondary-color)";
 
 	const peicePriceField = document.getElementById("peice-price");
 	peicePriceField.value = "0";
-	peicePriceField.style.color = "var(--secondary-color);";
+	peicePriceField.style.color = "var(--secondary-color)";
 
 	const twoPeicesPriceField = document.getElementById("2-peices-price");
 	twoPeicesPriceField.value = "0";
-	twoPeicesPriceField.style.color = "var(--secondary-color);";
+	twoPeicesPriceField.style.color = "var(--secondary-color)";
 
 	const fourPeicesPriceField = document.getElementById("4-peices-price");
 	fourPeicesPriceField.value = "0";
-	fourPeicesPriceField.style.color = "var(--secondary-color);";
+	fourPeicesPriceField.style.color = "var(--secondary-color)";
 
 	const sixPeicesPriceField = document.getElementById("6-peices-price");
 	sixPeicesPriceField.value = "0";
-	sixPeicesPriceField.style.color = "var(--secondary-color);";
+	sixPeicesPriceField.style.color = "var(--secondary-color)";
 
 	const dozinPeicesPriceField = document.getElementById("dozin-peices-price");
 	dozinPeicesPriceField.value = "0";
-	dozinPeicesPriceField.style.color = "var(--secondary-color);";
+	dozinPeicesPriceField.style.color = "var(--secondary-color)";
+
+	const stockPeicesPriceField = document.getElementById("stock-peices-price");
+	stockPeicesPriceField.value = "0";
+	stockPeicesPriceField.style.color = "var(--secondary-color)";
 
 	const vatField = document.getElementById("vat");
 	vatField.value = "0";
-	vatField.style.color = "var(--secondary-color);";
-
-	const cairoDelDays = document.getElementById(`5-del-days`)
-	cairoDelDays.value = "0";
-	cairoDelDays.style.color = "var(--secondary-color);";
-
-	const cairoShippingFees = document.getElementById(`5-shipping-fees`)
-	cairoShippingFees.value = "0";
-	cairoShippingFees.style.color = "var(--secondary-color);";
+	vatField.style.color = "var(--secondary-color)";
 
 
 	while (document.getElementById('assets').lastChild.id !== "add-asset-btn") {
 		document.getElementById('assets').removeChild(document.getElementById('assets').lastChild);
 	}
 
-
-	for (let cityCode = 0; cityCode !== 27; cityCode++) {
-		document.getElementById(`${cityCode}-del-days`).value = "0";
-		document.getElementById(`${cityCode}-shipping-fees`).value = "0";
-	}
 
 	const colorsDiv = document.getElementById('colors');
 	let child = colorsDiv.lastElementChild;

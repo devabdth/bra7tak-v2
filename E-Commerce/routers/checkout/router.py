@@ -63,6 +63,7 @@ class CheckoutRouter:
                 uid=uid if uid is not None else "",
                 placed_in="",
                 police_number=0,
+                shpr=''
             )
             if uid is not None:
                 self.database.users.update_user_data(
