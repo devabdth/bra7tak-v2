@@ -39,14 +39,11 @@ class OrdersSubRouter:
                 orders= body['orders']
                 for order in orders:
                     self.database.orders.update_order(
-                            order, {'status': 0})
+                            order, {'status': 0}, admin_id= session.get('CURRENT_ADMIN_ID'))
                     
                 return self.app.response_class(status= 200)
             except Exception as e:
                 return self.app.response_class(status= 500)
-
-
-
 
     def setup_products_tr_display(self, order_products, products):
         final_display = ''
@@ -196,7 +193,7 @@ class OrdersSubRouter:
                 params = dict(request.values)
                 if ('oid' in params.keys() and 'status' in params.keys()):
                     res = self.database.orders.update_order(
-                        params['oid'], {'status': int(params['status'])})
+                        params['oid'], {'status': int(params['status'])}, admin_id= session.get('CURRENT_ADMIN_ID'))
                     if res:
                         return self.app.response_class(status=200)
 
@@ -215,7 +212,7 @@ class OrdersSubRouter:
                 del order['id']
                 if order is not None:
                     res = self.database.orders.update_order(
-                        id_, order)
+                        id_, order, admin_id= session.get('CURRENT_ADMIN_ID'))
                     if res:
                         return self.app.response_class(status=200)
 

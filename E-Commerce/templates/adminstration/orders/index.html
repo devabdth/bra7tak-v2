@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bra7tak Admin - Orders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;900;1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link
       rel="icon"
       type="image/x-icon"
@@ -310,19 +313,19 @@
             id="city-search"
             onkeyup="filter()"
           />
-          <button onclick="chooseStatus('Returned', -2, '{{lang}}');">
+          <button id= "returned" onclick="chooseStatus('Returned', -2, '{{lang}}');">
             Returned
           </button>
-          <button onclick="chooseStatus('Canceled', -1, '{{lang}}');">
+          <button id= "canceled" onclick="chooseStatus('Canceled', -1, '{{lang}}');">
             Canceled
           </button>
-          <button onclick="chooseStatus('Stocked', 0, '{{lang}}');">
+          <button id= "stocked" onclick="chooseStatus('Stocked', 0, '{{lang}}');">
             Stocked
           </button>
-          <button onclick="chooseStatus('In Delivery', 1, '{{lang}}');">
+          <button id= "in-delivery" onclick="chooseStatus('In Delivery', 1, '{{lang}}');">
             In Delivery
           </button>
-          <button onclick="chooseStatus('Delivered', 2, '{{lang}}');">
+          <button id= "delivered" onclick="chooseStatus('Delivered', 2, '{{lang}}');">
             Delivered
           </button>
         </div>

@@ -672,10 +672,15 @@ const openOrderDialog = (url, orderData, city) => {
 
 	if (orderData["status"] === -1 || orderData["status"] === 2 || orderData["status"] === -2) {
 		document.getElementById('status-dropbtn').style.display = "none";
+	} else if (orderData["status"] === 1) {
+		document.querySelector('.status-dropdown-content #stocked').style.display = "none";
+		document.querySelector('.status-dropdown-content #in-delivery').style.display = "none";
+		document.getElementById('status-dropbtn').style.display = "flex";
+		baseStatus = (orderData["status"]);
+		chooseStatus(statuses[(orderData["status"])], (orderData["status"]), 'en', false);
 	} else {
 		document.getElementById('status-dropbtn').style.display = "flex";
 		baseStatus = (orderData["status"]);
-		console.log((orderData["status"]));
 		chooseStatus(statuses[(orderData["status"])], (orderData["status"]), 'en', false);
 	}
 

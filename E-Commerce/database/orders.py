@@ -5,6 +5,7 @@ import datetime
 from bson.objectid import ObjectId
 from .pos import POS
 from .inventory import Inventory
+from .products import Products
 import sys
 sys.path.insert(0, '../')
 
@@ -69,6 +70,7 @@ class Orders:
         self.cfg: Config = Config()
         self.client: pymongo.MongoClient = client
         self.inventory = Inventory(self.client)
+        self.products = Products(self.client)
         self.database = self.client["bra7tak"]
         self.orders_collection = self.database["orders"]
         self.utils = Utils()
@@ -176,7 +178,7 @@ class Orders:
         orders = self.orders_collection.find({'_id': ObjectId(order_id)})
         return self.create_order_from_dict(dict(list(orders)[0]))
 
-    def update_order(self, oid, params):
+    def update_order(self, oid, params, admin_id):
         try:
             order = self.orders_collection.find_one(
                 {'_id': ObjectId(oid)})
@@ -184,11 +186,26 @@ class Orders:
                 if str(params['status']) == "2" or str(params['status']) == "1":
                     for product in order['products']:
                         self.inventory.withdraw_product(
-                            product_id= product['product'],
+                            product_id= product['id'],
                             color= product['color'],
                             size= product['size'],
                             quantity= 1,
-                            admin_id=''
+                            admin_id= admin_id
+                        )
+                        self.inventory.record_order_withdraw(
+                            order_id= oid,
+                            products= [
+                                {
+                                    'productName': self.products.get_product_by_id(product['id']).name['en'],
+                                    'product_id': product['id'], 'color': product['color'],
+                                    'size': product['size'], "quantity": 1
+                                } 
+                            ],
+                            admin_id= admin_id or '',
+                            customer_name= order['username'],
+                            customer_email= order['userEmail'],
+                            customer_phone_number= order['userPhone'],
+
                         )
                 if str(params['status']) == "2":
                     cart_cal = self.utils.cart_calculations(

@@ -1,6 +1,6 @@
-import 'package:express/prefs/theme.dart';
-import 'package:express/screens/order_status/order_status.dart';
-import 'package:express/screens/providers/shipping_providers.dart';
+import 'package:app/prefs/theme.dart';
+import 'package:app/screens/order_status/order_status.dart';
+import 'package:app/screens/providers/shipping_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

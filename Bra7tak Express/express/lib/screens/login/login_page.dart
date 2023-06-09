@@ -1,6 +1,6 @@
-import 'package:express/prefs/theme.dart';
-import 'package:express/providers/login.dart';
-import 'package:express/screens/home/home_page.dart';
+import 'package:app/prefs/theme.dart';
+import 'package:app/providers/login.dart';
+import 'package:app/screens/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';

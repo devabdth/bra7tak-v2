@@ -72,24 +72,29 @@ class Inventory:
                 "order_id": "Order Id",
             }
         '''
-        snippet = {
-            "products": [
-                {
-                    "productName": product['productName'],
-                    "product_id": product['product_id'],
-                    "color": product['color'],
-                    "size": product['size'],
-                    "quantity": product['quantity']
-                } for product in payload['products']
-            ],
-            "placedIn": str(datetime.now()),
-            "order_id": payload['order_id'],
-        }
+        try:
+            snippet = {
+                "products": [
+                    {
+                        "productName": product['productName'],
+                        "product_id": product['product_id'],
+                        "color": product['color'],
+                        "size": product['size'],
+                        "quantity": product['quantity']
+                    } for product in payload['products']
+                ],
+                "placedIn": str(datetime.now()),
+                "order_id": payload['order_id'],
+            }
 
-        log_data = self.read_log_file()
-        with open(self.inventory_log_path, 'w') as f:
-            log_data['orderWithdraws'].append(snippet)
-            dump(log_data, f)
+            log_data = self.read_log_file()
+            with open(self.inventory_log_path, 'w') as f:
+                log_data['orderWithdraws'].append(snippet)
+                dump(log_data, f)
+            return True
+        except Exception as e:
+            print(f'Order Withdraw Error: {e}')
+            return False
 
     def record_deal_withdraw(self, **payload):
         '''
@@ -174,8 +179,7 @@ class Inventory:
             if size not in product.inventory[color].keys():
                 product.inventory[color][size] = 0
 
-            product.inventory[color][size] -= quantity
-
+            product.inventory[color][size] = (product.inventory[color][size] - quantity)
             res = self.products.update_product(product.to_dict(), files={})
             if not res:
                 raise Exception('Failed to update product data!')

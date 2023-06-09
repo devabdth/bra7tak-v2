@@ -288,21 +288,21 @@
     display: none;
     position: absolute;
     background-color: var(--body-bg-color);
-    min-width: 90%;
+    min-width: 50%;
     max-height: 50vh;
     overflow: auto;
     border: 1px solid var(--main-color);
     z-index: 1;
     box-shadow: 0 0 30px 1px #999;
     border-radius: 4px;
-    bottom: 0;
     font-family: "Raleway";
+    bottom: 15%;
   }
 
   .products-dropdown-content,
   .genders-dropdown-content,
   .cities-dropdown-content {
-    top: -5% !important;
+    top: 25% !important;
   }
 
   .status-dropdown-content button,

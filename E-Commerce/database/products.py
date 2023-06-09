@@ -215,6 +215,7 @@ class Products:
             product.sub_category = int(product_["subCategory"])
             product.colors = product_['colors']
             product.sizes = product_['sizes']
+            product.inventory = product_['inventory']
             self.products_collection.find_one_and_update(
                 {'_id': ObjectId(product.id)}, {'$set': product.to_dict()})
             self.refresh_all_products()

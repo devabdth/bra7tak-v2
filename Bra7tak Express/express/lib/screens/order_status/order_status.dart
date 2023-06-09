@@ -1,4 +1,5 @@
-import 'package:express/prefs/theme.dart';
+import 'package:app/prefs/theme.dart';
+import 'package:app/screens/scan_page/scan_page.dart';
 import 'package:flutter/material.dart';
 
 class OrderStatusScanner extends StatefulWidget {
@@ -181,7 +182,9 @@ class _OrderStatusScannerState extends State<OrderStatusScanner> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Get.to(ScannerPage(callback: (value)=> ));
+                },
                 child: Container(
                   width: mq.size.width * 0.6,
                   height: double.infinity,

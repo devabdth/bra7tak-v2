@@ -118,6 +118,8 @@ def setup_files():
 			'initial_data': {
 				"deposits": [],
 				"withdraws": [],
+				"orderWithdraws": [],
+				"dealsWithdraws": []				
 			},
 		},
 		{

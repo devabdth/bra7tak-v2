@@ -1,5 +1,5 @@
-import 'package:express/prefs/theme.dart';
-import 'package:express/providers/shipping_providers.dart';
+import 'package:app/prefs/theme.dart';
+import 'package:app/providers/shipping_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
