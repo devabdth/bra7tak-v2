@@ -597,6 +597,8 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 		document.getElementById('update').style.display = "flex";
 		document.getElementById('update').onclick = () => {
 			try {
+				document.getElementById('update').innerHTML = 'Loading';
+				document.getElementById('update').style.pointerEvents = 'none';
 				fetch(`./?oid=${currentOrderId}&status=${currentStatus}`, {
 					method: 'PATCH'
 				}).then(r => {
@@ -606,12 +608,18 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 					}
 
 					document.getElementById('update').innerHTML = "Failed!";
-					setTimeout(() => { document.getElementById('update').innerHTML = "Update" }, 3000);
+					setTimeout(() => {
+						document.getElementById('update').innerHTML = "Update"
+						document.getElementById('update').style.pointerEvents = 'all';
+					}, 3000);
 				});
 			} catch (e) {
 				console.log(e);
 				document.getElementById('update').innerHTML = "Failed!";
-				setTimeout(() => { document.getElementById('update').innerHTML = "Update" }, 3000);
+				setTimeout(() => {
+					document.getElementById('update').innerHTML = "Update"
+					document.getElementById('update').style.pointerEvents = 'all';
+				}, 3000);
 			}
 		}
 		return;
