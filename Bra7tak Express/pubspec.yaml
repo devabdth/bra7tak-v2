@@ -1,0 +1,62 @@
+name: express
+description: Mobile Application that handles the shipping operations of Bra7tak E-Commerce Website
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.15.0-268.0.dev <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.5
+  http: ^0.13.5
+  get_storage: ^2.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway/Raleway-ExtraLight.ttf
+          weight: 100
+        - asset: fonts/Raleway/Raleway-Light.ttf
+          weight: 200
+        - asset: fonts/Raleway/Raleway-Regular.ttf
+          weight: 300
+        - asset: fonts/Raleway/Raleway-SemiBold.ttf
+          weight: 500
+        - asset: fonts/Raleway/Raleway-Bold.ttf
+          weight: 700
+        - asset: fonts/Raleway/Raleway-Black.ttf
+          weight: 900
+
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins/Poppins-ExtraLight.ttf
+          weight: 100
+        - asset: fonts/Poppins/Poppins-Light.ttf
+          weight: 200
+        - asset: fonts/Poppins/Poppins-Regular.ttf
+          weight: 300
+        - asset: fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 500
+        - asset: fonts/Poppins/Poppins-Bold.ttf
+          weight: 700
+        - asset: fonts/Poppins/Poppins-Black.ttf
+          weight: 900
+

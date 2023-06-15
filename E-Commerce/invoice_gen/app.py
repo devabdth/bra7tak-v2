@@ -38,11 +38,11 @@ class InvoiceGenerator:
 
         canvas.line(5*mm, 45*mm, 200*mm, 45*mm)
         canvas.line(15*mm, 120*mm, 195*mm, 120*mm)
-        canvas.line(35*mm, 108*mm, 35*mm, 250*mm)
-        canvas.line(115*mm, 108*mm, 115*mm, 250*mm)
-        canvas.line(135*mm, 108*mm, 135*mm, 250*mm)
-        canvas.line(160*mm, 108*mm, 160*mm, 250*mm)
-        canvas.line(15*mm, 250*mm, 195*mm, 250*mm)
+        canvas.line(35*mm, 108*mm, 35*mm, 220*mm)
+        canvas.line(115*mm, 108*mm, 115*mm, 220*mm)
+        canvas.line(135*mm, 108*mm, 135*mm, 220*mm)
+        canvas.line(160*mm, 108*mm, 160*mm, 220*mm)
+        canvas.line(15*mm, 220*mm, 195*mm, 220*mm)
 
         canvas.translate(10*mm, 40*mm)
         canvas.scale(1, -1)
@@ -83,12 +83,15 @@ class InvoiceGenerator:
         canvas.setFont("Cairo", 5*mm)
         canvas.drawRightString(190*mm, 100*mm, self.order['userPhone'])
 
-        canvas.roundRect(15*mm, 108*mm, 180*mm, 170*mm, 5*mm, stroke=1, fill=0)
-        canvas.setFont("Cairo", 5*mm)
+        canvas.roundRect(15*mm, 108*mm, 180*mm, 140*mm, 5*mm, stroke=1, fill=0)
         canvas.drawCentredString(75*mm, 118*mm, "Products")
         canvas.drawCentredString(148*mm, 118*mm, "Qty.")
         canvas.drawCentredString(125*mm, 118*mm, "Price")
         canvas.drawCentredString(178*mm, 118*mm, "Total")
+        canvas.setFont("Cairo", 4*mm)
+        canvas.drawCentredString(25*mm, 255*mm, "Comments")
+        canvas.setFont("Cairo", 3*mm)
+        canvas.drawCentredString(30*mm, 260*mm, str(self.order['comment'][:500]))
 
         current_line = 130*mm
         index = 1
@@ -100,7 +103,7 @@ class InvoiceGenerator:
                 "size": product['size'] if 'size' in product.keys() else None
             })
         cart = self.utils.cart_calculations(cart)
-        for product in cart['PRODUCTS']:
+        for product in cart['PRODUCTS'][:7]:
             canvas.setFont("Cairo", 5*mm)
             canvas.drawCentredString(25*mm, current_line, str(index))
             canvas.setFont("Cairo", 5*mm)
@@ -138,28 +141,28 @@ class InvoiceGenerator:
             index += 1
 
         canvas.setFont("Cairo", 10)
-        canvas.drawRightString(60*mm, 260*mm, "Products Price:")
+        canvas.drawRightString(60*mm, 230*mm, "Products Price:")
         canvas.setFont("Cairo", 5*mm)
-        canvas.drawRightString(80*mm, 260*mm, str(cart['PRODUCTS_PRICE']))
+        canvas.drawRightString(80*mm, 230*mm, str(cart['PRODUCTS_PRICE']))
 
         canvas.setFont("Cairo", 10)
-        canvas.drawRightString(150*mm, 260*mm, "VAT:")
+        canvas.drawRightString(150*mm, 230*mm, "VAT:")
         canvas.setFont("Cairo", 5*mm)
-        canvas.drawRightString(170*mm, 260*mm, str(cart['TOTAL_VAT']))
+        canvas.drawRightString(170*mm, 230*mm, str(cart['TOTAL_VAT']))
 
         canvas.setFont("Cairo", 10)
-        canvas.drawRightString(60*mm, 270*mm, "Shipping Fees:")
+        canvas.drawRightString(60*mm, 240*mm, "Shipping Fees:")
         canvas.setFont("Cairo", 5*mm)
-        canvas.drawRightString(80*mm, 270*mm, str(self.shipping_options[str(self.order['cityCode'])]['fees']))
+        canvas.drawRightString(80*mm, 240*mm, str(self.shipping_options[str(self.order['cityCode'])]['fees']))
 
         canvas.setFont("Cairo", 10)
-        canvas.drawRightString(150*mm, 270*mm, "Total:")
+        canvas.drawRightString(150*mm, 240*mm, "Total:")
         canvas.setFont("Cairo", 5*mm)
-        canvas.drawRightString(170*mm, 270*mm, str(cart['TOTAL_PRICE']))
+        canvas.drawRightString(170*mm, 240*mm, str(cart['TOTAL_PRICE']))
 
         canvas.setFont("Cairo", 12)
         canvas.drawCentredString(
-            105*mm, 290*mm, "All Copyrights reserved © Bra7tak Inc, 2023")
+            105*mm, 290*mm, "All Copyrights reserved © Cubers IO Inc, 2023")
 
         canvas.showPage()
         canvas.save()

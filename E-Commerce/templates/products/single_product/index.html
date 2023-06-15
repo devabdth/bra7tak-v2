@@ -251,24 +251,6 @@
         </div>
         <div class="specs-divider"></div>
         {% endif %}
-        <div class="specs-row">
-          <div id="title">
-            <div id="delivery-icon" class="specs-icon"></div>
-            <p style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['delivery']}}</p>
-          </div>
-          <div id="content">
-            {% if user_data %}
-              {% if product.avg_del_days[user_data.city_code] != 0 %}
-                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[user_data.city_code | string]}} {{content.global_[lang]['avg_del_days']}}</p>
-              {% else %}
-                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[5 | string]}} {{content.global_[lang]['avg_del_days']}}</p>
-              {% endif %}
-            {% else %}
-                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[5 | string]}} {{content.global_[lang]['avg_del_days']}}</p>
-            {% endif %}
-      
-          </div>
-        </div>
       </div>
       <div
           id="current-slide"
@@ -394,7 +376,7 @@
         </div>
       </div>
       <div id="copyright" style="font-family: '{{primary_font_family}}'">
-        lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r
+        © 2023 Cubers IO, Inc. All Rights Reserved
       </div>
     </footer>
       <div id="drawer-overlay" onclick="closeDrawer();"></div>

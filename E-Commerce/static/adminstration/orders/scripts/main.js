@@ -1080,8 +1080,14 @@ const placeOrderConfirmation = async () => {
 
 		console.log(res);
 		if (res.status === 201) {
-			window.open('./', '_self');
+			document.getElementById('place-order-confirmation').innerHTML = "Created!";
+			setTimeout(() => {
+				document.getElementById('place-order-confirmation').innerHTML = "Place";
+				document.getElementById('place-order-confirmation').onclick = placeOrderConfirmation;
+			}, 3000);
+
 			return;
+			window.open('./', '_self');
 		}
 		document.getElementById('place-order-confirmation').innerHTML = "Failed!";
 		setTimeout(() => {
